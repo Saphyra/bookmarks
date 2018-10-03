@@ -1,4 +1,4 @@
-package bookmarks.domain.category;
+package bookmarks.domain.link;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

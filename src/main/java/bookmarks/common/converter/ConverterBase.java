@@ -6,6 +6,15 @@ import java.util.stream.Collectors;
 
 public abstract class ConverterBase<E, D> implements Converter<E, D> {
     @Override
+    public D convertEntity(E entity) {
+        if(entity == null){
+            return null;
+        }
+
+        return convertEntityInternal(entity);
+    }
+
+    @Override
     public Optional<D> convertEntity(Optional<E> entity) {
         return convertEntityToOptional(entity.orElse(null));
     }
@@ -21,6 +30,15 @@ public abstract class ConverterBase<E, D> implements Converter<E, D> {
             return null;
         }
         return entity.stream().map(this::convertEntity).collect(Collectors.toList());
+    }
+
+    @Override
+    public E convertDomain(D domain) {
+        if(domain == null){
+            throw new IllegalArgumentException("domain must not be null");
+        }
+
+        return convertDomainInternal(domain);
     }
 
     @Override
@@ -40,4 +58,7 @@ public abstract class ConverterBase<E, D> implements Converter<E, D> {
         }
         return domain.stream().map(this::convertDomain).collect(Collectors.toList());
     }
+
+    abstract protected E convertDomainInternal(D domain);
+    abstract protected D convertEntityInternal(E entity);
 }
