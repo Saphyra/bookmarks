@@ -17,6 +17,7 @@ public class AccessTokenConverter extends ConverterBase<AccessTokenEntity, Acces
             .accessTokenId(entity.getAccessTokenId())
             .userId(entity.getUserId())
             .lastAccess(dateTimeUtil.convertEntity(entity.getLastAccess()))
+            .persistent(entity.getPersistent())
             .build();
     }
 
@@ -26,6 +27,7 @@ public class AccessTokenConverter extends ConverterBase<AccessTokenEntity, Acces
             .accessTokenId(domain.getAccessTokenId())
             .userId(domain.getUserId())
             .lastAccess(dateTimeUtil.convertDomain(domain.getLastAccess()))
+            .persistent(domain.getPersistent())
             .build();
     }
 }

@@ -1,5 +1,7 @@
 package bookmarks.service;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
 import bookmarks.dataaccess.UserDao;
@@ -12,6 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class UserService {
     private final UserDao userDao;
+
+    public Optional<User> findByUserName(String userName) {
+        return userDao.findByUserName(userName);
+    }
 
     public boolean isUserNameExists(String userName){
         return userDao.findByUserName(userName).isPresent();

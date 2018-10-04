@@ -26,4 +26,7 @@ public class AccessTokenEntity {
 
     @Column(name = "last_access", nullable = false)
     private Long lastAccess;
+
+    @Column(name = "persistent")
+    private Boolean persistent;
 }

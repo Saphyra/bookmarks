@@ -25,15 +25,15 @@ public class CookieUtil {
         return cookie.map(Cookie::getValue).orElse(null);
     }
 
-    public void setCookie(HttpServletResponse response, String name, String value){
-        response.addCookie(createCookie(name, value));
+    public void setCookie(HttpServletResponse response, String name, String value, int expiration){
+        response.addCookie(createCookie(name, value, expiration));
     }
 
-    private Cookie createCookie(String name, String value){
+    private Cookie createCookie(String name, String value, int expiration){
         Cookie cookie = new Cookie(name, value);
         cookie.setHttpOnly(true);
         cookie.setPath("/");
-        cookie.setMaxAge(-1);
+        cookie.setMaxAge(expiration);
         return cookie;
     }
 }

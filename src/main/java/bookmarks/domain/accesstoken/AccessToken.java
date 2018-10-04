@@ -15,4 +15,5 @@ public class AccessToken {
     private String accessTokenId;
     private String userId;
     private LocalDateTime lastAccess;
+    private Boolean persistent;
 }
