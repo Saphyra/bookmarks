@@ -1,0 +1,333 @@
+.absolute{
+    position: absolute;
+}
+
+.absolute0{
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.backgroundblack{
+    background-color: black;
+}
+
+.backgroundgreen{
+    background-color: green;
+}
+
+.backgroundred{
+    background-color: red;
+}
+
+.backgroundwhite{
+    background-color: white;
+}
+
+.block{
+    display: block;
+}
+
+.bigcheckbox{
+    -ms-transform: scale(2); /* IE */
+    -moz-transform: scale(2); /* FF */
+    -webkit-transform: scale(2); /* Safari and Chrome */
+    -o-transform: scale(2); /* Opera */
+}
+
+.bold{
+    font-weight: 700;
+}
+
+.border1px{
+    border-width: 1px;
+}
+
+.border2px{
+    border-width: 2px;
+}
+
+.border3px{
+    border-width: 3px;
+}
+
+.border5px{
+    border-width: 5px;
+}
+
+.bordercolorgreen{
+    border-color: green;
+}
+
+.borderbottominset{
+    border-bottom-style: inset;
+}
+
+.borderbottomridge{
+    border-bottom-style: ridge;
+}
+
+.bordercoloraaa{
+    border-color: white;
+}
+
+.bordercolorblack{
+    border-color: black;
+}
+
+.bordercolorblue{
+    border-color: blue;
+}
+
+.borderinset{
+    border-style: inset;
+}
+
+.borderoutset{
+    border-style: outset;
+}
+
+.borderradius5px{
+    border-radius: 5px;
+}
+
+.borderridge{
+    border-style: ridge;
+}
+
+.colorred{
+    color: red;
+}
+
+.cursornodrop{
+    cursor: no-drop;
+}
+
+.cursorpointer{
+    cursor: pointer;
+}
+
+.displaynone{
+    display: none;
+}
+
+.fixed{
+    position: fixed;
+}
+
+.fixed20percent{
+    position: fixed;
+    top: 20%;
+    left: 20%;
+    right: 20%;
+}
+
+.fontsize1rem{
+    font-size: 1rem;
+}
+
+.fontsize1_25rem{
+    font-size: 1.25rem;
+}
+
+.fontsize1_5rem{
+    font-size: 1.5rem;
+}
+
+.fontsize2rem{
+    font-size: 2rem;
+}
+
+.height100percent{
+    height: 100%;
+}
+
+.height2_5rem{
+    height: 2.5rem;
+}
+
+.inline{
+    display: inline;
+}
+
+.inlineblock{
+    display: inline-block;
+}
+
+.left65percent{
+    left: 65%;
+}
+
+.left100percent{
+    left: 100%;
+}
+
+.left5px{
+    left: 5px;
+}
+
+.leftn0_25rem{
+    left: -0.25rem;
+}
+
+.marginauto{
+    margin: auto;
+}
+
+.margin2px{
+    margin: 2px;
+}
+
+.margin0_25rem{
+    margin: 0.25rem;
+}
+
+.margin1rem{
+    margin: 1rem;
+}
+
+.marginbottom0_25rem{
+    margin-bottom: 0.25rem;
+}
+
+.marginbottom0_5rem{
+    margin-bottom: 0.5rem;
+}
+
+.margininitial{
+    margin: initial !important;
+}
+
+.marginright0_5rem{
+    margin-right: 0.5rem;
+}
+
+.margintop0_25rem{
+    margin-top: 0.25rem;
+}
+
+.margintop0_5rem{
+    margin-top: 0.5rem;
+}
+
+.margintop0_75rem{
+    margin-top: 0.75rem;
+}
+
+.margintop1rem{
+    margin-top: 1rem;
+}
+
+.margintop2rem{
+    margin-top: 2rem;
+}
+
+.maxwidth100percent{
+    max-width: 100%;
+}
+
+.minwidth10rem{
+    min-width: 10rem;
+}
+
+.noresize{
+    resize: none;
+}
+
+.padding0_25rem{
+    padding: 0.25rem;
+}
+
+.padding1rem{
+    padding: 1rem;
+}
+
+.paddingright5rem{
+    padding-right: 5rem;
+}
+
+.relative{
+    position: relative;
+}
+
+.right0{
+    right: 0;
+}
+
+.right2px{
+    right: 2px;
+}
+
+.textaligncenter{
+    text-align: center;
+}
+
+.textalignleft{
+    text-align: left;
+}
+
+.textalignright{
+    text-align: right;
+}
+
+.top0{
+    top: 0;
+}
+
+.top2px{
+    top: 2px;
+}
+
+.top5px{
+    top: 5px;
+}
+
+.top100percent{
+    top: 100%;
+}
+
+.topn1rem{
+    top: -1rem;
+}
+
+.whitespacenowrap{
+    white-space: nowrap;
+}
+
+.width2rem{
+    width: 2rem;
+}
+
+.width4rem{
+    width: 4rem;
+}
+
+.width10rem{
+    width: 10rem;
+}
+
+.width11rem{
+    width: 11rem;
+}
+
+.width16rem{
+    width: 16rem;
+}
+
+.width50percent{
+    width: 50%;
+}
+
+.width90percent{
+    width: 90%;
+}
+
+.width100percent{
+    width: 100%;
+}
+
+.width60vw{
+    width: 60vw;
+}
