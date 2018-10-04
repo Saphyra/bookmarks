@@ -124,6 +124,10 @@
     right: 20%;
 }
 
+.floatright{
+    float: right;
+}
+
 .fontsize1rem{
     font-size: 1rem;
 }

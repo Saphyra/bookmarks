@@ -21,3 +21,18 @@
     top: 0;
     bottom: 0;
 }
+
+.middlecontainer{
+    position: absolute;
+    top: 20%;
+    left: 20%;
+    right: 20%;
+    bottom: 20%;
+    
+    border: 3px ridge black;
+}
+
+.middlecontainer h2{
+    border-bottom: 3px ridge black;
+    padding: 0.25rem;
+}
