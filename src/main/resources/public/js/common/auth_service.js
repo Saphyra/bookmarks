@@ -18,9 +18,9 @@
             - IllegalState exception upon bad result from dao.
             - UnhandledServerException exception upon unknown failure.
     */
-    function login(userName, password){
+    function login(userName, password, remember){
         try{
-            const result = authDao.login(userName, password);
+            const result = authDao.login(userName, password, remember);
             if(!result){
                 throwException("IllegalState", "undefined result from dao.");
             }

@@ -28,17 +28,16 @@
             const confirmPassword = confirmPasswordInput.value;
             
             const user = {
-                username: userName,
-                password: password,
-                confirmPassword: confirmPassword
+                userName: userName,
+                password: password
             };
             
             const result = userDao.registerUser(user);
             if(result){
-                sessionStorage.successMessage = "Sikeres regisztráció!";
-                loginController.login(userName, password);
+                notificationService.showSuccess("Account registered successfully.")
+                document.getElementById("login_username").value = userName;
             }else{
-                notificationService.showError("Sikertelen regisztráció.");
+                notificationService.showError("Unexpected error occurred.");
             }
             passwordInput.value = "";
             confirmPasswordInput.value = "";
@@ -56,7 +55,7 @@
             const isUsernameValid = validateUserName();
             const arePasswordsValid = validatePasswords();
             
-            const isValid = isUsernameValid && arePasswordsValid && isEmailValid;
+            const isValid = isUsernameValid && arePasswordsValid;
             if(isValid){
                 document.getElementById("registration_button").disabled = false;
             }else{
@@ -82,10 +81,10 @@
                 let errorMessage;
                 
                 if(userName.length < 3){
-                    errorMessage = "Felhasználónév túl rövid (Minimum 3 karakter).";
+                    errorMessage = "User name is too short (Minimum 3 characters).";
                     this.lastUserNameValid = false;
                 }else if(userName.length > 30){
-                    errorMessage = "Felhasználónév túl hosszú (Maximum 30 karakter).";
+                    errorMessage = "User name is too long. (Maximum 30 characters).";
                     this.lastUserNameValid = false;
                 }else{
                     if(this.lasUserNameQueried !== userName){
@@ -94,7 +93,7 @@
                     }
                     
                     if(!this.lastUserNameValid){
-                        errorMessage = "Felhasználónév foglalt.";
+                        errorMessage = "User name already registered.";
                     }
                 }
                 
@@ -128,18 +127,18 @@
                 let confirmPasswordResult = true;
                 
                 if(password.length < 6){
-                    activateErrorElement(passwordErrorElementName, "Jelszó túl rövid (Minimum 6 karakter).");
+                    activateErrorElement(passwordErrorElementName, "Password is too short. (Minimum 6 characters).");
                     passwordResult = false;
                 }
                 
                 if(password.length > 30){
-                    activateErrorElement(passwordErrorElementName, "Jelszó túl hosszú (Maximum 30 karakter).");
+                    activateErrorElement(passwordErrorElementName, "Password is too long. (Maximum 30 characters).");
                     passwordResult = false;
                 }
                 
                 if(passwordResult && confirmPasswordResult && confirmPassword != password){
-                    activateErrorElement(passwordErrorElementName, "A jelszavak nem egyeznek.");
-                    activateErrorElement(confirmPasswordErrorElementName, "A jelszavak nem egyeznek.");
+                    activateErrorElement(passwordErrorElementName, "Confirm password does not match.");
+                    activateErrorElement(confirmPasswordErrorElementName, "Confirm password does not match.");
                     passwordResult = false;
                     confirmPasswordResult = false;
                 }

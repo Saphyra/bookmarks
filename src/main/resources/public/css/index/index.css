@@ -1,3 +1,12 @@
+#login_label{
+    font-size: 1.25rem;
+    margin: 0.2rem;
+}
+
+#login_label input{
+    margin-right: 0.2rem;
+}
+
 .registrationcontainer{
     border: 3px ridge black;
     display: inline-block;
@@ -13,7 +22,7 @@
     padding: 2rem;
 }
 
-label{
+.registrationcontainer label{
     position: relative;
     display: block;
     margin: 0.5rem;
