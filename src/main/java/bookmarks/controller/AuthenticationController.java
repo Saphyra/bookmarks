@@ -44,10 +44,11 @@ public class AuthenticationController {
 
     @GetMapping(LOGOUT_MAPPING)
     public void logout(
-        @CookieValue(FilterHelper.COOKIE_ACCESS_TOKEN) String accessToken,
+        @CookieValue(FilterHelper.COOKIE_ACCESS_TOKEN) String accessTokenId,
         @CookieValue(FilterHelper.COOKIE_USER_ID) String userId
     ) {
-
+        log.info("Logout endpoint called with accessTokenId {} and userId {}", accessTokenId, userId);
+        authenticationService.logout(userId, accessTokenId);
     }
 
     @PostMapping(REGISTRATION_MAPPING)

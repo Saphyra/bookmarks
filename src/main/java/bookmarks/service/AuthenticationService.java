@@ -6,9 +6,9 @@ import bookmarks.common.encryption.base.PasswordService;
 import bookmarks.common.exception.BadRequestException;
 import bookmarks.common.exception.NotFoundException;
 import bookmarks.common.exception.UnauthorizedException;
+import bookmarks.dataaccess.cache.AccessTokenCache;
 import bookmarks.domain.accesstoken.AccessToken;
 import bookmarks.domain.user.User;
-import bookmarks.util.CookieUtil;
 import bookmarks.util.DateTimeUtil;
 import bookmarks.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class AuthenticationService {
+    private final AccessTokenCache accessTokenCache;
     private final AccessTokenService accessTokenService;
-    private final CookieUtil cookieUtil;
     private final DateTimeUtil dateTimeUtil;
     private final IdGenerator idGenerator;
     private final PasswordService passwordService;
@@ -48,6 +48,21 @@ public class AuthenticationService {
     }
 
     public void logout(String userId, String accessTokenId) {
+        if (accessTokenId == null) {
+            throw new BadRequestException("accessTokenId must not be null.");
+        }
+        if (userId == null) {
+            throw new BadRequestException("userId must not be null.");
+        }
+
+        AccessToken accessToken = accessTokenCache.get(accessTokenId)
+            .orElseThrow(() -> new UnauthorizedException("AccessToken not found with accessTokenId " + accessTokenId));
+        if(!userId.equals(accessToken.getUserId())){
+            throw new UnauthorizedException("UserId " + userId + " is not equals the user id contained by accessToken with accessTokenId " + accessTokenId);
+        }
+
+        accessTokenCache.invalidate(accessToken.getAccessTokenId());
+        accessTokenService.delete(accessToken);
     }
 
     public void register(String userName, String password) {

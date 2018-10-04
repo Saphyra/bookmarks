@@ -13,6 +13,10 @@ import lombok.extern.slf4j.Slf4j;
 public class AccessTokenService {
     private final AccessTokenDao accessTokenDao;
 
+    public void delete(AccessToken accessToken) {
+        accessTokenDao.delete(accessToken);
+    }
+
     public void save(AccessToken accessToken) {
         accessTokenDao.save(accessToken);
     }
