@@ -26,7 +26,28 @@ public class AuthenticationService {
     private final UserService userService;
 
     public boolean isAuthenticated(String userId, String accessTokenId) {
+        try {
+            AccessToken accessToken = accessTokenCache.get(accessTokenId)
+                .orElseThrow(() -> new UnauthorizedException("AccessToken not found with accessTokenId " + accessTokenId));
+            validateUserId(accessToken, userId);
+            validateExpiration(accessToken);
+
+            userService.findByUserIdAuthorized(userId);
+
+            accessToken.setLastAccess(dateTimeUtil.now());
+            accessTokenService.save(accessToken);
+        } catch (RuntimeException e) {
+            log.warn("Authorization failed:", e);
+            return false;
+        }
+        log.debug("Authorization successful");
         return true;
+    }
+
+    private void validateExpiration(AccessToken accessToken) {
+        if(!accessToken.getPersistent() && accessToken.getLastAccess().isBefore(dateTimeUtil.getExpirationDate())){
+            throw new UnauthorizedException("AccessToken is expired.");
+        }
     }
 
     public AccessToken login(String userName, String password, Boolean remember) {
@@ -57,12 +78,16 @@ public class AuthenticationService {
 
         AccessToken accessToken = accessTokenCache.get(accessTokenId)
             .orElseThrow(() -> new UnauthorizedException("AccessToken not found with accessTokenId " + accessTokenId));
-        if(!userId.equals(accessToken.getUserId())){
-            throw new UnauthorizedException("UserId " + userId + " is not equals the user id contained by accessToken with accessTokenId " + accessTokenId);
-        }
+        validateUserId(accessToken, userId);
 
         accessTokenCache.invalidate(accessToken.getAccessTokenId());
         accessTokenService.delete(accessToken);
+    }
+
+    private void validateUserId(AccessToken accessToken, String userId) {
+        if (!userId.equals(accessToken.getUserId())) {
+            throw new UnauthorizedException("UserId " + userId + " is not equals the user id contained by accessToken with accessTokenId " + accessToken.getAccessTokenId());
+        }
     }
 
     public void register(String userName, String password) {

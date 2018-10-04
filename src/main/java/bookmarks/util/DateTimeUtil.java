@@ -11,11 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class DateTimeUtil extends ConverterBase<Long, LocalDateTime> {
-    public static final Integer EXPIRATION_TIME_IN_MINUTES = 15;
+    public static final Integer EXPIRATION_TIME_IN_HOURS = 8;
 
     public LocalDateTime getExpirationDate() {
         LocalDateTime expirationDate = now();
-        return expirationDate.minusMinutes(EXPIRATION_TIME_IN_MINUTES);
+        return expirationDate.minusMinutes(EXPIRATION_TIME_IN_HOURS);
     }
 
     @Override

@@ -13,4 +13,8 @@ public class AccessTokenDao extends AbstractDao<AccessTokenEntity, AccessToken, 
     public AccessTokenDao(AccessTokenConverter converter, AccessTokenRepository repository) {
         super(converter, repository);
     }
+
+    public void deleteExpired(Long expiration) {
+        repository.deleteExpired(expiration);
+    }
 }
