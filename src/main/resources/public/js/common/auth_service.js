@@ -51,8 +51,7 @@
                 throwException("IllegalState", "undefined result from dao.");
             }
             if(result.status == ResponseStatus.OK){
-                sessionStorage.successMessage = "Sikeres kijelentkezés!";
-                sessionStorage.removeItem("characterId");
+                sessionStorage.successMessage = "You logged out successfully.";
                 window.location.href = "/";
             }else{
                 throwException("UnhandledServer", result.toString());
