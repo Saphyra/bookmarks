@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import bookmarks.authentication.AuthenticationFacade;
+import bookmarks.service.AuthenticationService;
 import bookmarks.controller.PageController;
 import bookmarks.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class AuthFilter extends OncePerRequestFilter {
         "/js/**"
     );
 
-    private final AuthenticationFacade authenticationFacade;
+    private final AuthenticationService authenticationService;
     private final CookieUtil cookieUtil;
     private final FilterHelper filterHelper;
 
@@ -55,7 +55,7 @@ public class AuthFilter extends OncePerRequestFilter {
             log.debug("Allowed path: {}", path);
             filterChain.doFilter(request, response);
         } else if (isAuthenticated(request)) {
-            log.debug("Needs authentication: {}", path);
+            log.debug("Needs service: {}", path);
             filterChain.doFilter(request, response);
         } else {
             filterHelper.handleUnauthorized(request, response, PageController.INDEX_MAPPING);
@@ -70,7 +70,7 @@ public class AuthFilter extends OncePerRequestFilter {
         log.info("Logging out...");
         String accessTokenId = cookieUtil.getCookie(request, COOKIE_ACCESS_TOKEN);
         String userId = cookieUtil.getCookie(request, COOKIE_USER_ID);
-        authenticationFacade.logout(userId, accessTokenId);
+        authenticationService.logout(userId, accessTokenId);
         log.info("Successfully logged out.");
     }
 
@@ -84,6 +84,6 @@ public class AuthFilter extends OncePerRequestFilter {
             return false;
         }
 
-        return authenticationFacade.isAuthenticated(userIdValue, accessTokenId);
+        return authenticationService.isAuthenticated(userIdValue, accessTokenId);
     }
 }

@@ -13,7 +13,6 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class FilterHelper {
     public static final String COOKIE_ACCESS_TOKEN = "accesstoken";
-    public static final String COOKIE_CHARACTER_ID = "characterid";
     public static final String COOKIE_USER_ID = "userid";
 
     static final String REQUEST_TYPE_HEADER = "Request-Type";

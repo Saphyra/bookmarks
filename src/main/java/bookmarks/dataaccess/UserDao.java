@@ -1,5 +1,7 @@
 package bookmarks.dataaccess;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Component;
 
 import bookmarks.common.AbstractDao;
@@ -12,5 +14,9 @@ import bookmarks.domain.user.UserEntity;
 public class UserDao extends AbstractDao<UserEntity, User, String, UserRepository> {
     public UserDao(UserConverter converter, UserRepository repository) {
         super(converter, repository);
+    }
+
+    public Optional<User> findByUserName(String userName){
+        return converter.convertEntity(repository.findByUserName(userName));
     }
 }
