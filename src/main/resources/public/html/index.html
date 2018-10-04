@@ -1,0 +1,62 @@
+<HTML xmlns:th="http://www.thymeleaf.org">
+<HEAD>
+    <TITLE>Bookmarks</TITLE>
+    <META charset="UTF-8"/>
+    <LINK rel="stylesheet" href="/css/reset.css">
+    <LINK rel="stylesheet" href="/css/common.css">
+    <LINK rel="stylesheet" href="/css/classes.css">
+    <LINK rel="stylesheet" href="/css/index/index.css">
+
+    <SCRIPT src="js/common/jquery.js"></SCRIPT>
+    <SCRIPT src="js/common/common_base.js"></SCRIPT>
+
+    <SCRIPT src="js/index/login_form_controller.js"></SCRIPT>
+    <SCRIPT src="js/index/registration_form_controller.js"></SCRIPT>
+</HEAD>
+<BODY>
+
+<DIV class="cover">
+    <HEADER>
+        <H1>Bookmarks</H1>
+    </HEADER>
+    <MAIN class="textaligncenter">
+        <SECTION>
+            <INPUT type="text" id="login_username" class="logininput" placeholder="Username" required autofocus>
+            <INPUT type="password" id="login_password" class="logininput" placeholder="Password" required>
+            <BUTTON id='login_button' onclick="loginController.sendForm()">Login</BUTTON>
+        </SECTION>
+
+        <SECTION class="registrationcontainer">
+            <H2>Sign up</H2>
+
+            <DIV>
+                <DIV class="inlineblock textalignright">
+                    <LABEL>
+                        Username:
+                        <INPUT type="text" id="registration_username" class="registrationinput"
+                               placeholder="Username">
+                        <DIV id="invalid_username" class="invalid">X</DIV>
+                    </LABEL>
+
+                    <LABEL>
+                        Password:
+                        <INPUT type="password" id="registration_password" class="registrationinput"
+                               placeholder="Password">
+                        <DIV id="invalid_password" class="invalid">X</DIV>
+                    </LABEL>
+
+                    <LABEL>
+                        Confirm password:
+                        <INPUT type="password" id="registration_confirm_password" class="registrationinput"
+                               placeholder="Confirm password">
+                        <DIV id="invalid_confirm_password" class="invalid">X</DIV>
+                    </LABEL>
+                </DIV>
+            </DIV>
+            <BUTTON id="registration_button" onclick="registrationController.sendForm()" disabled>Sign up</BUTTON>
+        </SECTION>
+    </MAIN>
+</DIV>
+
+</BODY>
+</HTML>

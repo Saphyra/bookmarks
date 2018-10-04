@@ -37,10 +37,9 @@ body > div.cover h1{
     overflow: auto;
 }
 .cover:first-child{
-    background-color: rgba(0,0,0,0.5);
 }
 .cover:not(:first-child){
-    background-color: black;
+    background: white;
 }
 
 header{
@@ -61,7 +60,6 @@ main{
 }
 
 footer{
-    background-color: black;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -80,7 +78,6 @@ a{
 }
 button, .button, a, select{
     margin: 0.25rem;
-    background: black;
     border: 3px outset black;
     border-radius: 5px;
     padding: 0.2rem;
@@ -99,7 +96,6 @@ button:active, .button:active, a:active{
 }
 
 input, textarea, div[contenteditable='true']{
-    background: black;
     border: 3px outset black;
     border-radius: 5px;
     padding: 0.2rem;

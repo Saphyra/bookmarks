@@ -135,7 +135,7 @@
                 let color;
                 switch(level){
                     case "info":
-                        color = "white";
+                        color = "black";
                     break;
                     case "debug":
                         color = "green";

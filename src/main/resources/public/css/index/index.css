@@ -1,0 +1,39 @@
+.registrationcontainer{
+    border: 3px ridge black;
+    display: inline-block;
+    margin: 2rem;
+}
+
+.registrationcontainer h2:first-child{
+    border-bottom: 3px ridge black;
+    padding: 0.5rem;
+}
+
+.registrationcontainer > div{
+    padding: 2rem;
+}
+
+label{
+    position: relative;
+    display: block;
+    margin: 0.5rem;
+    font-size: 1.5rem;
+}
+
+label input{
+    margin-right: 2rem;
+}
+
+.invalid{
+    display: none;
+    border: 3px outset red;
+    position: absolute;
+    right: 0;
+    top: 0.25rem;
+    border-radius: 3px;
+    padding: 0.125rem;
+}
+
+input, button{
+    font-size: 1.25rem;
+}
