@@ -1,5 +1,7 @@
 package bookmarks.dataaccess;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import bookmarks.common.AbstractDao;
@@ -12,5 +14,9 @@ import bookmarks.domain.link.LinkEntity;
 public class LinkDao extends AbstractDao<LinkEntity, Link, String, LinkRepository> {
     public LinkDao(LinkConverter converter, LinkRepository repository) {
         super(converter, repository);
+    }
+
+    public List<Link> getByCategoryId(String categoryId){
+        return converter.convertEntity(repository.getByCategoryId(categoryId));
     }
 }

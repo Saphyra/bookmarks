@@ -1,5 +1,7 @@
 package bookmarks.dataaccess;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 import bookmarks.common.AbstractDao;
@@ -12,5 +14,9 @@ import bookmarks.domain.category.CategoryEntity;
 public class CategoryDao extends AbstractDao<CategoryEntity, Category, String, CategoryRepository> {
     public CategoryDao(CategoryConverter converter, CategoryRepository repository) {
         super(converter, repository);
+    }
+
+    public List<Category> getByParentId(String parentId){
+        return converter.convertEntity(repository.getByParentId(parentId));
     }
 }
