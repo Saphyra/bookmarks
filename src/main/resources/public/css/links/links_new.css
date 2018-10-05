@@ -1,0 +1,33 @@
+.labelcontainer{
+    text-align: right;
+    display: inline-block;
+    font-size: 1.5rem;
+    white-space: nowrap;
+    padding: 0.5rem;
+    overflow: auto;
+}
+
+.labelcontainer label{
+    display: block;
+    width: 100%;
+}
+
+.labelcontainer input{
+    font-size: 1.25rem;
+    width: 20rem;
+}
+
+.selectcategory{
+    font-size: 1.5rem;
+}
+
+.selectcategory button{
+    font-size: 1.25rem;
+}
+
+.selectedcategory{
+    font-weight: 700;
+    padding: 0.25rem;
+    font-size: 1.25rem;
+    border: 3px ridge black;
+}

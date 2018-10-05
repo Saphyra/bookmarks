@@ -28,7 +28,7 @@ body > div.cover h1{
     padding-top: 0.25rem;
 }
 
-.cover{
+.cover, .container{
     position: absolute;
     top: 0;
     right: 0;
@@ -36,9 +36,8 @@ body > div.cover h1{
     left: 0;
     overflow: auto;
 }
-.cover:first-child{
-}
-.cover:not(:first-child){
+
+.cover:not(:first-child), .container:not(:first-child){
     /*display: none;*/
     background: white;
 }

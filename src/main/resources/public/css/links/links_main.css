@@ -30,9 +30,39 @@
     bottom: 20%;
     
     border: 3px ridge black;
+    
+    overflow: auto;
+}
+
+.closebutton{
+    position: absolute;
+    top: -1px;
+    right: 0;
+    font-size: 1.25rem;
 }
 
 .middlecontainer h2{
     border-bottom: 3px ridge black;
     padding: 0.25rem;
+}
+
+.tab_content{
+    position: absolute;
+    top: 2.7rem;
+    bottom: 2.75rem;
+    left: 0;
+    right: 0;
+    padding: 0.25rem;
+}
+
+.tab_footer{
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    border-top: 3px ridge black;
+}
+
+.tab_footer button{
+    font-size: 1.25rem;
 }

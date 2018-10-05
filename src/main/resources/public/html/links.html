@@ -6,6 +6,7 @@
     <LINK rel="stylesheet" href="/css/common.css">
     <LINK rel="stylesheet" href="/css/classes.css">
     <LINK rel="stylesheet" href="/css/links/links_main.css">
+    <LINK rel="stylesheet" href="/css/links/links_new.css">
 
     <SCRIPT src="js/common/jquery.js"></SCRIPT>
     <SCRIPT src="js/common/common_base.js"></SCRIPT>
@@ -20,7 +21,7 @@
     </HEADER>
     
     <MAIN class="textaligncenter">
-        <DIV class='cover'>
+        <DIV id='main_tab' class='cover'>
             <SECTION id='leftcontainer'>
         
             </SECTION>
@@ -30,24 +31,79 @@
             </SECTION>
         </DIV>
         
-        <DIV class='cover'>
+        <DIV id='new_category_tab' class='container'>
             <SECTION class='middlecontainer'>
+                <BUTTON class='closebutton' onclick='switchTab("container", "main_tab")'>X</BUTTON>
                 <H2>New category</H2>
                 
+                <DIV class='tab_content textaligncenter'>
+                    <DIV class='labelcontainer'>
+                        <LABEL>
+                            Label:
+                            <INPUT type='text' placeholder='Label'>
+                        </LABEL>
+                        
+                        <LABEL>
+                            Description:
+                            <INPUT type='text' placeholder='Description'>
+                        </LABEL>
+                    </DIV>
+                    
+                    <DIV class='selectcategory'>
+                        Root: 
+                        <SPAN id='category_selected_category' class='selectedcategory'>No category</SPAN>
+                        <BUTTON onclick='pageController.openCategoryTab("category")'>Select category</BUTTON>
+                    </DIV>
+                </DIV>
+                
+                <DIV class='tab_footer'><BUTTON class='fontsize1_5rem'>Create</BUTTON></DIV>
             </SECTION>
         </DIV>
         
-        <DIV class='cover'>
+        <DIV id='new_link_tab' class='container'>
             <SECTION class='middlecontainer'>
+                <BUTTON class='closebutton' onclick='switchTab("container", "main_tab")'>X</BUTTON>
                 <H2>New link</H2>
                 
+                <DIV class='tab_content textaligncenter'>
+                    <DIV class='labelcontainer'>
+                        <LABEL>
+                            Text:
+                            <INPUT type='text' placeholder='Text of the link'>
+                        </LABEL>
+                        
+                        <LABEL>
+                            URL:
+                            <INPUT type='text' placeholder='URL starts with http://'>
+                        </LABEL>
+                    </DIV>
+                    
+                    <DIV class='selectcategory'>
+                        Category:
+                        <SPAN id='link_selected_category' class='selectedcategory'>No category</SPAN>
+                        <BUTTON onclick='pageController.openCategoryTab("link")'>Select category</BUTTON>
+                    </DIV>
+                </DIV>
+                
+                <DIV class='tab_footer'><BUTTON class='fontsize1_5rem'>Create</BUTTON></DIV>
+            </SECTION>
+        </DIV>
+        
+        <DIV id='select_category_tab' class='container'>
+            <SECTION class='middlecontainer'>
+                <BUTTON class='closebutton' onclick='$("#select_category_tab").hide()'>X</BUTTON>
+                <H2>Select category</H2>
+                
+                <DIV class='tab_content' id='selectable_categories'></DIV>
+                
+                <DIV class='tab_footer'><BUTTON>Select</BUTTON></DIV>
             </SECTION>
         </DIV>
     </MAIN>
     
     <FOOTER>
-        <BUTTON>New category</BUTTON>
-        <BUTTON>New link</BUTTON>
+        <BUTTON onclick='switchTab("container", "new_category_tab")'>New category</BUTTON>
+        <BUTTON onclick='switchTab("container", "new_link_tab")'>New link</BUTTON>
         <BUTTON class='floatright' onclick='authService.logout()'>Logout</BUTTON>
     </FOOTER>
 </DIV>
