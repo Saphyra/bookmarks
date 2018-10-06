@@ -38,7 +38,7 @@ body > div.cover h1{
 }
 
 .cover:not(:first-child), .container:not(:first-child){
-    /*display: none;*/
+    display: none;
     background: white;
 }
 

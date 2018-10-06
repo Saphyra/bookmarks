@@ -18,14 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class QueryController {
-    private static final String GET_DATA_MAPPING = "data/{parentId}";
+    private static final String GET_DATA_MAPPING = "data/{root}";
 
     private final DataQueryService dataQueryService;
 
     @GetMapping(GET_DATA_MAPPING)
     public List<DataResponse> getData(
         @CookieValue(FilterHelper.COOKIE_USER_ID) String userId,
-        @PathVariable("parentId") Optional<String> parentId
+        @PathVariable("root") Optional<String> parentId
     ) {
         String parent = parentId.orElse("");
         log.info("{} wants to get his data for parent {}", userId, parent);

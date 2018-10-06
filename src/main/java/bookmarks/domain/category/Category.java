@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Category implements Categorizable {
     private String categoryId;
-    private String parentId;
+    private String root;
     private String userId;
-    private String text;
+    private String label;
     private String description;
 
     @Override
@@ -24,6 +24,6 @@ public class Category implements Categorizable {
 
     @Override
     public String getRoot() {
-        return parentId;
+        return root;
     }
 }

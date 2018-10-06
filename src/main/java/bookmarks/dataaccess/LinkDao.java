@@ -16,7 +16,7 @@ public class LinkDao extends AbstractDao<LinkEntity, Link, String, LinkRepositor
         super(converter, repository);
     }
 
-    public List<Link> getByCategoryId(String categoryId){
-        return converter.convertEntity(repository.getByCategoryId(categoryId));
+    public List<Link> getByRoot(String categoryId){
+        return converter.convertEntity(repository.getByRoot(categoryId));
     }
 }

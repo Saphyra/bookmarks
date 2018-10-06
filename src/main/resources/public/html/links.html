@@ -33,59 +33,63 @@
         
         <DIV id='new_category_tab' class='container'>
             <SECTION class='middlecontainer'>
-                <BUTTON class='closebutton' onclick='switchTab("container", "main_tab")'>X</BUTTON>
+                <BUTTON class='closebutton' onclick='pageController.showMainTab()'>X</BUTTON>
                 <H2>New category</H2>
                 
                 <DIV class='tab_content textaligncenter'>
                     <DIV class='labelcontainer'>
                         <LABEL>
                             Label:
-                            <INPUT type='text' placeholder='Label'>
+                            <INPUT type='text' id='new_category_label' placeholder='Label'>
                         </LABEL>
                         
                         <LABEL>
                             Description:
-                            <INPUT type='text' placeholder='Description'>
+                            <INPUT type='text' id='new_category_description' placeholder='Description'>
                         </LABEL>
                     </DIV>
                     
                     <DIV class='selectcategory'>
                         Root: 
-                        <SPAN id='category_selected_category' class='selectedcategory'>No category</SPAN>
+                        <SPAN id='new_category_selected_category' class='selectedcategory'></SPAN>
                         <BUTTON onclick='pageController.openCategoryTab("category")'>Select category</BUTTON>
                     </DIV>
                 </DIV>
                 
-                <DIV class='tab_footer'><BUTTON class='fontsize1_5rem'>Create</BUTTON></DIV>
+                <DIV class='tab_footer'>
+                    <BUTTON class='fontsize1_5rem' onclick='newCategoryController.create()'>Create</BUTTON>
+                </DIV>
             </SECTION>
         </DIV>
         
         <DIV id='new_link_tab' class='container'>
             <SECTION class='middlecontainer'>
-                <BUTTON class='closebutton' onclick='switchTab("container", "main_tab")'>X</BUTTON>
+                <BUTTON class='closebutton' onclick='pageController.showMainTab()'>X</BUTTON>
                 <H2>New link</H2>
                 
                 <DIV class='tab_content textaligncenter'>
                     <DIV class='labelcontainer'>
                         <LABEL>
-                            Text:
-                            <INPUT type='text' placeholder='Text of the link'>
+                            Label:
+                            <INPUT type='text' id='new_link_label' placeholder='Label of the link'>
                         </LABEL>
                         
                         <LABEL>
                             URL:
-                            <INPUT type='text' placeholder='URL starts with http://'>
+                            <INPUT type='text' id='new_link_url' placeholder='URL starts with http://'>
                         </LABEL>
                     </DIV>
                     
                     <DIV class='selectcategory'>
                         Category:
-                        <SPAN id='link_selected_category' class='selectedcategory'>No category</SPAN>
+                        <SPAN id='new_link_selected_category' class='selectedcategory'></SPAN>
                         <BUTTON onclick='pageController.openCategoryTab("link")'>Select category</BUTTON>
                     </DIV>
                 </DIV>
                 
-                <DIV class='tab_footer'><BUTTON class='fontsize1_5rem'>Create</BUTTON></DIV>
+                <DIV class='tab_footer'>
+                    <BUTTON class='fontsize1_5rem' onclick='newLinkController.create()'>Create</BUTTON>
+                </DIV>
             </SECTION>
         </DIV>
         
@@ -102,8 +106,8 @@
     </MAIN>
     
     <FOOTER>
-        <BUTTON onclick='switchTab("container", "new_category_tab")'>New category</BUTTON>
-        <BUTTON onclick='switchTab("container", "new_link_tab")'>New link</BUTTON>
+        <BUTTON onclick='pageController.showNewCategoryTab()'>New category</BUTTON>
+        <BUTTON onclick='pageController.showNewLinkTab()'>New link</BUTTON>
         <BUTTON class='floatright' onclick='authService.logout()'>Logout</BUTTON>
     </FOOTER>
 </DIV>

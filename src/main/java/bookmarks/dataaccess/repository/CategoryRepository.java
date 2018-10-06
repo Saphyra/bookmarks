@@ -9,5 +9,5 @@ import bookmarks.domain.category.CategoryEntity;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, String> {
-    List<CategoryEntity> getByParentId(String parentId);
+    List<CategoryEntity> getByRoot(String parentId);
 }

@@ -24,15 +24,15 @@ public class LinkEntity {
     @Column(name = "link_id", length = 50)
     private String linkId;
 
-    @Column(name = "categoryId", length = 50)
-    private String categoryId;
+    @Column(name = "root", length = 50)
+    private String root;
 
     @Column(name = "user_id", length = 50)
     private String userId;
 
-    @Column(name = "text")
+    @Column(name = "label")
     @Type(type = "text")
-    private String text;
+    private String label;
 
     @Column(name = "url")
     @Type(type = "text")

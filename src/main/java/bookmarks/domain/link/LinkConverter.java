@@ -15,9 +15,9 @@ public class LinkConverter extends ConverterBase<LinkEntity, Link> {
     protected LinkEntity convertDomainInternal(Link domain) {
         return LinkEntity.builder()
             .linkId(domain.getLinkId())
-            .categoryId(domain.getCategoryId())
+            .root(domain.getRoot())
             .userId(domain.getUserId())
-            .text(stringEncryptor.encryptEntity(domain.getText(), domain.getUserId()))
+            .label(stringEncryptor.encryptEntity(domain.getLabel(), domain.getUserId()))
             .url(stringEncryptor.encryptEntity(domain.getUrl(), domain.getUserId()))
             .archived(domain.getArchived())
             .build();
@@ -27,9 +27,9 @@ public class LinkConverter extends ConverterBase<LinkEntity, Link> {
     protected Link convertEntityInternal(LinkEntity entity) {
         return Link.builder()
             .linkId(entity.getLinkId())
-            .categoryId(entity.getCategoryId())
+            .root(entity.getRoot())
             .userId(entity.getUserId())
-            .text(stringEncryptor.decryptEntity(entity.getText(), entity.getUserId()))
+            .label(stringEncryptor.decryptEntity(entity.getLabel(), entity.getUserId()))
             .url(stringEncryptor.decryptEntity(entity.getUrl(), entity.getUserId()))
             .archived(entity.getArchived())
             .build();

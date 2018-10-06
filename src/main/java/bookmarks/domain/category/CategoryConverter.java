@@ -15,9 +15,9 @@ public class CategoryConverter extends ConverterBase<CategoryEntity, Category> {
     protected CategoryEntity convertDomainInternal(Category domain) {
         return CategoryEntity.builder()
             .categoryId(domain.getCategoryId())
-            .parentId(domain.getParentId())
+            .root(domain.getRoot())
             .userId(domain.getUserId())
-            .text(stringEncryptor.encryptEntity(domain.getText(), domain.getUserId()))
+            .label(stringEncryptor.encryptEntity(domain.getLabel(), domain.getUserId()))
             .description(stringEncryptor.encryptEntity(domain.getDescription(), domain.getUserId()))
             .build();
     }
@@ -26,9 +26,9 @@ public class CategoryConverter extends ConverterBase<CategoryEntity, Category> {
     protected Category convertEntityInternal(CategoryEntity entity) {
         return Category.builder()
             .categoryId(entity.getCategoryId())
-            .parentId(entity.getParentId())
+            .root(entity.getRoot())
             .userId(entity.getUserId())
-            .text(stringEncryptor.decryptEntity(entity.getText(), entity.getUserId()))
+            .label(stringEncryptor.decryptEntity(entity.getLabel(), entity.getUserId()))
             .description(stringEncryptor.decryptEntity(entity.getDescription(), entity.getUserId()))
             .build();
     }

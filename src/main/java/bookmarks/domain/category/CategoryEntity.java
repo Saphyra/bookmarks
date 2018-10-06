@@ -23,15 +23,15 @@ public class CategoryEntity {
     @Column(name = "category_id", length = 50)
     private String categoryId;
 
-    @Column(name = "parent_id", length = 50)
-    private String parentId;
+    @Column(name = "root", length = 50)
+    private String root;
 
     @Column(name = "user_id", length = 50)
     private String userId;
 
-    @Column(name = "text")
+    @Column(name = "label")
     @Type(type = "text")
-    private String text;
+    private String label;
 
     @Column(name = "description")
     @Type(type = "text")

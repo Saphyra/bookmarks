@@ -16,7 +16,7 @@ public class CategoryDao extends AbstractDao<CategoryEntity, Category, String, C
         super(converter, repository);
     }
 
-    public List<Category> getByParentId(String parentId){
-        return converter.convertEntity(repository.getByParentId(parentId));
+    public List<Category> getByRoot(String parentId){
+        return converter.convertEntity(repository.getByRoot(parentId));
     }
 }

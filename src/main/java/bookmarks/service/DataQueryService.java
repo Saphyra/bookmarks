@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 import bookmarks.common.exception.ForbiddenException;
 import bookmarks.controller.response.DataResponse;
-import bookmarks.dataaccess.CategoryDao;
-import bookmarks.dataaccess.LinkDao;
 import bookmarks.domain.Categorizable;
 import bookmarks.domain.category.Category;
 import bookmarks.domain.link.Link;
@@ -20,12 +18,12 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class DataQueryService {
-    private final CategoryDao categoryDao;
-    private final LinkDao linkDao;
+    private final CategoryService categoryService;
+    private final LinkService linkService;
 
     public List<DataResponse> getDataOfUser(String userId, String parentId) {
-        List<Category> categories = categoryDao.getByParentId(parentId);
-        List<Link> links = linkDao.getByCategoryId(parentId);
+        List<Category> categories = categoryService.getCategoriesByRoot(parentId);
+        List<Link> links = linkService.getLinksByRoot(parentId);
 
         List<Categorizable> categorizables = new ArrayList<>();
         categorizables.addAll(categories);

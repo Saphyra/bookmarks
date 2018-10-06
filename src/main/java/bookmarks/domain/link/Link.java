@@ -12,9 +12,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Link implements Categorizable {
     private String linkId;
-    private String categoryId;
+    private String root;
     private String userId;
-    private String text;
+    private String label;
     private String url;
     private Boolean archived;
 
@@ -25,6 +25,6 @@ public class Link implements Categorizable {
 
     @Override
     public String getRoot() {
-        return categoryId;
+        return root;
     }
 }
