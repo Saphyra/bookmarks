@@ -10,7 +10,7 @@
             const container = document.getElementById("list_view_container");
                 container.innerHTML = "";
             
-            const categories = categoryUtil.getCategoriesOrdered(categoryId);
+            const categories = categoryUtil.getDataOrdered(categoryId);
             
             addUpButton(container, categoryId);
         }catch(err){
