@@ -22,7 +22,7 @@ public class DataQueryService {
     private final LinkService linkService;
 
     public List<DataResponse> getDataOfRoot(String userId, String categoryId) {
-        Category category = categoryService.findCategoryByIdAuthorized(userId, categoryId);
+        Category category = categoryService.findByIdAuthorized(userId, categoryId);
         return getDataOfCategory(userId, category.getRoot());
     }
 

@@ -6,14 +6,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class CreateCategoryRequest {
+public class LinkRequest {
     @NotNull
     @Size(min = 1, max = 100)
-    private String label;
+    private String Label;
 
     @NotNull
-    @Size(max = 1000)
-    private String description;
+    @Size(min = 1, max = 4000)
+    private String url;
 
     @NotNull
     @Size(max = 50)
