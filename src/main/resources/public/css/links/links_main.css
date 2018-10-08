@@ -1,4 +1,4 @@
-#leftcontainer{
+#tree_view_container{
     min-width: 20rem;
     max-width: 40rem;
     width: 30%;
@@ -11,7 +11,7 @@
     border-right: 5px ridge black;
 }
 
-#rightcontainer{
+#list_view_container{
     max-width: calc(100% - 20rem);
     min-width: calc(100% - 40rem);
     width: 70%;
