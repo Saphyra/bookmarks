@@ -15,7 +15,7 @@
         });
     }
     
-    function openCategoryTab(mode){
+    function openSelectCategoryTab(mode){
         try{
             $("#select_category_tab").show();
         }catch(err){

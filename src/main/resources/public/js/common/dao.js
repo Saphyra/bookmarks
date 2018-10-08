@@ -72,7 +72,6 @@ function Response(response){
     response = response || {
         status: null,
         responseText: null
-        
     };
     const statusKey = responseStatusMapper.getKeyOf(response.status);
     

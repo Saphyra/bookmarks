@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class DataResponse {
-    public static enum Type{
+    public enum Type{
         CATEGORY, LINK
     }
 
