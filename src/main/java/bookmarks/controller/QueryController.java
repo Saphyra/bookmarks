@@ -18,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class QueryController {
+    private static final String GET_DATA_OF_ROOT_MAPPINT = "data/root/{categoryId}";
     private static final String GET_DATA_MAPPING = "data/{root}";
     private static final String GET_ROOT_MAPPING = "data";
 
@@ -30,6 +31,15 @@ public class QueryController {
     ) {
         String parent = parentId.orElse("");
         log.info("{} wants to get his data for parent {}", userId, parent);
-        return dataQueryService.getDataOfUser(userId, parent);
+        return dataQueryService.getDataOfCategory(userId, parent);
+    }
+
+    @GetMapping(GET_DATA_OF_ROOT_MAPPINT)
+    public List<DataResponse> getDataOfRoot(
+        @CookieValue(FilterHelper.COOKIE_USER_ID) String userId,
+        @PathVariable("categoryId") String categoryId
+    ){
+        log.info("{} wants to know the data of root of {}", userId, categoryId);
+        return dataQueryService.getDataOfRoot(userId, categoryId);
     }
 }

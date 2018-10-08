@@ -21,7 +21,12 @@ public class DataQueryService {
     private final CategoryService categoryService;
     private final LinkService linkService;
 
-    public List<DataResponse> getDataOfUser(String userId, String parentId) {
+    public List<DataResponse> getDataOfRoot(String userId, String categoryId) {
+        Category category = categoryService.findCategoryByIdAuthorized(userId, categoryId);
+        return getDataOfCategory(userId, category.getRoot());
+    }
+
+    public List<DataResponse> getDataOfCategory(String userId, String parentId) {
         List<Category> categories = categoryService.getCategoriesByRoot(parentId);
         List<Link> links = linkService.getLinksByRoot(parentId);
 
