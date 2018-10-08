@@ -1,5 +1,5 @@
 (function DataDao(){
-    window.dataDao  new function(){
+    window.dataDao = new function(){
         this.getContentOfCategory = getContentOfCategory;
     }
     

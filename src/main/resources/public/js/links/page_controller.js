@@ -5,7 +5,7 @@
         scriptLoader.loadScript("js/links/new_link_controller.js");
         scriptLoader.loadScript("js/links/tree_view_controller.js");
         
-        this.openCategoryTab = openCategoryTab;
+        this.openSelectCategoryTab = openSelectCategoryTab;
         this.showMainTab = showMainTab;
         this.showNewCategoryTab = showNewCategoryTab;
         this.showNewLinkTab = showNewLinkTab;
@@ -46,7 +46,7 @@
     function showNewLinkTab(){
         try{
             newLinkController.init();
-            switchTab("container", "new_link_tab")
+            switchTab("container", "new_link_tab");
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
@@ -55,8 +55,7 @@
     
     function init(){
         try{
-            newLinkController.init();
-            switchTab("container", "new_link_tab")
+            listViewController.openCategory("");
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

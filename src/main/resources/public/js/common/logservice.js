@@ -68,6 +68,7 @@
                     const mainContainer = document.createElement("DIV");
                         mainContainer.classList.add("cover");
                         mainContainer.id = "logcontainermain";
+                        mainContainer.style.display = "block";
                         
                         const title = document.createElement("H1");
                             title.innerHTML = "Log";
