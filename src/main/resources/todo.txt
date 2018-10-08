@@ -3,6 +3,8 @@ New link
 
 Home page logs in automatically when cookies are present
 
+Display / hide archived links
+
 List View
     - Display category items
         - Open / enter
@@ -20,6 +22,7 @@ List View
             - Change url
             - Change root
         - Delete
+        - Archive
 
 Tree View
     - Display category items

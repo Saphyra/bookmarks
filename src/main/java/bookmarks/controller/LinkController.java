@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LinkController {
     private static final String CREATE_LINK_MAPPING = "link";
     private static final String DELETE_LINK_MAPPING = "link/{linkId}";
+    private static final String UPDATE_LINK_MAPPING = "link/{linkId}";
 
     private final LinkService linkService;
 
@@ -40,5 +42,15 @@ public class LinkController {
     ) {
         log.info("{} wants to delete link {}.", userId, linkId);
         linkService.delete(linkId, userId);
+    }
+
+    @PostMapping(UPDATE_LINK_MAPPING)
+    public void updateLink(
+        @PathVariable("linkId") String linkId,
+        @RequestBody @Valid LinkRequest request,
+        @CookieValue(FilterHelper.COOKIE_USER_ID) String userId
+    ) {
+        log.info("{} wants to update link {}.", userId, linkId);
+        linkService.update(request, linkId, userId);
     }
 }

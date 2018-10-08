@@ -9,6 +9,7 @@ import bookmarks.common.exception.NotFoundException;
 import bookmarks.controller.request.CategoryRequest;
 import bookmarks.dataaccess.CategoryDao;
 import bookmarks.domain.category.Category;
+import bookmarks.util.CategoryUtil;
 import bookmarks.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class CategoryService {
     private final CategoryDao categoryDao;
+    private final CategoryUtil categoryUtil;
     private final IdGenerator idGenerator;
     private final UserService userService;
 
@@ -47,5 +49,17 @@ public class CategoryService {
             throw  new ForbiddenException(userId + " has no access for category " + categoryId);
         }
         return category;
+    }
+
+    public void update(CategoryRequest request, String categoryId, String userId) {
+        Category category = findByIdAuthorized(userId, categoryId);
+
+        categoryUtil.validateRoot(request.getRoot(), userId);
+
+        category.setLabel(request.getLabel());
+        category.setDescription(request.getDescription());
+        category.setRoot(request.getRoot());
+
+        categoryDao.save(category);
     }
 }

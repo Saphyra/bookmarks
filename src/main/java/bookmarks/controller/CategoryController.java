@@ -5,6 +5,7 @@ import javax.validation.Valid;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CategoryController {
     private static final String CREATE_CATEGORY_MAPPING = "category";
     private static final String DELETE_CATEGORY_MAPPING = "category/{categoryId}";
+    private static final String UPDATE_CATEGORY_MAPPING = "category/{categoryId}";
 
     private final CategoryService categoryService;
 
@@ -40,5 +42,15 @@ public class CategoryController {
     ) {
         log.info("{} wants to delete category {}.", userId, categoryId);
         categoryService.delete(categoryId, userId);
+    }
+
+    @PostMapping(UPDATE_CATEGORY_MAPPING)
+    public void updateCategory(
+        @PathVariable("categoryId") String categoryId,
+        @RequestBody @Valid CategoryRequest request,
+        @CookieValue(FilterHelper.COOKIE_USER_ID) String userId
+    ) {
+        log.info("{} wants to update category {}.", userId, categoryId);
+        categoryService.update(request, categoryId, userId);
     }
 }
