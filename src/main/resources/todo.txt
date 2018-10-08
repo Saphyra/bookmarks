@@ -1,1 +1,29 @@
-Repositories
+New link
+    - validate url
+
+List View
+    - Display category items
+        - Open / enter
+        - Edit
+            - Change label
+            - Change description
+            - Change root
+        - Delete
+            - Content's root changes to default
+    - Display link items
+        - Open
+            - In new tab
+        - Edit
+            - Change label
+            - Change url
+            - Change root
+        - Delete
+
+Tree View
+    - Display category items
+        - Open in List View
+        - Scroll down
+    - Display link items
+        - Open
+            - In new tab
+        - Open in List View
