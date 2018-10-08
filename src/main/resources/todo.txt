@@ -1,6 +1,8 @@
 New link
     - validate url
 
+Home page logs in automatically when cookies are present
+
 List View
     - Display category items
         - Open / enter
