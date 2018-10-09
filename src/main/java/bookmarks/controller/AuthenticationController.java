@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import bookmarks.domain.accesstoken.AccessToken;
-import bookmarks.service.AuthenticationService;
 import bookmarks.controller.request.LoginRequest;
 import bookmarks.controller.request.RegistrationRequest;
+import bookmarks.domain.accesstoken.AccessToken;
 import bookmarks.filter.FilterHelper;
+import bookmarks.service.AuthenticationService;
 import bookmarks.util.CookieUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +22,18 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 public class AuthenticationController {
+    private static final String CHECK_AUTHENTICATION_MAPPING = "user/authenticated";
     private static final String LOGIN_MAPPING = "login";
     private static final String LOGOUT_MAPPING = "logout";
     private static final String REGISTRATION_MAPPING = "user/register";
 
     private final AuthenticationService authenticationService;
     private final CookieUtil cookieUtil;
+
+    @GetMapping(CHECK_AUTHENTICATION_MAPPING)
+    public void checkAuthentication(@CookieValue(FilterHelper.COOKIE_USER_ID) String userId) {
+        log.info("{} is actually logged in.", userId);
+    }
 
     @PostMapping(LOGIN_MAPPING)
     public void login(

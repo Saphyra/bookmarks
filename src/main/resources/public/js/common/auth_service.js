@@ -2,8 +2,27 @@
     window.authService = new function(){
         scriptLoader.loadScript("js/common/dao/auth_dao.js");
         
+        this.isAuthenticated = isAuthenticated;
         this.login = login;
         this.logout = logout;
+    }
+    
+    /*
+    Sends a request to check the user is logged in
+    */
+    function isAuthenticated(){
+        try{
+            const response = dao.sendRequest(dao.GET, "user/authenticated", false);
+            if(response.status == ResponseStatus.OK){
+                return true;
+            }else{
+                return false;
+            }
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+            return false;
+        }
     }
     
     /*
