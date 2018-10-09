@@ -1,5 +1,5 @@
-(function NewCategoryController(){
-    window.newCategoryController = new function(){
+(function CategoryController(){
+    window.categoryController = new function(){
         scriptLoader.loadScript("js/common/dao/category_dao.js");
         
         this.selectedCategory = "";
@@ -10,8 +10,8 @@
     
     function create(){
         try{
-            const label = document.getElementById("new_category_label").value;
-            const description = document.getElementById("new_category_description").value;
+            const label = document.getElementById("category_label").value;
+            const description = document.getElementById("category_description").value;
             
             if(label.length == 0){
                 notificationService.showError("Label must not be empty.");
@@ -38,9 +38,9 @@
     
     function init(){
         try{
-            document.getElementById("new_category_label").value = "";
-            document.getElementById("new_category_description").value = "";
-            document.getElementById("new_category_selected_category").innerHTML = "No category";
+            document.getElementById("category_label").value = "";
+            document.getElementById("category_description").value = "";
+            document.getElementById("category_selected_category").innerHTML = "No category";
             
             newCategoryController.selectedCategory = "";
         }catch(err){

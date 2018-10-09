@@ -7,6 +7,7 @@
     <LINK rel="stylesheet" href="/css/classes.css">
     <LINK rel="stylesheet" href="/css/links/links_main.css">
     <LINK rel="stylesheet" href="/css/links/links_new.css">
+    <LINK rel="stylesheet" href="/css/links/list_view.css">
 
     <SCRIPT src="js/common/jquery.js"></SCRIPT>
     <SCRIPT src="js/common/common_base.js"></SCRIPT>
@@ -31,27 +32,27 @@
             </SECTION>
         </DIV>
         
-        <DIV id='new_category_tab' class='container'>
+        <DIV id='category_tab' class='container'>
             <SECTION class='middlecontainer'>
                 <BUTTON class='closebutton' onclick='pageController.showMainTab()'>X</BUTTON>
-                <H2>New category</H2>
+                <H2 id='category_header'></H2>
                 
                 <DIV class='tab_content textaligncenter'>
                     <DIV class='labelcontainer'>
                         <LABEL>
                             Label:
-                            <INPUT type='text' id='new_category_label' placeholder='Label'>
+                            <INPUT type='text' id='category_label' placeholder='Label'>
                         </LABEL>
                         
                         <LABEL>
                             Description:
-                            <INPUT type='text' id='new_category_description' placeholder='Description'>
+                            <INPUT type='text' id='category_description' placeholder='Description'>
                         </LABEL>
                     </DIV>
                     
                     <DIV class='selectcategory'>
                         Root: 
-                        <SPAN id='new_category_selected_category' class='selectedcategory'></SPAN>
+                        <SPAN id='category_selected_category' class='selectedcategory'></SPAN>
                         <BUTTON onclick='pageController.openSelectCategoryTab("category")'>Select category</BUTTON>
                     </DIV>
                 </DIV>
@@ -62,27 +63,27 @@
             </SECTION>
         </DIV>
         
-        <DIV id='new_link_tab' class='container'>
+        <DIV id='link_tab' class='container'>
             <SECTION class='middlecontainer'>
                 <BUTTON class='closebutton' onclick='pageController.showMainTab()'>X</BUTTON>
-                <H2>New link</H2>
+                <H2 id='link_header'></H2>
                 
                 <DIV class='tab_content textaligncenter'>
                     <DIV class='labelcontainer'>
                         <LABEL>
                             Label:
-                            <INPUT type='text' id='new_link_label' placeholder='Label of the link'>
+                            <INPUT type='text' id='link_label' placeholder='Label of the link'>
                         </LABEL>
                         
                         <LABEL>
                             URL:
-                            <INPUT type='text' id='new_link_url' placeholder='URL starts with http://'>
+                            <INPUT type='text' id='link_url' placeholder='URL starts with http://'>
                         </LABEL>
                     </DIV>
                     
                     <DIV class='selectcategory'>
                         Category:
-                        <SPAN id='new_link_selected_category' class='selectedcategory'></SPAN>
+                        <SPAN id='link_selected_category' class='selectedcategory'></SPAN>
                         <BUTTON onclick='pageController.openSelectCategoryTab("link")'>Select category</BUTTON>
                     </DIV>
                 </DIV>

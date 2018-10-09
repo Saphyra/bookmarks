@@ -1,0 +1,15 @@
+.list_view_item{
+    text-align: left;
+    margin: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+}
+
+.list_view_category{
+    
+}
+
+.list_view_link{
+    border-color: blue;
+    display: block;
+}

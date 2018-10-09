@@ -1,5 +1,5 @@
-(function NewLinkController(){
-    window.newLinkController = new function(){
+(function LinkController(){
+    window.linkController = new function(){
         scriptLoader.loadScript("js/common/dao/link_dao.js");
         
         this.selectedCategory = "";
@@ -10,8 +10,8 @@
     
     function create(){
         try{
-            const label = document.getElementById("new_link_label").value;
-            const url = document.getElementById("new_link_url").value;
+            const label = document.getElementById("link_label").value;
+            const url = document.getElementById("link_url").value;
             
             if(label.length == 0){
                 notificationService.showError("Label must not be empty.");
@@ -27,7 +27,7 @@
                 return;
             }
             
-            if(linkDao.create(label, url, newLinkController.selectedCategory)){
+            if(linkDao.create(label, url, linkController.selectedCategory)){
                 notificationService.showSuccess("Link saved.");
                 pageController.showMainTab();
             }else{
@@ -41,11 +41,11 @@
     
     function init(){
         try{
-            document.getElementById("new_link_label").value = "";
-            document.getElementById("new_link_url").value = "";
-            document.getElementById("new_link_selected_category").innerHTML = "No category";
+            document.getElementById("link_label").value = "";
+            document.getElementById("link_url").value = "";
+            document.getElementById("link_selected_category").innerHTML = "No category";
             
-            newCategoryController.selectedCategory = "";
+            categoryController.selectedCategory = "";
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
