@@ -39,11 +39,14 @@
         }
     }
     
-    function init(){
+    function init(mode){
         try{
             document.getElementById("link_label").value = "";
             document.getElementById("link_url").value = "";
             document.getElementById("link_selected_category").innerHTML = "No category";
+            
+            document.getElementById("link_header").innerHTML = pageController.getModeText(mode) + " link";
+            document.getElementById("link_button").onclick = mode == pageController.MODE_CREATE ? linkController.create : null;
             
             categoryController.selectedCategory = "";
         }catch(err){

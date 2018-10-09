@@ -24,7 +24,7 @@
                 return;
             }
             
-            if(categoryDao.create(label, description, newCategoryController.selectedCategory)){
+            if(categoryDao.create(label, description, categoryController.selectedCategory)){
                 notificationService.showSuccess("Category saved.");
                 pageController.showMainTab();
             }else{
@@ -36,13 +36,17 @@
         }
     }
     
-    function init(){
+    function init(mode){
         try{
             document.getElementById("category_label").value = "";
             document.getElementById("category_description").value = "";
             document.getElementById("category_selected_category").innerHTML = "No category";
             
-            newCategoryController.selectedCategory = "";
+            document.getElementById("category_header").innerHTML = pageController.getModeText(mode) + " category";
+            
+            document.getElementById("category_button").onclick = mode == pageController.MODE_CREATE ? categoryController.create : null;
+            
+            categoryController.selectedCategory = "";
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

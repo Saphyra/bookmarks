@@ -2,11 +2,15 @@
     window.listViewController = new function(){
         scriptLoader.loadScript("js/links/category_util.js");
         
+        this.actualCategory = null;
+        
         this.openCategory = openCategory;
     }
 
     function openCategory(categoryId){
         try{
+            listViewController.actualCategory = categoryId;
+            
             const container = document.getElementById("list_view_container");
                 container.innerHTML = "";
             

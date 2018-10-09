@@ -58,7 +58,7 @@
                 </DIV>
                 
                 <DIV class='tab_footer'>
-                    <BUTTON class='fontsize1_5rem' onclick='newCategoryController.create()'>Create</BUTTON>
+                    <BUTTON id='category_button' class='fontsize1_5rem'>Save</BUTTON>
                 </DIV>
             </SECTION>
         </DIV>
@@ -89,7 +89,7 @@
                 </DIV>
                 
                 <DIV class='tab_footer'>
-                    <BUTTON class='fontsize1_5rem' onclick='newLinkController.create()'>Create</BUTTON>
+                    <BUTTON id='link_button' class='fontsize1_5rem'>Save</BUTTON>
                 </DIV>
             </SECTION>
         </DIV>
@@ -107,8 +107,8 @@
     </MAIN>
     
     <FOOTER>
-        <BUTTON onclick='pageController.showNewCategoryTab()'>New category</BUTTON>
-        <BUTTON onclick='pageController.showNewLinkTab()'>New link</BUTTON>
+        <BUTTON onclick='pageController.showCategoryTab("new")'>New category</BUTTON>
+        <BUTTON onclick='pageController.showLinkTab("new")'>New link</BUTTON>
         <BUTTON class='floatright' onclick='authService.logout()'>Logout</BUTTON>
     </FOOTER>
 </DIV>

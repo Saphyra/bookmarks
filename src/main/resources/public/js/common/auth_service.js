@@ -12,7 +12,7 @@
     */
     function isAuthenticated(){
         try{
-            const response = dao.sendRequest(dao.GET, "user/authenticated", false);
+            const response = dao.sendRequest(dao.GET, "user/authenticated", null, false);
             if(response.status == ResponseStatus.OK){
                 return true;
             }else{

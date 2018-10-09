@@ -5,9 +5,10 @@
         scriptLoader.loadScript("js/links/link_controller.js");
         scriptLoader.loadScript("js/links/tree_view_controller.js");
         
-        this.MODE_CREATE = "Create ";
-        this.MODE_EDIT = "Edit ";
+        this.MODE_CREATE = "new";
+        this.MODE_EDIT = "edit";
         
+        this.getModeText = getModeText;
         this.openSelectCategoryTab = openSelectCategoryTab;
         this.showMainTab = showMainTab;
         this.showCategoryTab = showCategoryTab;
@@ -16,6 +17,20 @@
         $(document).ready(function(){
             init();
         });
+    }
+    
+    function getModeText(mode){
+        switch(mode){
+            case pageController.MODE_CREATE:
+                return "Create";
+            break;
+            case pageController.MODE_EDIT:
+                return "Edit";
+            break;
+            default:
+                throwException("IllegalArgument", "Unknown mode: " + mode);
+            break;
+        }
     }
     
     function openSelectCategoryTab(mode){
@@ -29,6 +44,7 @@
     
     function showMainTab(){
         try{
+            listViewController.openCategory(listViewController.actualCategory);
             switchTab("container", "main_tab")
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
@@ -36,9 +52,10 @@
         }
     }
     
-    function showCategoryTab(){
+    function showCategoryTab(mode){
         try{
-            newCategoryController.init();
+            categoryController.init(mode);
+            treeViewController.showRoot();
             switchTab("container", "category_tab");
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
@@ -46,9 +63,9 @@
         }
     }
     
-    function showLinkTab(){
+    function showLinkTab(mode){
         try{
-            newLinkController.init();
+            linkController.init(mode);
             switchTab("container", "link_tab");
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
@@ -59,6 +76,7 @@
     function init(){
         try{
             listViewController.openCategory("");
+            treeViewController.showRoot();
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
