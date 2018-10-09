@@ -52,12 +52,14 @@
         function addToContainer(container, data){
             try{
                 let dataContainer;
+                const labelSpan = document.createElement("SPAN");
                     
                     switch(data.type){
                         case categoryUtil.TYPE_CATEGORY:
                             dataContainer = document.createElement("DIV");
                             dataContainer.classList.add("list_view_category");
                             dataContainer.title = data.element.description;
+                            addFunctionButtonsForCategory(dataContainer, data.element);
                         break;
                         case categoryUtil.TYPE_LINK:
                             dataContainer = document.createElement("a");
@@ -65,6 +67,7 @@
                             dataContainer.href = data.element.url;
                             dataContainer.title = data.element.url;
                             dataContainer.target = "blank";
+                            addFunctionButtonsForLink(dataContainer, data.element);
                         break;
                         default:
                             throwException("IllegalArgument", "Unknown data type: " + data.type);
@@ -73,12 +76,57 @@
                     
                     dataContainer.classList.add("button");
                     dataContainer.classList.add("list_view_item");
-                    dataContainer.innerHTML = data.element.label;
+                    labelSpan.innerHTML = data.element.label;
+                    dataContainer.appendChild(labelSpan);
                     
                 container.appendChild(dataContainer);
             }catch(err){
                 const message = arguments.callee.name + " - " + err.name + ": " + err.message;
                 logService.log(message, "error");
+            }
+            
+            function addFunctionButtonsForCategory(container, element){
+                try{
+                    const buttonContainer = document.createElement("DIV");
+                        buttonContainer.classList.add("button_container");
+                        
+                        const editButton = document.createElement("BUTTON");
+                            editButton.innerHTML = "Edit";
+                    buttonContainer.appendChild(editButton);
+                    
+                        const deleteButton = document.createElement("BUTTON");
+                            deleteButton.innerHTML = "Delete";
+                    buttonContainer.appendChild(deleteButton);
+                    
+                    container.appendChild(buttonContainer);
+                }catch(err){
+                    const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+                    logService.log(message, "error");
+                }
+            }
+            
+            function addFunctionButtonsForLink(container, element){
+                try{
+                    const buttonContainer = document.createElement("DIV");
+                        buttonContainer.classList.add("button_container");
+                        
+                        const editButton = document.createElement("BUTTON");
+                            editButton.innerHTML = "Edit";
+                    buttonContainer.appendChild(editButton);
+                    
+                        const deleteButton = document.createElement("BUTTON");
+                            deleteButton.innerHTML = "Delete";
+                    buttonContainer.appendChild(deleteButton);
+                    
+                        const archiveButton = document.createElement("BUTTON");
+                            archiveButton.innerHTML = "Archive";
+                    buttonContainer.appendChild(archiveButton);
+                    
+                    container.appendChild(buttonContainer);
+                }catch(err){
+                    const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+                    logService.log(message, "error");
+                }
             }
         }
     }

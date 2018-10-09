@@ -4,6 +4,14 @@ New link
 Display / hide archived links
 
 List View
+    - header
+        - Bulk edit
+        - Filters
+            - by url
+            - by name
+            - by description
+            - by link or category
+            - archived
     - Display category items
         - Open / enter
         - Edit
@@ -13,8 +21,6 @@ List View
         - Delete
             - Content's root changes to default
     - Display link items
-        - Open
-            - In new tab
         - Edit
             - Change label
             - Change url

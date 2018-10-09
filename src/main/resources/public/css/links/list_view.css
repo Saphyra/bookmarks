@@ -1,8 +1,9 @@
 .list_view_item{
     text-align: left;
     margin: 0.5rem;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     font-weight: 700;
+    position: relative;
 }
 
 .list_view_category{
@@ -12,4 +13,14 @@
 .list_view_link{
     border-color: blue;
     display: block;
+}
+
+.button_container{
+    position: absolute;
+    right: 0;
+    top: -0.1rem;
+}
+
+.button_container button{
+    font-size: 0.75rem;
 }
