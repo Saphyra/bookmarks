@@ -76,6 +76,5 @@ public class LinkService {
 
             linkDao.save(link);
         });
-
     }
 }

@@ -3,6 +3,7 @@
         scriptLoader.loadScript("js/links/list_view_controller.js");
         scriptLoader.loadScript("js/links/category_controller.js");
         scriptLoader.loadScript("js/links/link_controller.js");
+        scriptLoader.loadScript("js/links/select_category_controller.js");
         scriptLoader.loadScript("js/links/tree_view_controller.js");
         
         this.MODE_CREATE = "new";
