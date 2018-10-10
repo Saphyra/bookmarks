@@ -8,7 +8,8 @@ import org.springframework.stereotype.Service;
 
 import bookmarks.common.exception.ForbiddenException;
 import bookmarks.common.exception.NotFoundException;
-import bookmarks.controller.request.CategoryRequest;
+import bookmarks.controller.request.CreateCategoryRequest;
+import bookmarks.controller.request.UpdateCategoryRequest;
 import bookmarks.dataaccess.CategoryDao;
 import bookmarks.domain.category.Category;
 import bookmarks.util.CategoryUtil;
@@ -23,7 +24,7 @@ public class CategoryService {
     private final IdGenerator idGenerator;
     private final UserService userService;
 
-    public void create(CategoryRequest request, String userId) {
+    public void create(CreateCategoryRequest request, String userId) {
         userService.findByUserIdAuthorized(userId);
 
         Category category = Category.builder()
@@ -56,15 +57,18 @@ public class CategoryService {
         return category;
     }
 
-    public void update(CategoryRequest request, String categoryId, String userId) {
-        Category category = findByIdAuthorized(userId, categoryId);
+    @Transactional
+    public void update(List<UpdateCategoryRequest> requests, String userId) {
+        requests.forEach(request -> {
+            Category category = findByIdAuthorized(userId, request.getCategoryId());
 
-        categoryUtil.validateRoot(request.getRoot(), userId);
+            categoryUtil.validateRoot(request.getRoot(), userId);
 
-        category.setLabel(request.getLabel());
-        category.setDescription(request.getDescription());
-        category.setRoot(request.getRoot());
+            category.setLabel(request.getLabel());
+            category.setDescription(request.getDescription());
+            category.setRoot(request.getRoot());
 
-        categoryDao.save(category);
+            categoryDao.save(category);
+        });
     }
 }
