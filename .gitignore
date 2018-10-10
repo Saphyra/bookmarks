@@ -2,5 +2,3 @@ target/**
 .idea/**
 *.iml
 *.db
-
-src/main/resources/application-prod.properties
