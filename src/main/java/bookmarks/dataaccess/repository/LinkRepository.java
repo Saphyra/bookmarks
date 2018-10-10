@@ -9,5 +9,5 @@ import bookmarks.domain.link.LinkEntity;
 
 @Repository
 public interface LinkRepository extends JpaRepository<LinkEntity, String> {
-    List<LinkEntity> getByRoot(String categoryId);
+    List<LinkEntity> getByRootAndUserId(String categoryId, String userId);
 }

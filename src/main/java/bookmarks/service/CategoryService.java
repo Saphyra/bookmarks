@@ -46,28 +46,28 @@ public class CategoryService {
     public void delete(List<String> categoryIds, String userId) {
         categoryIds.forEach(categoryId ->{
             Category category = findByIdAuthorized(userId, categoryId);
-            updateChildren(categoryId);
+            updateChildren(categoryId, userId);
             categoryDao.delete(category);
         });
     }
 
-    private void updateChildren(String categoryId) {
-        List<Category> categories = categoryDao.getByRoot(categoryId);
+    private void updateChildren(String categoryId, String userId) {
+        List<Category> categories = categoryDao.getByRootAndUserId(categoryId, userId);
 
         categories.forEach(category ->{
             category.setRoot("");
             categoryDao.save(category);
         });
 
-        List<Link> links = linkDao.getByRoot(categoryId);
+        List<Link> links = linkDao.getByRootAndUserId(categoryId, userId);
         links.forEach(link -> {
             link.setRoot("");
             linkDao.save(link);
         });
     }
 
-    public List<Category> getCategoriesByRoot(String root) {
-        return categoryDao.getByRoot(root);
+    public List<Category> getCategoriesByRootAndUserId(String root, String userId) {
+        return categoryDao.getByRootAndUserId(root, userId);
     }
 
     public Category findByIdAuthorized(String userId, String categoryId) {

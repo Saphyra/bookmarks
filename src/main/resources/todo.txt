@@ -2,6 +2,7 @@ New link
     - validate url
 
 Display / hide archived links
+Delete user
 
 List View
     - header

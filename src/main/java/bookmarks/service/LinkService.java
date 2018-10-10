@@ -59,8 +59,8 @@ public class LinkService {
         return link;
     }
 
-    public List<Link> getLinksByRoot(String root) {
-        return linkDao.getByRoot(root);
+    public List<Link> getLinksByRootAndUserId(String root, String userId) {
+        return linkDao.getByRootAndUserId(root, userId);
     }
 
     @Transactional

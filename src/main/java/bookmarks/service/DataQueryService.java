@@ -22,7 +22,7 @@ public class DataQueryService {
     private final LinkService linkService;
 
     public List<DataResponse> getCategories(String userId, String parentId) {
-        List<Category> categories = categoryService.getCategoriesByRoot(parentId);
+        List<Category> categories = categoryService.getCategoriesByRootAndUserId(parentId, userId);
 
         List<Categorizable> categorizables = new ArrayList<>(categories);
         validateAccess(categorizables, userId);
@@ -36,8 +36,8 @@ public class DataQueryService {
     }
 
     public List<DataResponse> getDataOfCategory(String userId, String parentId) {
-        List<Category> categories = categoryService.getCategoriesByRoot(parentId);
-        List<Link> links = linkService.getLinksByRoot(parentId);
+        List<Category> categories = categoryService.getCategoriesByRootAndUserId(parentId, userId);
+        List<Link> links = linkService.getLinksByRootAndUserId(parentId, userId);
 
         List<Categorizable> categorizables = new ArrayList<>();
         categorizables.addAll(categories);
