@@ -13,7 +13,6 @@ List View
             - by link or category
             - archived
     - Display category items
-        - Open / enter
         - Edit
             - Change label
             - Change description

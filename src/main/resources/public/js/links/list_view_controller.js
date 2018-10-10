@@ -42,6 +42,10 @@
                         button.disabled = true;
                     }
                     
+                    button.onclick = function(){
+                        listViewController.openCategory(cache.get(categoryId).element.root);
+                    }
+                    
                 container.appendChild(button);
             }catch(err){
                 const message = arguments.callee.name + " - " + err.name + ": " + err.message;
@@ -60,6 +64,9 @@
                             dataContainer.classList.add("list_view_category");
                             dataContainer.title = data.element.description;
                             addFunctionButtonsForCategory(dataContainer, data.element);
+                            dataContainer.onclick = function(){
+                                listViewController.openCategory(data.element.categoryId);
+                            }
                         break;
                         case categoryUtil.TYPE_LINK:
                             dataContainer = document.createElement("a");
