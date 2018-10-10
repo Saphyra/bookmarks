@@ -11,7 +11,9 @@ import bookmarks.common.exception.NotFoundException;
 import bookmarks.controller.request.CreateCategoryRequest;
 import bookmarks.controller.request.UpdateCategoryRequest;
 import bookmarks.dataaccess.CategoryDao;
+import bookmarks.dataaccess.LinkDao;
 import bookmarks.domain.category.Category;
+import bookmarks.domain.link.Link;
 import bookmarks.util.CategoryUtil;
 import bookmarks.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +23,7 @@ import lombok.RequiredArgsConstructor;
 public class CategoryService {
     private final CategoryDao categoryDao;
     private final CategoryUtil categoryUtil;
+    private final LinkDao linkDao;
     private final IdGenerator idGenerator;
     private final UserService userService;
 
@@ -41,7 +44,23 @@ public class CategoryService {
     public void delete(List<String> categoryIds, String userId) {
         categoryIds.forEach(categoryId ->{
             Category category = findByIdAuthorized(userId, categoryId);
+            updateChildren(categoryId);
             categoryDao.delete(category);
+        });
+    }
+
+    private void updateChildren(String categoryId) {
+        List<Category> categories = categoryDao.getByRoot(categoryId);
+
+        categories.forEach(category ->{
+            category.setRoot("");
+            categoryDao.save(category);
+        });
+
+        List<Link> links = linkDao.getByRoot(categoryId);
+        links.forEach(link -> {
+            link.setRoot("");
+            linkDao.save(link);
         });
     }
 
