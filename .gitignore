@@ -3,4 +3,4 @@ target/**
 *.iml
 *.db
 
-**/application-prod.properties
+src/main/resources/application-prod.properties
