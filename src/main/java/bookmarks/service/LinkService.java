@@ -2,11 +2,14 @@ package bookmarks.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import bookmarks.common.exception.ForbiddenException;
 import bookmarks.common.exception.NotFoundException;
-import bookmarks.controller.request.LinkRequest;
+import bookmarks.controller.request.CreateLinkRequest;
+import bookmarks.controller.request.UpdateLinkRequest;
 import bookmarks.dataaccess.LinkDao;
 import bookmarks.domain.link.Link;
 import bookmarks.util.CategoryUtil;
@@ -21,7 +24,7 @@ public class LinkService {
     private final LinkDao linkDao;
     private final UserService userService;
 
-    public void create(LinkRequest request, String userId) {
+    public void create(CreateLinkRequest request, String userId) {
         userService.findByUserIdAuthorized(userId);
 
         categoryUtil.validateRoot(request.getRoot(), userId);
@@ -38,14 +41,17 @@ public class LinkService {
         linkDao.save(link);
     }
 
-    public void delete(String linkId, String userId) {
-        Link link = findByIdAuthorized(linkId, userId);
-        linkDao.delete(link);
+    @Transactional
+    public void delete(List<String> linkIds, String userId) {
+        linkIds.forEach(linkId -> {
+            Link link = findByIdAuthorized(linkId, userId);
+            linkDao.delete(link);
+        });
     }
 
     private Link findByIdAuthorized(String linkId, String userId) {
         Link link = linkDao.findById(linkId).orElseThrow(() -> new NotFoundException("Link not found with id " + linkId));
-        if(!link.getUserId().equals(userId)){
+        if (!link.getUserId().equals(userId)) {
             throw new ForbiddenException(userId + " has no access for link " + linkId);
         }
         return link;
@@ -55,15 +61,19 @@ public class LinkService {
         return linkDao.getByRoot(root);
     }
 
-    public void update(LinkRequest request, String linkId, String userId) {
-        categoryUtil.validateRoot(request.getRoot(), userId);
+    @Transactional
+    public void update(List<UpdateLinkRequest> requests, String userId) {
+        requests.forEach(request ->{
+            categoryUtil.validateRoot(request.getRoot(), userId);
 
-        Link link = findByIdAuthorized(linkId, userId);
-        link.setLabel(request.getLabel());
-        link.setUrl(request.getUrl());
-        link.setRoot(request.getRoot());
-        link.setArchived(request.getArchived() == null ? false : request.getArchived());
+            Link link = findByIdAuthorized(request.getLinkId(), userId);
+            link.setLabel(request.getLabel());
+            link.setUrl(request.getUrl());
+            link.setRoot(request.getRoot());
+            link.setArchived(request.getArchived() == null ? false : request.getArchived());
 
-        linkDao.save(link);
+            linkDao.save(link);
+        });
+
     }
 }

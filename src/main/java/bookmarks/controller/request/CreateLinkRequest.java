@@ -6,10 +6,10 @@ import javax.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class LinkRequest {
+public class CreateLinkRequest {
     @NotNull
     @Size(min = 1, max = 100)
-    private String Label;
+    private String label;
 
     @NotNull
     @Size(min = 1, max = 4000)

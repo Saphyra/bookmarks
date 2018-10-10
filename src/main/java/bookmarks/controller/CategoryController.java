@@ -1,5 +1,7 @@
 package bookmarks.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.CookieValue;
@@ -37,11 +39,11 @@ public class CategoryController {
 
     @DeleteMapping(DELETE_CATEGORY_MAPPING)
     public void deleteCategory(
-        @PathVariable("categoryId") String categoryId,
+        @RequestBody List<String> categoryIds,
         @CookieValue(FilterHelper.COOKIE_USER_ID) String userId
     ) {
-        log.info("{} wants to delete category {}.", userId, categoryId);
-        categoryService.delete(categoryId, userId);
+        log.info("{} wants to delete categories {}.", userId, categoryIds);
+        categoryService.delete(categoryIds, userId);
     }
 
     @PostMapping(UPDATE_CATEGORY_MAPPING)

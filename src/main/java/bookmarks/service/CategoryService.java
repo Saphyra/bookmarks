@@ -2,6 +2,8 @@ package bookmarks.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import bookmarks.common.exception.ForbiddenException;
@@ -34,9 +36,12 @@ public class CategoryService {
         categoryDao.save(category);
     }
 
-    public void delete(String categoryId, String userId) {
-        Category category = findByIdAuthorized(userId, categoryId);
-        categoryDao.delete(category);
+    @Transactional
+    public void delete(List<String> categoryIds, String userId) {
+        categoryIds.forEach(categoryId ->{
+            Category category = findByIdAuthorized(userId, categoryId);
+            categoryDao.delete(category);
+        });
     }
 
     public List<Category> getCategoriesByRoot(String root) {
