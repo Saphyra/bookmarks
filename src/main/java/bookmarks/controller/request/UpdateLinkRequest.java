@@ -11,15 +11,12 @@ public class UpdateLinkRequest {
     @Size(min = 1, max = 50)
     private String linkId;
 
-    @NotNull
     @Size(min = 1, max = 100)
     private String label;
 
-    @NotNull
     @Size(min = 1, max = 4000)
     private String url;
 
-    @NotNull
     @Size(max = 50)
     private String root;
 

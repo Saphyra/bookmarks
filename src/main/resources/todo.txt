@@ -18,14 +18,11 @@ List View
             - Change label
             - Change description
             - Change root
-        - Delete
-            - Content's root changes to default
     - Display link items
         - Edit
             - Change label
             - Change url
             - Change root
-        - Delete
         - Archive
 
 Tree View

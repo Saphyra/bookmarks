@@ -1,5 +1,7 @@
 package bookmarks.service;
 
+import static bookmarks.util.Util.replaceIfNotNull;
+
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -67,10 +69,10 @@ public class LinkService {
             categoryUtil.validateRoot(request.getRoot(), userId);
 
             Link link = findByIdAuthorized(request.getLinkId(), userId);
-            link.setLabel(request.getLabel());
-            link.setUrl(request.getUrl());
-            link.setRoot(request.getRoot());
-            link.setArchived(request.getArchived() == null ? false : request.getArchived());
+            link.setLabel(replaceIfNotNull(link.getLabel(), request.getLabel()));
+            link.setUrl(replaceIfNotNull(link.getUrl(), request.getUrl()));
+            link.setRoot(replaceIfNotNull(link.getRoot(), request.getRoot()));
+            link.setArchived(replaceIfNotNull(link.getArchived(), request.getArchived()));
 
             linkDao.save(link);
         });

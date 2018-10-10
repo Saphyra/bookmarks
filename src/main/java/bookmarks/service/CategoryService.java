@@ -1,5 +1,7 @@
 package bookmarks.service;
 
+import static bookmarks.util.Util.replaceIfNotNull;
+
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -83,9 +85,9 @@ public class CategoryService {
 
             categoryUtil.validateRoot(request.getRoot(), userId);
 
-            category.setLabel(request.getLabel());
-            category.setDescription(request.getDescription());
-            category.setRoot(request.getRoot());
+            category.setLabel(replaceIfNotNull(category.getLabel(), request.getLabel()));
+            category.setDescription(replaceIfNotNull(category.getDescription(), request.getDescription()));
+            category.setRoot(replaceIfNotNull(category.getRoot(), request.getRoot()));
 
             categoryDao.save(category);
         });

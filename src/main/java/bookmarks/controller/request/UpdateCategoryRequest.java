@@ -11,15 +11,12 @@ public class UpdateCategoryRequest {
     @Size(min = 1, max = 50)
     private String categoryId;
 
-    @NotNull
     @Size(min = 1, max = 100)
     private String label;
 
-    @NotNull
     @Size(max = 1000)
     private String description;
 
-    @NotNull
     @Size(max = 50)
     private String root;
 }
