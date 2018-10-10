@@ -1,6 +1,7 @@
 (function CategoryDao(){
     window.categoryDao = new function(){
         this.create = create;
+        this.deleteCategories = deleteCategories;
     }
     
     /*
@@ -28,11 +29,40 @@
                 root: root
             }
             
-            const result = dao.sendRequest(dao.PUT, path, body);
-            if(result.status == ResponseStatus.OK){
+            const response = dao.sendRequest(dao.PUT, path, body);
+            if(response.status == ResponseStatus.OK){
                 return true;
             }else{
-                throwException("UnknownBackendError", result.toString());
+                throwException("UnknownBackendError", response.toString());
+            }
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+            return false;
+        }
+    }
+    
+    /*
+    Deletes the given categories.
+    Returns:
+        - true, when deletion was successful.
+        - false otherwise.
+    */
+    function deleteCategories(categoryIds){
+        try{
+            if(categoryIds == null || categoryIds == undefined){
+                throwException("IllegalArgument", "categoryIds must not be null or undefined");
+            }
+            if(categoryIds.length < 1){
+                throwException("IllegalArgument", "categoryIds must not be empty");
+            }
+            
+            const path = "category";
+            const response = dao.sendRequest(dao.DELETE, path, categoryIds);
+            if(response.status == ResponseStatus.OK){
+                return true;
+            }else{
+                throwException("UnknownBackendError", response.toString());
             }
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;

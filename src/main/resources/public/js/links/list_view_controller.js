@@ -85,7 +85,7 @@
                 logService.log(message, "error");
             }
             
-            function addFunctionButtonsForCategory(container, element){
+            function addFunctionButtonsForCategory(container, category){
                 try{
                     const buttonContainer = document.createElement("DIV");
                         buttonContainer.classList.add("button_container");
@@ -96,6 +96,9 @@
                     
                         const deleteButton = document.createElement("BUTTON");
                             deleteButton.innerHTML = "Delete";
+                            deleteButton.onclick = function(){
+                                categoryController.deleteCategories([category.categoryId]);
+                            }
                     buttonContainer.appendChild(deleteButton);
                     
                     container.appendChild(buttonContainer);

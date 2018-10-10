@@ -5,6 +5,7 @@
         this.selectedCategory = "";
         
         this.create = create;
+        this.deleteCategories = deleteCategories;
         this.init = init;
     }
     
@@ -29,6 +30,22 @@
                 pageController.showMainTab();
             }else{
                 notificationService.showError("Unexpected error occurred.");
+            }
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+        }
+    }
+    
+    function deleteCategories(categoryIds){
+        try{
+            if(confirm("Are you sure to delete the selected categories?")){
+                if(categoryDao.deleteCategories(categoryIds)){
+                    notificationService.showSuccess("Categories deleted.");
+                    pageController.showMainTab();
+                }else{
+                    notificationService.showError("Unexpected error occurred.");
+                }
             }
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
