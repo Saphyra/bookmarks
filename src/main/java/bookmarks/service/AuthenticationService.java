@@ -52,7 +52,7 @@ public class AuthenticationService {
 
     public AccessToken login(String userName, String password, Boolean remember) {
         User user = userService.findByUserName(userName)
-            .orElseThrow(() -> new NotFoundException("User not found with name " + userName));
+            .orElseThrow(() -> new UnauthorizedException("User not found with name " + userName));
         if (!passwordService.authenticate(password, user.getPassword())) {
             throw new UnauthorizedException("Bad password entered for user " + userName);
         }
