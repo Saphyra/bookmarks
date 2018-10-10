@@ -6,6 +6,7 @@
         
         this.create = create;
         this.deleteCategories = deleteCategories;
+        this.selectCategory = selectCategory;
         this.init = init;
     }
     
@@ -47,6 +48,17 @@
                     notificationService.showError("Unexpected error occurred.");
                 }
             }
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+        }
+    }
+    
+    function selectCategory(rootId){
+        try{
+            categoryController.selectedCategory = rootId;
+            
+            document.getElementById("category_selected_category").innerHTML = rootId.length === 0 ? "Root" : cache.get(rootId).element.label;
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

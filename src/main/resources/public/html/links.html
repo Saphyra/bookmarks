@@ -53,7 +53,7 @@
                     <DIV class='selectcategory'>
                         Root: 
                         <SPAN id='category_selected_category' class='selectedcategory'></SPAN>
-                        <BUTTON onclick='pageController.openSelectCategoryTab("category")'>Select category</BUTTON>
+                        <BUTTON onclick='pageController.openSelectCategoryTab(selectCategoryController.MODE_CATEGORY)'>Select category</BUTTON>
                     </DIV>
                 </DIV>
                 
@@ -84,7 +84,7 @@
                     <DIV class='selectcategory'>
                         Category:
                         <SPAN id='link_selected_category' class='selectedcategory'></SPAN>
-                        <BUTTON onclick='pageController.openSelectCategoryTab("link")'>Select category</BUTTON>
+                        <BUTTON onclick='pageController.openSelectCategoryTab(selectCategoryController.MODE_LINK)'>Select category</BUTTON>
                     </DIV>
                 </DIV>
                 
@@ -101,7 +101,7 @@
                 
                 <DIV class='tab_content' id='selectable_categories'></DIV>
                 
-                <DIV class='tab_footer'><BUTTON>Select</BUTTON></DIV>
+                <DIV class='tab_footer'><BUTTON id='select_category_button'></BUTTON></DIV>
             </SECTION>
         </DIV>
     </MAIN>

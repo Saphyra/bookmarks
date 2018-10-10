@@ -36,6 +36,8 @@
     
     function openSelectCategoryTab(mode){
         try{
+            selectCategoryController.init(mode);
+            
             $("#select_category_tab").show();
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;

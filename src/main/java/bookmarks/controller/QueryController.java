@@ -18,11 +18,23 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class QueryController {
-    private static final String GET_DATA_OF_ROOT_MAPPINT = "data/root/{categoryId}";
+    private static final String GET_CATEGORIES_MAPPING = "data/categories/{root}";
+    private static final String GET_ROOT_CATEGORIES_MAPPING = "data/categories";
+    private static final String GET_DATA_OF_ROOT_MAPPING = "data/root/{categoryId}";
     private static final String GET_DATA_MAPPING = "data/{root}";
     private static final String GET_ROOT_MAPPING = "data";
 
     private final DataQueryService dataQueryService;
+
+    @GetMapping({GET_CATEGORIES_MAPPING, GET_ROOT_CATEGORIES_MAPPING})
+    public List<DataResponse> getCategories(
+        @CookieValue(FilterHelper.COOKIE_USER_ID) String userId,
+        @PathVariable("root") Optional<String> parentId
+    ) {
+        String parent = parentId.orElse("");
+        log.info("{} wants to get his data for parent {}", userId, parent);
+        return dataQueryService.getCategories(userId, parent);
+    }
 
     @GetMapping({GET_ROOT_MAPPING, GET_DATA_MAPPING})
     public List<DataResponse> getData(
@@ -34,7 +46,7 @@ public class QueryController {
         return dataQueryService.getDataOfCategory(userId, parent);
     }
 
-    @GetMapping(GET_DATA_OF_ROOT_MAPPINT)
+    @GetMapping(GET_DATA_OF_ROOT_MAPPING)
     public List<DataResponse> getDataOfRoot(
         @CookieValue(FilterHelper.COOKIE_USER_ID) String userId,
         @PathVariable("categoryId") String categoryId

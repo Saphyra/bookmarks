@@ -21,6 +21,15 @@ public class DataQueryService {
     private final CategoryService categoryService;
     private final LinkService linkService;
 
+    public List<DataResponse> getCategories(String userId, String parentId) {
+        List<Category> categories = categoryService.getCategoriesByRoot(parentId);
+
+        List<Categorizable> categorizables = new ArrayList<>(categories);
+        validateAccess(categorizables, userId);
+
+        return convertToResponse(categorizables);
+    }
+
     public List<DataResponse> getDataOfRoot(String userId, String categoryId) {
         Category category = categoryService.findByIdAuthorized(userId, categoryId);
         return getDataOfCategory(userId, category.getRoot());
