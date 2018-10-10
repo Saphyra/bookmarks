@@ -49,9 +49,7 @@ public class AuthFilter extends OncePerRequestFilter {
         log.debug("AuthFilter");
         String path = request.getRequestURI();
         log.debug("Request arrived: {}", path);
-        if (pathMatcher.match("/logout", path)) {
-            logout(request, response);
-        } else if (isAllowedPath(path)) {
+        if (isAllowedPath(path)) {
             log.debug("Allowed path: {}", path);
             filterChain.doFilter(request, response);
         } else if (isAuthenticated(request)) {
@@ -64,14 +62,6 @@ public class AuthFilter extends OncePerRequestFilter {
 
     private boolean isAllowedPath(String path) {
         return allowedUris.stream().anyMatch(allowedPath -> pathMatcher.match(allowedPath, path));
-    }
-
-    private void logout(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        log.info("Logging out...");
-        String accessTokenId = cookieUtil.getCookie(request, COOKIE_ACCESS_TOKEN);
-        String userId = cookieUtil.getCookie(request, COOKIE_USER_ID);
-        authenticationService.logout(userId, accessTokenId);
-        log.info("Successfully logged out.");
     }
 
     private boolean isAuthenticated(HttpServletRequest request) {

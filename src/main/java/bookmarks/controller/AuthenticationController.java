@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -48,7 +49,7 @@ public class AuthenticationController {
         cookieUtil.setCookie(response, FilterHelper.COOKIE_USER_ID, accessToken.getUserId(), expiration);
     }
 
-    @GetMapping(LOGOUT_MAPPING)
+    @DeleteMapping(LOGOUT_MAPPING)
     public void logout(
         @CookieValue(FilterHelper.COOKIE_ACCESS_TOKEN) String accessTokenId,
         @CookieValue(FilterHelper.COOKIE_USER_ID) String userId
