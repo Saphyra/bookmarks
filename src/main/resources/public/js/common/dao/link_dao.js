@@ -1,6 +1,7 @@
 (function LinkDao(){
     window.linkDao = new function(){
         this.create = create;
+        this.deleteLinks = deleteLinks;
     }
     
     /*
@@ -33,6 +34,35 @@
                 return true;
             }else{
                 throwException("UnknownBackendError", result.toString());
+            }
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+            return false;
+        }
+    }
+    
+    /*
+    Deletes the given categories.
+    Returns:
+        - true, when deletion was successful.
+        - false otherwise.
+    */
+    function deleteLinks(linkIds){
+        try{
+            if(linkIds == null || linkIds == undefined){
+                throwException("IllegalArgument", "linkIds must not be null or undefined");
+            }
+            if(linkIds.length < 1){
+                throwException("IllegalArgument", "linkIds must not be empty");
+            }
+            
+            const path = "link";
+            const response = dao.sendRequest(dao.DELETE, path, linkIds);
+            if(response.status == ResponseStatus.OK){
+                return true;
+            }else{
+                throwException("UnknownBackendError", response.toString());
             }
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;

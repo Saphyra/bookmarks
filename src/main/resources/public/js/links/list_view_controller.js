@@ -96,7 +96,8 @@
                     
                         const deleteButton = document.createElement("BUTTON");
                             deleteButton.innerHTML = "Delete";
-                            deleteButton.onclick = function(){
+                            deleteButton.onclick = function(e){
+                                e.stopPropagation();
                                 categoryController.deleteCategories([category.categoryId]);
                             }
                     buttonContainer.appendChild(deleteButton);
@@ -108,7 +109,7 @@
                 }
             }
             
-            function addFunctionButtonsForLink(container, element){
+            function addFunctionButtonsForLink(container, link){
                 try{
                     const buttonContainer = document.createElement("DIV");
                         buttonContainer.classList.add("button_container");
@@ -119,6 +120,10 @@
                     
                         const deleteButton = document.createElement("BUTTON");
                             deleteButton.innerHTML = "Delete";
+                            deleteButton.onclick = function(){
+                                linkController.deleteLinks([link.linkId]);
+                                return false;
+                            }
                     buttonContainer.appendChild(deleteButton);
                     
                         const archiveButton = document.createElement("BUTTON");

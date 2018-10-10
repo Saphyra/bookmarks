@@ -5,6 +5,7 @@
         this.selectedCategory = "";
         
         this.create = create;
+        this.deleteLinks = deleteLinks;
         this.init = init;
     }
     
@@ -32,6 +33,22 @@
                 pageController.showMainTab();
             }else{
                 notificationService.showError("Unexpected error occurred.");
+            }
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+        }
+    }
+    
+    function deleteLinks(linkIds){
+        try{
+            if(confirm("Are you sure to delete the selected links?")){
+                if(linkDao.deleteLinks(linkIds)){
+                    notificationService.showSuccess("Links are successfully deleted.");
+                    pageController.showMainTab();
+                }else{
+                    notificationService.showError("Unexpected error occurred.");
+                }
             }
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;

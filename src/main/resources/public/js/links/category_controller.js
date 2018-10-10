@@ -41,7 +41,7 @@
         try{
             if(confirm("Are you sure to delete the selected categories?")){
                 if(categoryDao.deleteCategories(categoryIds)){
-                    notificationService.showSuccess("Categories deleted.");
+                    notificationService.showSuccess("Categories are successfully deleted.");
                     pageController.showMainTab();
                 }else{
                     notificationService.showError("Unexpected error occurred.");
