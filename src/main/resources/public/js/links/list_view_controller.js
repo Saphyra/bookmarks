@@ -134,7 +134,29 @@
                     buttonContainer.appendChild(deleteButton);
                     
                         const archiveButton = document.createElement("BUTTON");
+                        if(link.archived){
+                            archiveButton.innerHTML = "Unarchive";
+                            archiveButton.onclick = function(){
+                                linkController.updateLinks(
+                                    [{
+                                        linkId: link.linkId,
+                                        archived: false
+                                    }]
+                                );
+                                return false;
+                            }
+                        }else{
                             archiveButton.innerHTML = "Archive";
+                            archiveButton.onclick = function(){
+                                linkController.updateLinks(
+                                    [{
+                                        linkId: link.linkId,
+                                        archived: true
+                                    }]
+                                );
+                                return false;
+                            }
+                        }
                     buttonContainer.appendChild(archiveButton);
                     
                     container.appendChild(buttonContainer);

@@ -7,6 +7,7 @@
         this.create = create;
         this.deleteLinks = deleteLinks;
         this.selectCategory = selectCategory;
+        this.updateLinks = updateLinks;
         this.init = init;
     }
     
@@ -65,6 +66,29 @@
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
+        }
+    }
+    
+    function updateLinks(links){
+        try{
+            validateRequests(links);
+            if(linkDao.updateLinks(links)){
+                notificationService.showSuccess("Links are successfully updated.");
+                pageController.showMainTab();
+            }else{
+                notificationService.showError("Unexpected error occurred.");
+            }
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+        }
+        
+        function validateRequests(){
+            for(let lindex in links){
+                if(!links[lindex].linkId){
+                    throwException("IllegalArgument", "linkId is null.");
+                }
+            }
         }
     }
     
