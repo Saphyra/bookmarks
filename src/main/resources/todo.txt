@@ -17,13 +17,6 @@ List View
         - Edit
             - Change root
                 - Cannot be any of its own children
-    - Display link items
-        - Edit
-            - Change label
-            - Change url
-            - Change root
-        - Archive
-
 Tree View
     - Display category items
         - Open in List View
