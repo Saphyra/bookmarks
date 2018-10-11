@@ -1,11 +1,9 @@
-New link
-    - validate url
-
 Display / hide archived links
 Delete user
 
 List View
     - header
+        - Display actual category's name
         - Bulk edit
         - Filters
             - by url
@@ -17,7 +15,3 @@ Tree View
     - Display category items
         - Open in List View
         - Scroll down
-    - Display link items
-        - Open
-            - In new tab
-        - Open in List View
