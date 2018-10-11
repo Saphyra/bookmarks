@@ -15,9 +15,8 @@ List View
             - archived
     - Display category items
         - Edit
-            - Change label
-            - Change description
             - Change root
+                - Cannot be any of its own children
     - Display link items
         - Edit
             - Change label

@@ -55,9 +55,9 @@
         }
     }
     
-    function showCategoryTab(mode){
+    function showCategoryTab(mode, categoryId){
         try{
-            categoryController.init(mode);
+            categoryController.init(mode, categoryId);
             treeViewController.showRoot();
             switchTab("container", "category_tab");
         }catch(err){
@@ -66,9 +66,9 @@
         }
     }
     
-    function showLinkTab(mode){
+    function showLinkTab(mode, linkId){
         try{
-            linkController.init(mode);
+            linkController.init(mode, linkId);
             switchTab("container", "link_tab");
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;

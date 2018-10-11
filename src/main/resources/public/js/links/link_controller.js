@@ -83,7 +83,7 @@
             logService.log(message, "error");
         }
         
-        function validateRequests(){
+        function validateRequests(links){
             for(let lindex in links){
                 if(!links[lindex].linkId){
                     throwException("IllegalArgument", "linkId is null.");
@@ -92,11 +92,11 @@
         }
     }
     
-    function init(mode){
+    function init(mode, linkId){
         try{
             document.getElementById("link_label").value = "";
             document.getElementById("link_url").value = "";
-            document.getElementById("link_selected_category").innerHTML = "No category";
+            document.getElementById("link_selected_category").innerHTML = "Root";
             
             document.getElementById("link_header").innerHTML = pageController.getModeText(mode) + " link";
             document.getElementById("link_button").onclick = mode == pageController.MODE_CREATE ? linkController.create : null;

@@ -99,6 +99,10 @@
                         
                         const editButton = document.createElement("BUTTON");
                             editButton.innerHTML = "Edit";
+                            editButton.onclick = function(e){
+                                e.stopPropagation();
+                                pageController.showCategoryTab(pageController.MODE_EDIT, category.categoryId);
+                            }
                     buttonContainer.appendChild(editButton);
                     
                         const deleteButton = document.createElement("BUTTON");
