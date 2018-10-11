@@ -10,4 +10,6 @@ import bookmarks.domain.category.CategoryEntity;
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, String> {
     List<CategoryEntity> getByRootAndUserId(String parentId, String userId);
+
+    List<CategoryEntity> getByRoot(String parentId);
 }
