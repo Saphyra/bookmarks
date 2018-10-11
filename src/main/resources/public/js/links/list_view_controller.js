@@ -127,6 +127,10 @@
                         
                         const editButton = document.createElement("BUTTON");
                             editButton.innerHTML = "Edit";
+                            editButton.onclick = function(){
+                                pageController.showLinkTab(pageController.MODE_EDIT, link.linkId);
+                                return false;
+                            }
                     buttonContainer.appendChild(editButton);
                     
                         const deleteButton = document.createElement("BUTTON");

@@ -131,6 +131,8 @@
                 
                 category = cache.get(categoryId).element;
                 categoryController.selectCategory(category.root);
+            }else{
+                categoryController.selectCategory("");
             }
             
             document.getElementById("category_label").value = mode == pageController.MODE_CREATE ? "" : category.label;
@@ -139,8 +141,6 @@
             document.getElementById("category_header").innerHTML = pageController.getModeText(mode) + " category";
             
             document.getElementById("category_button").onclick = mode == pageController.MODE_CREATE ? categoryController.create : function(){categoryController.update(categoryId)};
-            
-            categoryController.selectedCategory = "";
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
