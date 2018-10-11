@@ -13,10 +13,6 @@ List View
             - by description
             - by link or category
             - archived
-    - Display category items
-        - Edit
-            - Change root
-                - Cannot be any of its own children
 Tree View
     - Display category items
         - Open in List View

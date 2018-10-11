@@ -20,6 +20,10 @@
             
             addUpButton(container, rootId);
             
+            if(categories.length == 0){
+                addEmptyMessage(container);
+            }
+            
             for(let cindex in categories){
                 addToContainer(container, categories[cindex]);
             }
@@ -57,8 +61,24 @@
             }
         }
         
+        function addEmptyMessage(container){
+            try{
+                const div = document.createElement("DIV");
+                    div.classList.add("fontsize2rem");
+                    div.innerHTML = "Category is empty.";
+                container.appendChild(div);
+            }catch(err){
+                const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+                logService.log(message, "error");
+            }
+        }
+        
         function addToContainer(container, data){
             try{
+                if(categoryController.actualMode == pageController.MODE_EDIT && categoryController.actualCategory == data.element.categoryId){
+                    return;
+                }
+                
                 const dataContainer = document.createElement("DIV");
                     dataContainer.classList.add("list_view_category");
                     dataContainer.title = data.element.description;

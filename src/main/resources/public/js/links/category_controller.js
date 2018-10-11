@@ -3,6 +3,8 @@
         scriptLoader.loadScript("js/common/dao/category_dao.js");
         
         this.selectedCategory = "";
+        this.actualMode = null;
+        this.actualCategory = "";
         
         this.create = create;
         this.deleteCategories = deleteCategories;
@@ -122,7 +124,6 @@
     function init(mode, categoryId){
         try{
             document.getElementById("category_selected_category").innerHTML = "Root";
-            
             let category;
             if(mode == pageController.MODE_EDIT){
                 if(categoryId == null || categoryId == undefined){
@@ -134,6 +135,9 @@
             }else{
                 categoryController.selectCategory("");
             }
+            
+            categoryController.actualMode = mode;
+            categoryController.actualCategory = categoryId;
             
             document.getElementById("category_label").value = mode == pageController.MODE_CREATE ? "" : category.label;
             document.getElementById("category_description").value = mode == pageController.MODE_CREATE ? "" : category.description;

@@ -18,6 +18,10 @@
             
             addUpButton(container, categoryId);
             
+            if(data.length == 0){
+                addEmptyMessage(container);
+            }
+            
             for(let dindex in data){
                 addToContainer(container, data[dindex]);
             }
@@ -47,6 +51,18 @@
                     }
                     
                 container.appendChild(button);
+            }catch(err){
+                const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+                logService.log(message, "error");
+            }
+        }
+        
+        function addEmptyMessage(container){
+            try{
+                const div = document.createElement("DIV");
+                    div.classList.add("fontsize2rem");
+                    div.innerHTML = "Category is empty.";
+                container.appendChild(div);
             }catch(err){
                 const message = arguments.callee.name + " - " + err.name + ": " + err.message;
                 logService.log(message, "error");
