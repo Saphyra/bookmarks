@@ -1,3 +1,42 @@
+#list_view_header{
+    position: relative;
+    border-bottom: 3px ridge black;
+    height: 4rem;
+    padding-top: 1rem;
+}
+
+#filter_button_container{
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-right: 3px ridge black;
+    border-bottom: 3px ridge black;
+    
+}
+
+#archive_filter_container{
+    border-left: 3px ridge black;
+    position: absolute;
+    top: 0;
+    right: 0.5rem;
+    bottom: 0;
+    text-align: left;
+}
+
+#archive_filter_container label{
+    display: block;
+}
+
+#list_view_elements{
+    position: absolute;
+    top: 4rem;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+    padding: 0.5rem;
+}
+
 .list_view_item{
     text-align: left;
     margin: 0.5rem;
@@ -7,7 +46,7 @@
 }
 
 .list_view_category{
-    
+    border-color: springgreen;
 }
 
 .list_view_link{

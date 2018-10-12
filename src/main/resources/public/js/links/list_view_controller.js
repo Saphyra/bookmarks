@@ -2,19 +2,28 @@
     window.listViewController = new function(){
         scriptLoader.loadScript("js/links/category_util.js");
         
+        this.ARCHIVE_FILTER_MODE_ARCHIVED = "archived";
+        this.ARCHIVE_FILTER_MODE_UNARCHIVED = "unarchived";
+        this.ARCHIVE_FILTER_MODE_ALL = "all";
+        
         this.actualCategory = null;
         
         this.openCategory = openCategory;
+        
+        $(document).ready(function(){
+            addListeners();
+        });
     }
 
     function openCategory(categoryId){
         try{
             listViewController.actualCategory = categoryId;
             
-            const container = document.getElementById("list_view_container");
+            const container = document.getElementById("list_view_elements");
                 container.innerHTML = "";
             
             const data = categoryUtil.getDataOrdered(categoryId);
+            document.getElementById("actual_category_name").innerHTML = categoryId.length == 0 ? "Root" : cache.get(categoryId).element.label;
             
             addUpButton(container, categoryId);
             
@@ -85,6 +94,16 @@
                             }
                         break;
                         case categoryUtil.TYPE_LINK:
+                            const archiveFilterMode = $("input[name=archive_filter]:checked").val();
+                            if(archiveFilterMode != listViewController.ARCHIVE_FILTER_MODE_ALL){
+                                if(archiveFilterMode == listViewController.ARCHIVE_FILTER_MODE_ARCHIVED && !data.element.archived){
+                                    return;
+                                }
+                                if(archiveFilterMode == listViewController.ARCHIVE_FILTER_MODE_UNARCHIVED && data.element.archived){
+                                    return;
+                                }
+                            }
+                            
                             dataContainer = document.createElement("a");
                             dataContainer.classList.add("list_view_link");
                             dataContainer.href = data.element.url;
@@ -190,5 +209,11 @@
                 }
             }
         }
+    }
+    
+    function addListeners(){
+        $("input[name=archive_filter]").change(function(){
+            listViewController.openCategory(listViewController.actualCategory);
+        });
     }
 })();

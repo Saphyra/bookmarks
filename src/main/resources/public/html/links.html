@@ -28,7 +28,21 @@
             </SECTION>
             
             <SECTION id='list_view_container'>
-            
+                <DIV id='list_view_header'>
+                    <H3 id='actual_category_name'></H3>
+                    
+                    <DIV id='archive_filter_container'>
+                        <LABEL><INPUT type='radio' name='archive_filter' value='unarchived' checked> Unarchived</LABEL>
+                        <LABEL><INPUT type='radio' name='archive_filter' value='archived'> Archived</LABEL>
+                        <LABEL><INPUT type='radio' name='archive_filter' value='all'> All</LABEL>
+                    </DIV>
+                    
+                    <DIV id='filter_button_container'>
+                        <BUTTON>Filters</BUTTON>
+                    </DIV>
+                </DIV>
+                
+                <DIV id='list_view_elements'></DIV>
             </SECTION>
         </DIV>
         

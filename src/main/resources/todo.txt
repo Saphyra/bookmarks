@@ -10,7 +10,6 @@ List View
             - by name
             - by description
             - by link or category
-            - archived
 Tree View
     - Display category items
         - Open in List View
