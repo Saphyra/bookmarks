@@ -4,12 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import bookmarks.controller.response.DataResponse;
+import bookmarks.domain.category.Category;
+import org.springframework.web.bind.annotation.*;
 
 import bookmarks.controller.request.CreateCategoryRequest;
 import bookmarks.controller.request.UpdateCategoryRequest;
@@ -24,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 public class CategoryController {
     private static final String CREATE_CATEGORY_MAPPING = "category";
     private static final String DELETE_CATEGORY_MAPPING = "category";
+    private static final String GET_CATEGORY_MAPPING = "category/{categoryId}";
     private static final String UPDATE_CATEGORY_MAPPING = "category";
 
     private final CategoryService categoryService;
@@ -44,6 +42,15 @@ public class CategoryController {
     ) {
         log.info("{} wants to delete categories {}.", userId, categoryIds);
         categoryService.delete(categoryIds, userId);
+    }
+
+    @GetMapping(GET_CATEGORY_MAPPING)
+    public DataResponse getCategory(
+        @PathVariable("categoryId") String categoryId,
+        @CookieValue(FilterHelper.COOKIE_USER_ID) String userId
+    ){
+        log.info("{} wants to query category {}", userId, categoryId);
+        return categoryService.getCategory(userId, categoryId);
     }
 
     @PostMapping(UPDATE_CATEGORY_MAPPING)

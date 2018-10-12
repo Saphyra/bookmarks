@@ -37,7 +37,6 @@
     function openSelectCategoryTab(mode){
         try{
             selectCategoryController.init(mode);
-            
             $("#select_category_tab").show();
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
@@ -48,6 +47,7 @@
     function showMainTab(){
         try{
             listViewController.openCategory(listViewController.actualCategory);
+            treeViewController.showRoot();
             switchTab("container", "main_tab")
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
@@ -58,7 +58,6 @@
     function showCategoryTab(mode, categoryId){
         try{
             categoryController.init(mode, categoryId);
-            treeViewController.showRoot();
             switchTab("container", "category_tab");
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;

@@ -2,6 +2,7 @@
     window.categoryDao = new function(){
         this.create = create;
         this.deleteCategories = deleteCategories;
+        this.get = get;
         this.updateCategories = updateCategories;
     }
     
@@ -69,6 +70,28 @@
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
             return false;
+        }
+    }
+    
+    /*
+    
+    */
+    function get(categoryId){
+        try{
+            if(categoryId == null || categoryId == undefined){
+                throwException("IllegalArgument", "categoryId must not be null or undefined");
+            }
+            
+            const path = "category/" + categoryId;
+            const response = dao.sendRequest(dao.GET, path);
+            if(response.status == ResponseStatus.OK){
+                return JSON.parse(response.response);
+            }else{
+                throwException("UnknownBackendError", response.toString());
+            }
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
         }
     }
     

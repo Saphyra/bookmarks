@@ -6,6 +6,7 @@
         this.TYPE_LINK = "LINK";
         
         this.getCategoriesOfRootOrdered = getCategoriesOfRootOrdered;
+        this.getCategoryTreeOrdered = getCategoryTreeOrdered;
         this.getDataOrdered = getDataOrdered;
     }
     
@@ -18,6 +19,35 @@
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
             return [];
+        }
+    }
+    
+    function getCategoryTreeOrdered(){
+        try{
+            const data = dataDao.getCategoryTree();
+            return orderCategoryTree(data);
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+            return [];
+        }
+        
+        function orderCategoryTree(data){
+            try{
+                for(let dindex in data){
+                    data[dindex].children = orderCategoryTree(data[dindex].children);
+                }
+                
+                data.sort(function(a, b){
+                    return a.category.label.localeCompare(b.category.label);
+                });
+                
+                return data;
+            }catch(err){
+                const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+                logService.log(message, "error");
+                return [];
+            }
         }
     }
     

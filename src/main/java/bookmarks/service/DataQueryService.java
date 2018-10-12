@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import bookmarks.controller.response.DataTreeResponse;
 import org.springframework.stereotype.Service;
 
 import bookmarks.common.exception.ForbiddenException;
@@ -66,5 +67,9 @@ public class DataQueryService {
         response.setElement(categorizable);
         response.setType(categorizable instanceof Link ? DataResponse.Type.LINK : DataResponse.Type.CATEGORY);
         return response;
+    }
+
+    public List<DataTreeResponse> getCategoryTree(String userId) {
+        return categoryService.getCategoryTree(userId);
     }
 }

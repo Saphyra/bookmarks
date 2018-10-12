@@ -1,6 +1,7 @@
 (function DataDao(){
     window.dataDao = new function(){
         this.getCategoriesOfRoot = getCategoriesOfRoot;
+        this.getCategoryTree = getCategoryTree;
         this.getContentOfCategory = getContentOfCategory;
     }
     
@@ -14,6 +15,25 @@
             }
             
             const path = "data/categories/" + rootId;
+            const response = dao.sendRequest(dao.GET, path);
+            if(response.status == ResponseStatus.OK){
+                return JSON.parse(response.response);
+            }else{
+                throwException("UnknownBackendError", response.toString());
+            }
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+            return [];
+        }
+    }
+    
+    /*
+    
+    */
+    function getCategoryTree(){
+        try{
+            const path = "categories";
             const response = dao.sendRequest(dao.GET, path);
             if(response.status == ResponseStatus.OK){
                 return JSON.parse(response.response);

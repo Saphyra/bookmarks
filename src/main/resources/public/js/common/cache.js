@@ -59,17 +59,25 @@
     Throws:
         - IllegalArgument exception if key is null or undefined.
     */
-    function get(key){
+    function get(key, resolve){
         try{
             if(key == null || key == undefined){
                 throwException("IllegalArgument", "key must not be null or undefined");
             }
             
-            if(this.storage[key] == undefined){
+            let result = this.storage[key];
+            if(result == undefined && resolve != null && resolve != undefined){
+                result = resolve();
+                if(result != null || result !== undefined){
+                    cache.add(key, result);
+                }
+            }
+            
+            if(result == undefined || result == null){
                 logService.log(key, "warn", "The following element is not stored in cache: ");
             }
             
-            return this.storage[key];
+            return result;
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

@@ -3,7 +3,6 @@ Delete user
 
 List View
     - header
-        - Display actual category's name
         - Bulk edit
         - Filters
             - by url

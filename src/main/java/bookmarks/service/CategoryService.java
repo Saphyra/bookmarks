@@ -2,12 +2,17 @@ package bookmarks.service;
 
 import static bookmarks.util.Util.replaceIfNotNull;
 import static java.util.Objects.isNull;
+import static org.apache.logging.log4j.util.Strings.EMPTY;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import bookmarks.common.exception.BadRequestException;
+import bookmarks.controller.response.DataResponse;
+import bookmarks.controller.response.DataTreeResponse;
 import org.springframework.stereotype.Service;
 
 import bookmarks.common.exception.ForbiddenException;
@@ -68,16 +73,47 @@ public class CategoryService {
         });
     }
 
-    public List<Category> getCategoriesByRootAndUserId(String root, String userId) {
-        return categoryDao.getByRootAndUserId(root, userId);
-    }
-
     public Category findByIdAuthorized(String userId, String categoryId) {
         Category category = categoryDao.findById(categoryId).orElseThrow(() -> new NotFoundException("Category not found with id " + categoryId));
         if (!category.getUserId().equals(userId)) {
             throw new ForbiddenException(userId + " has no access for category " + categoryId);
         }
         return category;
+    }
+
+    public List<Category> getCategoriesByRootAndUserId(String root, String userId) {
+        return categoryDao.getByRootAndUserId(root, userId);
+    }
+
+    public DataResponse getCategory(String userId, String categoryId) {
+        Category category = findByIdAuthorized(userId, categoryId);
+        return DataResponse.builder()
+            .type(DataResponse.Type.CATEGORY)
+            .element(category)
+            .build();
+    }
+
+    public List<DataTreeResponse> getCategoryTree(String userId) {
+        DataTreeResponse root = new DataTreeResponse();
+        root.setCategory(
+            Category.builder()
+                .categoryId("")
+                .label("Root")
+                .build()
+        );
+        root.setChildren(getCategoryTree("", userId));
+        return Arrays.asList(root);
+    }
+
+    private List<DataTreeResponse> getCategoryTree(String root, String userId) {
+        return categoryDao.getByRootAndUserId(root, userId).stream()
+            .map(category -> {
+                DataTreeResponse response = new DataTreeResponse();
+                response.setCategory(category);
+                response.setChildren(getCategoryTree(category.getCategoryId(), userId));
+                return response;
+            })
+            .collect(Collectors.toList());
     }
 
     @Transactional

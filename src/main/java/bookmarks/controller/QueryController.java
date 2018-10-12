@@ -3,6 +3,7 @@ package bookmarks.controller;
 import java.util.List;
 import java.util.Optional;
 
+import bookmarks.controller.response.DataTreeResponse;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ public class QueryController {
     private static final String GET_DATA_OF_ROOT_MAPPING = "data/root/{categoryId}";
     private static final String GET_DATA_MAPPING = "data/{root}";
     private static final String GET_ROOT_MAPPING = "data";
+    private static final String GET_CATEGORY_TREE_MAPPING = "categories";
 
     private final DataQueryService dataQueryService;
 
@@ -53,5 +55,11 @@ public class QueryController {
     ){
         log.info("{} wants to know the data of root of {}", userId, categoryId);
         return dataQueryService.getDataOfRoot(userId, categoryId);
+    }
+
+    @GetMapping(GET_CATEGORY_TREE_MAPPING)
+    public List<DataTreeResponse> getCategoryTree(@CookieValue(FilterHelper.COOKIE_USER_ID) String userId){
+        log.info("{} wants to know his category tree.", userId);
+        return dataQueryService.getCategoryTree(userId);
     }
 }

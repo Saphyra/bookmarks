@@ -1,6 +1,7 @@
 (function ListViewController(){
     window.listViewController = new function(){
         scriptLoader.loadScript("js/links/category_util.js");
+        scriptLoader.loadScript("js/common/dao/category_dao.js");
         
         this.ARCHIVE_FILTER_MODE_ARCHIVED = "archived";
         this.ARCHIVE_FILTER_MODE_UNARCHIVED = "unarchived";
@@ -23,7 +24,11 @@
                 container.innerHTML = "";
             
             const data = categoryUtil.getDataOrdered(categoryId);
-            document.getElementById("actual_category_name").innerHTML = categoryId.length == 0 ? "Root" : cache.get(categoryId).element.label;
+            document.getElementById("actual_category_name").innerHTML = 
+                categoryId.length == 0 ? 
+                    "Root" : cache.get(
+                        categoryId, function(){return categoryDao.get(categoryId)}
+                    ).element.label;
             
             addUpButton(container, categoryId);
             
