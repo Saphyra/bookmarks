@@ -108,7 +108,7 @@
                             dataContainer.classList.add("list_view_link");
                             dataContainer.href = data.element.url;
                             dataContainer.title = data.element.url;
-                            dataContainer.target = "blank";
+                            dataContainer.target = "_blank";
                             addFunctionButtonsForLink(dataContainer, data.element);
                         break;
                         default:
