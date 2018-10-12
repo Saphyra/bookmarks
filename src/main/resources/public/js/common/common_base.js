@@ -36,7 +36,8 @@ $(document).ready(function(){
             $.ajax({
                 async: false,
                 url: src,
-                dataType: "script"
+                dataType: "script",
+                cache: true
             });
             this.loadedScripts.push(src);
         }catch(err){
