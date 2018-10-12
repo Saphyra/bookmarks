@@ -53,6 +53,7 @@
     left: 0;
     right: 0;
     padding: 0.25rem;
+    overflow: auto;
 }
 
 .tab_footer{
