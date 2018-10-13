@@ -47,8 +47,8 @@ public class DataQueryService {
         }
 
         List<Categorizable> filtered = result.stream()
-            .filter(item -> "".equals(request.getLabel()) || item.getLabel().contains(request.getLabel()))
-            .filter(item -> "".equals(request.getSecondary()) || item.getSecondary().contains(request.getSecondary()))
+            .filter(item -> "".equals(request.getLabel()) || item.getLabel().toLowerCase().contains(request.getLabel().toLowerCase()))
+            .filter(item -> "".equals(request.getSecondary()) || item.getSecondary().toLowerCase().contains(request.getSecondary().toLowerCase()))
             .collect(Collectors.toList());
 
         return convertToResponse(filtered);
