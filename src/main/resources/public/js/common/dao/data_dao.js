@@ -3,6 +3,7 @@
         this.getCategoriesOfRoot = getCategoriesOfRoot;
         this.getCategoryTree = getCategoryTree;
         this.getContentOfCategory = getContentOfCategory;
+        this.getFilteredData = getFilteredData;
     }
     
     /*
@@ -61,6 +62,30 @@
             
             const path = "data/" + categoryId;
             const response = dao.sendRequest(dao.GET, path);
+            if(response.status == ResponseStatus.OK){
+                return JSON.parse(response.response);
+            }else{
+                throwException("UnknownBackendError", response.toString());
+            }
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+            return [];
+        }
+    }
+    
+    /*
+    
+    */
+    function getFilteredData(label, secondary, type){
+        try{
+            const path = "data";
+            const body = {
+                label: label,
+                secondary: secondary,
+                type: type
+            };
+            const response = dao.sendRequest(dao.POST, path, body);
             if(response.status == ResponseStatus.OK){
                 return JSON.parse(response.response);
             }else{

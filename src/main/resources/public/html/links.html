@@ -39,7 +39,22 @@
                     </DIV>
                     
                     <DIV id='filter_button_container'>
-                        <BUTTON>Filters</BUTTON>
+                        <BUTTON onclick='pageController.showFilters()'>Filters</BUTTON>
+                    </DIV>
+                    
+                    <DIV id='filter_container'>
+                        <DIV class='inlineblock textalignright'>
+                            <LABEL>Label: <INPUT type='text' id='label_filter' placeholder='Label'></LABEL>
+                            <LABEL>URL / description: <INPUT type='text' id='secondary_filter' placeholder='URL / description'></LABEL>
+                        </DIV>
+                        
+                        <DIV class='inlineblock'>
+                            <LABEL><INPUT type='radio' name='type_filter' value='all' checked> All</LABEL>
+                            <LABEL><INPUT type='radio' name='type_filter' value='link'> Link</LABEL>
+                            <LABEL><INPUT type='radio' name='type_filter' value='category'> Category</LABEL>
+                        </DIV>
+                        
+                        <BUTTON class='closebutton' onclick='pageController.hideFilters()'>X</BUTTON>
                     </DIV>
                 </DIV>
                 
@@ -111,7 +126,7 @@
         
         <DIV id='select_category_tab' class='container'>
             <SECTION class='middlecontainer'>
-                <BUTTON class='closebutton' onclick='$("#select_category_tab").hide()'>X</BUTTON>
+                <BUTTON class='closebutton' onclick='$("#select_category_tab").fadeOut()'>X</BUTTON>
                 <H2>Select category</H2>
                 
                 <DIV class='tab_content' id='selectable_categories'></DIV>

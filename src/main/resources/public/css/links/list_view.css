@@ -18,13 +18,46 @@
     border-left: 3px ridge black;
     position: absolute;
     top: 0;
-    right: 0.5rem;
+    right: 0;
     bottom: 0;
+    width: 7rem;
     text-align: left;
 }
 
 #archive_filter_container label{
     display: block;
+}
+
+#filter_container{
+    border-right: 3px ridge black;
+    padding: 0.05rem;
+    padding-right: 2rem;
+    padding-left: 0.5rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    max-width: calc(100% - 7rem + 3px;);
+    text-align: left;
+    display: none;
+    white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: hidden;
+    background: white;
+}
+
+#filter_container::-webkit-scrollbar{
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+#filter_container label{
+    display: block;
+}
+
+#filter_container input{
+    margin: 0.1rem;
 }
 
 #list_view_elements{

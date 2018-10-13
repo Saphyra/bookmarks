@@ -1,24 +1,12 @@
 package bookmarks.service;
 
-import static bookmarks.util.Util.replaceIfNotNull;
-import static java.util.Objects.isNull;
-import static org.apache.logging.log4j.util.Strings.EMPTY;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
-
 import bookmarks.common.exception.BadRequestException;
-import bookmarks.controller.response.DataResponse;
-import bookmarks.controller.response.DataTreeResponse;
-import org.springframework.stereotype.Service;
-
 import bookmarks.common.exception.ForbiddenException;
 import bookmarks.common.exception.NotFoundException;
 import bookmarks.controller.request.CreateCategoryRequest;
 import bookmarks.controller.request.UpdateCategoryRequest;
+import bookmarks.controller.response.DataResponse;
+import bookmarks.controller.response.DataTreeResponse;
 import bookmarks.dataaccess.CategoryDao;
 import bookmarks.dataaccess.LinkDao;
 import bookmarks.domain.category.Category;
@@ -26,6 +14,15 @@ import bookmarks.domain.link.Link;
 import bookmarks.util.CategoryUtil;
 import bookmarks.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static bookmarks.util.Util.replaceIfNotNull;
+import static java.util.Objects.isNull;
 
 @RequiredArgsConstructor
 @Service
@@ -158,5 +155,9 @@ public class CategoryService {
             .ifPresent(c -> {
                 throw new BadRequestException("New root must not be any of the category's children.");
             });
+    }
+
+    public List<Category> getByUserId(String userId) {
+        return categoryDao.getByUserId(userId);
     }
 }

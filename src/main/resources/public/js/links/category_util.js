@@ -8,6 +8,7 @@
         this.getCategoriesOfRootOrdered = getCategoriesOfRootOrdered;
         this.getCategoryTreeOrdered = getCategoryTreeOrdered;
         this.getDataOrdered = getDataOrdered;
+        this.getFilteredDataOrdered = getFilteredDataOrdered;
     }
     
     function getCategoriesOfRootOrdered(rootId){
@@ -54,6 +55,18 @@
     function getDataOrdered(categoryId){
         try{
             const data = dataDao.getContentOfCategory(categoryId);
+            addToCache(data);
+            return order(data);
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+            return [];
+        }
+    }
+    
+    function getFilteredDataOrdered(label, secondary, type){
+        try{
+            const data = dataDao.getFilteredData(label, secondary, type);
             addToCache(data);
             return order(data);
         }catch(err){

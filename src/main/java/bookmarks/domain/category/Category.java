@@ -18,6 +18,11 @@ public class Category implements Categorizable {
     private String description;
 
     @Override
+    public String getSecondary() {
+        return description;
+    }
+
+    @Override
     public String getId() {
         return categoryId;
     }

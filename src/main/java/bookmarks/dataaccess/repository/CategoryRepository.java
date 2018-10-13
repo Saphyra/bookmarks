@@ -12,4 +12,6 @@ public interface CategoryRepository extends JpaRepository<CategoryEntity, String
     List<CategoryEntity> getByRootAndUserId(String parentId, String userId);
 
     List<CategoryEntity> getByRoot(String parentId);
+
+    List<CategoryEntity> getByUserId(String userId);
 }

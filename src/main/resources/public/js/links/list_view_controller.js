@@ -10,30 +10,38 @@
         this.actualCategory = null;
         
         this.openCategory = openCategory;
+        this.showFilterResult = showFilterResult;
         
         $(document).ready(function(){
             addListeners();
         });
     }
 
-    function openCategory(categoryId){
+    function openCategory(categoryId, preloadedData){
         try{
-            listViewController.actualCategory = categoryId;
-            
+            let data = preloadedData;
+            let emptyMessage = "No result.";
             const container = document.getElementById("list_view_elements");
                 container.innerHTML = "";
-            
-            const data = categoryUtil.getDataOrdered(categoryId);
-            document.getElementById("actual_category_name").innerHTML = 
-                categoryId.length == 0 ? 
-                    "Root" : cache.get(
-                        categoryId, function(){return categoryDao.get(categoryId)}
-                    ).element.label;
-            
-            addUpButton(container, categoryId);
+                
+            if(categoryId != null && categoryId != undefined){
+                listViewController.actualCategory = categoryId;
+                emptyMessage = "Category is empty.";
+                
+                data = categoryUtil.getDataOrdered(categoryId);
+                document.getElementById("actual_category_name").innerHTML = 
+                    categoryId.length == 0 ? 
+                        "Root" : cache.get(
+                            categoryId, function(){return categoryDao.get(categoryId)}
+                        ).element.label;
+                
+                addUpButton(container, categoryId);
+            }else if(preloadedData == null || preloadedData == undefined){
+                throwException("IllegalArgument", "categoryId or preloadedData must be set.");
+            }
             
             if(data.length == 0){
-                addEmptyMessage(container);
+                addEmptyMessage(container, emptyMessage);
             }
             
             for(let dindex in data){
@@ -71,11 +79,11 @@
             }
         }
         
-        function addEmptyMessage(container){
+        function addEmptyMessage(container, message){
             try{
                 const div = document.createElement("DIV");
                     div.classList.add("fontsize2rem");
-                    div.innerHTML = "Category is empty.";
+                    div.innerHTML = message;
                 container.appendChild(div);
             }catch(err){
                 const message = arguments.callee.name + " - " + err.name + ": " + err.message;
@@ -96,6 +104,7 @@
                             addFunctionButtonsForCategory(dataContainer, data.element);
                             dataContainer.onclick = function(){
                                 listViewController.openCategory(data.element.categoryId);
+                                $("#filter_container").fadeOut();
                             }
                         break;
                         case categoryUtil.TYPE_LINK:
@@ -216,9 +225,27 @@
         }
     }
     
+    function showFilterResult(){
+        try{
+            const labelFilter = document.getElementById("label_filter").value;
+            const secondaryFilter = document.getElementById("secondary_filter").value;
+            const typeFilter = $("input[name=type_filter]:checked").val();
+            
+            const data = categoryUtil.getFilteredDataOrdered(labelFilter, secondaryFilter, typeFilter);
+            listViewController.openCategory(null, data);
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+        }
+    }
+    
     function addListeners(){
         $("input[name=archive_filter]").change(function(){
             listViewController.openCategory(listViewController.actualCategory);
         });
+        
+        $("input[name=type_filter]").change(listViewController.showFilterResult);
+        
+        $("#label_filter, #secondary_filter").keyup(listViewController.showFilterResult);
     }
 })();

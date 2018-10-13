@@ -2,10 +2,12 @@ package bookmarks.service;
 
 import static bookmarks.util.Util.replaceIfNotNull;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
+import bookmarks.domain.Categorizable;
 import org.springframework.stereotype.Service;
 
 import bookmarks.common.exception.ForbiddenException;
@@ -76,5 +78,9 @@ public class LinkService {
 
             linkDao.save(link);
         });
+    }
+
+    public List<Link> getByUserId(String userId) {
+        return linkDao.getByUserId(userId);
     }
 }

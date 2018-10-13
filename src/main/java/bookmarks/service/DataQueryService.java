@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import bookmarks.controller.request.FilteredRequest;
 import bookmarks.controller.response.DataTreeResponse;
+import org.junit.internal.requests.FilterRequest;
 import org.springframework.stereotype.Service;
 
 import bookmarks.common.exception.ForbiddenException;
@@ -19,6 +21,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class DataQueryService {
+    private static final String ALL = "all";
+    private static final String LINK = "link";
+    private static final String CATEGORY = "category";
+
     private final CategoryService categoryService;
     private final LinkService linkService;
 
@@ -29,6 +35,24 @@ public class DataQueryService {
         validateAccess(categorizables, userId);
 
         return convertToResponse(categorizables);
+    }
+
+    public List<DataResponse> getDataFiltered(FilteredRequest request, String userId) {
+        List<Categorizable> result = new ArrayList<>();
+
+        if (ALL.equals(request.getType()) || CATEGORY.equals(request.getType())) {
+            result.addAll(categoryService.getByUserId(userId));
+        }
+        if (ALL.equals(request.getType()) || LINK.equals(request.getType())) {
+            result.addAll(linkService.getByUserId(userId));
+        }
+
+        List<Categorizable> filtered = result.stream()
+            .filter(item -> "".equals(request.getLabel()) || item.getLabel().contains(request.getLabel()))
+            .filter(item -> "".equals(request.getSecondary()) || item.getSecondary().contains(request.getSecondary()))
+            .collect(Collectors.toList());
+
+        return convertToResponse(filtered);
     }
 
     public List<DataResponse> getDataOfRoot(String userId, String categoryId) {
@@ -62,7 +86,7 @@ public class DataQueryService {
             .collect(Collectors.toList());
     }
 
-    private DataResponse convertToResponse(Categorizable categorizable){
+    private DataResponse convertToResponse(Categorizable categorizable) {
         DataResponse response = new DataResponse();
         response.setElement(categorizable);
         response.setType(categorizable instanceof Link ? DataResponse.Type.LINK : DataResponse.Type.CATEGORY);

@@ -1,15 +1,5 @@
-Display / hide archived links
 Delete user
 
 List View
     - header
         - Bulk edit
-        - Filters
-            - by url
-            - by name
-            - by description
-            - by link or category
-Tree View
-    - Display category items
-        - Open in List View
-        - Scroll down

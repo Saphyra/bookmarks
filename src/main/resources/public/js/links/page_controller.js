@@ -10,6 +10,8 @@
         this.MODE_EDIT = "edit";
         
         this.getModeText = getModeText;
+        this.hideFilters = hideFilters;
+        this.showFilters = showFilters;
         this.openSelectCategoryTab = openSelectCategoryTab;
         this.showMainTab = showMainTab;
         this.showCategoryTab = showCategoryTab;
@@ -31,6 +33,26 @@
             default:
                 throwException("IllegalArgument", "Unknown mode: " + mode);
             break;
+        }
+    }
+    
+    function hideFilters(){
+        try{
+            $("#filter_container").fadeOut();
+            listViewController.openCategory(listViewController.actualCategory);
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+        }
+    }
+    
+    function showFilters(){
+        try{
+            $("#filter_container").fadeIn();
+            listViewController.showFilterResult();
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
         }
     }
     

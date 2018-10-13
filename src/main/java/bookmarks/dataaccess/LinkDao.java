@@ -16,6 +16,10 @@ public class LinkDao extends AbstractDao<LinkEntity, Link, String, LinkRepositor
         super(converter, repository);
     }
 
+    public List<Link> getByUserId(String userId){
+        return converter.convertEntity(repository.getByUserId(userId));
+    }
+
     public List<Link> getByRootAndUserId(String categoryId, String userId){
         return converter.convertEntity(repository.getByRootAndUserId(categoryId, userId));
     }

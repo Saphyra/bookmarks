@@ -58,8 +58,8 @@ function getActualTimeStamp(){
 
 function switchTab(clazz, id){
     try{
-        $("." + clazz).hide();
-        $("#" + id).show();
+        $("." + clazz).fadeOut();
+        $("#" + id).fadeIn();
     }catch(err){
         const message = arguments.callee.name + " - " + err.name + ": " + err.message;
         logService.log(message, "error");

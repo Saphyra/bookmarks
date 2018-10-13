@@ -19,6 +19,11 @@ public class Link implements Categorizable {
     private Boolean archived;
 
     @Override
+    public String getSecondary() {
+        return url;
+    }
+
+    @Override
     public String getId() {
         return linkId;
     }

@@ -32,6 +32,7 @@ public class AuthFilter extends OncePerRequestFilter {
         "/",
         "/**/favicon.ico",
         "/login",
+        "/logout",
         "/user/register",
         "/user/name/exist",
         "/user/email/exist",
