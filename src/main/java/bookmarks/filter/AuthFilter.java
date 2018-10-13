@@ -37,7 +37,6 @@ public class AuthFilter extends OncePerRequestFilter {
         "/user/name/exist",
         "/user/email/exist",
         "/css/**",
-        "/images/**",
         "/js/**"
     );
 

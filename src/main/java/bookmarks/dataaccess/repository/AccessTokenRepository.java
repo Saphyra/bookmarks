@@ -16,4 +16,6 @@ public interface AccessTokenRepository extends JpaRepository<AccessTokenEntity, 
     @Modifying
     @Query(value = "DELETE AccessTokenEntity a WHERE a.lastAccess < :expiration AND a.persistent=false")
     void deleteExpired(@Param("expiration") Long expiration);
+
+    void deleteByUserId(String userId);
 }

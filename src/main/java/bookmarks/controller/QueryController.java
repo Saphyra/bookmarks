@@ -3,9 +3,8 @@ package bookmarks.controller;
 import java.util.List;
 import java.util.Optional;
 
-import bookmarks.controller.request.FilteredRequest;
+import bookmarks.controller.request.data.FilteredRequest;
 import bookmarks.controller.response.DataTreeResponse;
-import org.junit.internal.requests.FilterRequest;
 import org.springframework.web.bind.annotation.*;
 
 import bookmarks.controller.response.DataResponse;

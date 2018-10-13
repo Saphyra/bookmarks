@@ -10,8 +10,15 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class PageController {
+    public static final String ACCOUNT_MAPPING = "/account";
     public static final String INDEX_MAPPING = "/";
     public static final String LINKS_MAPPING = "/links";
+
+    @GetMapping(ACCOUNT_MAPPING)
+    public String account(){
+        log.info("Request arrived to {}", INDEX_MAPPING);
+        return "account";
+    }
 
     @GetMapping(INDEX_MAPPING)
     public String index(){

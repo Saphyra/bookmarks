@@ -16,6 +16,10 @@ public class CategoryDao extends AbstractDao<CategoryEntity, Category, String, C
         super(converter, repository);
     }
 
+    public void deleteByUserId(String userId){
+        repository.deleteByUserId(userId);
+    }
+
     public List<Category> getByUserId(String userId){
         return converter.convertEntity(repository.getByUserId(userId));
     }

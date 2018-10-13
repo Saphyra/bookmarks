@@ -1,4 +1,4 @@
-package bookmarks.controller.request;
+package bookmarks.controller.request.user;
 
 import javax.validation.constraints.NotNull;
 

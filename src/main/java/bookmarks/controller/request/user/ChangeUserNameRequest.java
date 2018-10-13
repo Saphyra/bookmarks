@@ -1,17 +1,17 @@
-package bookmarks.controller.request;
+package bookmarks.controller.request.user;
+
+import lombok.Data;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-import lombok.Data;
-
 @Data
-public class RegistrationRequest {
+public class ChangeUserNameRequest {
     @NotNull
     @Size(min = 3, max = 30)
-    private String userName;
+    private String newUserName;
 
     @NotNull
-    @Size(min = 6, max = 30)
+    @Size(min = 1)
     private String password;
 }

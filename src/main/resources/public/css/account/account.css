@@ -1,0 +1,46 @@
+section{
+    margin: 1rem;
+    text-align: center;
+    border: 3px ridge black;
+    border-radius: 10px;
+}
+
+section h2{
+    border-bottom: 3px ridge black;
+    padding: 0.25rem;
+}
+
+section article{
+    display: inline-block;
+    text-align: right;
+}
+
+section article label{
+    display: block;
+    margin: 0.5rem;
+    padding-right: 2rem;
+    font-size: 1.5rem;
+    position: relative;
+}
+
+section article label input{
+    font-size: 1.25rem;
+}
+
+.invalid{
+    display: none;
+    border: 3px outset red;
+    position: absolute;
+    right: 0;
+    top: 0.25rem;
+    border-radius: 3px;
+    padding: 0.125rem;
+}
+
+section button{
+    display: block;
+    margin: auto;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+}

@@ -1,4 +1,4 @@
-package bookmarks.controller.request;
+package bookmarks.controller.request.data;
 
 import lombok.Data;
 

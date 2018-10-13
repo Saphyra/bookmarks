@@ -1,5 +1,3 @@
-Delete user
-
 List View
     - header
         - Bulk edit

@@ -5,11 +5,10 @@ import java.util.List;
 import javax.validation.Valid;
 
 import bookmarks.controller.response.DataResponse;
-import bookmarks.domain.category.Category;
 import org.springframework.web.bind.annotation.*;
 
-import bookmarks.controller.request.CreateCategoryRequest;
-import bookmarks.controller.request.UpdateCategoryRequest;
+import bookmarks.controller.request.data.CreateCategoryRequest;
+import bookmarks.controller.request.data.UpdateCategoryRequest;
 import bookmarks.filter.FilterHelper;
 import bookmarks.service.CategoryService;
 import lombok.RequiredArgsConstructor;

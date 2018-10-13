@@ -1,0 +1,91 @@
+<HTML xmlns:th="http://www.thymeleaf.org">
+<HEAD>
+    <TITLE>Settings - Bookmarks</TITLE>
+    <META charset="UTF-8"/>
+    <LINK rel="stylesheet" href="/css/reset.css">
+    <LINK rel="stylesheet" href="/css/common.css">
+    <LINK rel="stylesheet" href="/css/classes.css">
+    <LINK rel="stylesheet" href="/css/account/account.css">
+
+    <SCRIPT src="js/common/jquery.js"></SCRIPT>
+    <SCRIPT src="js/common/common_base.js"></SCRIPT>
+    
+    <SCRIPT src="js/account/page_controller.js"></SCRIPT>
+</HEAD>
+<BODY>
+
+    <DIV class="cover">
+        <HEADER>
+            <H1>Account settings</H1>
+        </HEADER>
+        
+        <MAIN class="textaligncenter">
+            <SECTION>
+                <H2>Change password</H2>
+                
+                <ARTICLE>
+                    <LABEL>
+                        New password:
+                        <INPUT type='password' id='newpassword1' placeholder='New password'>
+                        <DIV id="invalid_newpassword1" class="invalid">X</DIV>
+                    </LABEL>
+                    
+                    <LABEL>
+                        Confirm password:
+                        <INPUT type='password' id='newpassword2' placeholder='Confirm password'>
+                        <DIV id="invalid_newpassword2" class="invalid">X</DIV>
+                    </LABEL>
+                    
+                    <LABEL>
+                        Actual password:
+                        <INPUT type='password' id='newpasswordoldpassword' placeholder='Actual password'>
+                        <DIV id="invalid_newpasswordoldpassword" class="invalid">X</DIV>
+                    </LABEL>
+                </ARTICLE>
+                
+                <BUTTON id='newpasswordbutton' onclick='changePasswordController.changePassword()'>Save</BUTTON>
+            </SECTION>
+            
+            <SECTION>
+                <H2>Change username</H2>
+                
+                <ARTICLE>
+                    <LABEL>
+                        New username:
+                        <INPUT type='text' id='newusername' placeholder='New username'>
+                        <DIV id="invalid_newusername" class="invalid">X</DIV>
+                    </LABEL>
+                    
+                    <LABEL>
+                        Password:
+                        <INPUT type='password' id='newusernamepassword' placeholder='Password'>
+                        <DIV id="invalid_newusernamepassword" class="invalid">X</DIV>
+                    </LABEL>
+                </ARTICLE>
+                
+                <BUTTON id='newusernamebutton' onclick='changeUserNameController.changeUserName()'>Save</BUTTON>
+            </SECTION>
+            
+            <SECTION>
+                <H2>Delete account</H2>
+                
+                <ARTICLE>
+                    <LABEL>
+                        Password:
+                        <INPUT type='password' id='deleteaccountpassword' placeholder='Password'>
+                        <DIV id="invalid_deleteaccountpassword" class="invalid">X</DIV>
+                    </LABEL>
+                </ARTICLE>
+                
+                <BUTTON id='deleteaccountbutton' onclick='deleteAccountController.deleteAccount()'>Delete Account</BUTTON>
+            </SECTION>
+        </MAIN>
+        
+        <FOOTER>
+            <BUTTON onclick='window.location.href = "links"'>Back</BUTTON>
+            <BUTTON onclick='authService.logout()' class='floatright'>Logout</BUTTON>
+        </FOOTER>
+    </DIV>
+
+</BODY>
+</HTML>

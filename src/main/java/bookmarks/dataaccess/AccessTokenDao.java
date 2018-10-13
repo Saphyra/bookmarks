@@ -14,6 +14,10 @@ public class AccessTokenDao extends AbstractDao<AccessTokenEntity, AccessToken, 
         super(converter, repository);
     }
 
+    public void deleteByUserId(String userId){
+        repository.deleteByUserId(userId);
+    }
+
     public void deleteExpired(Long expiration) {
         repository.deleteExpired(expiration);
     }

@@ -4,9 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import bookmarks.controller.request.FilteredRequest;
+import bookmarks.controller.request.data.FilteredRequest;
 import bookmarks.controller.response.DataTreeResponse;
-import org.junit.internal.requests.FilterRequest;
 import org.springframework.stereotype.Service;
 
 import bookmarks.common.exception.ForbiddenException;

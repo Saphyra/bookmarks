@@ -1,7 +1,102 @@
 (function UserDao(){
     window.userDao = new function(){
+        this.changePassword = changePassword;
+        this.changeUserName = changeUserName;
+        this.deleteAccount = deleteAccount;
         this.isUserNameExists = isUserNameExists;
         this.registerUser = registerUser;
+    }
+    
+    /*
+    Changes the password of the user.
+    Arguments:
+        - password1: the new password of the user.
+        - password2: the confirmation password.
+        - oldPassword: the current password of the user.
+    Returns:
+        - new Response contains the result of the request.
+    Throws:
+        - IllegalArgument exception if password1, password2, oldPassword is null or undefined.
+    */
+    function changePassword(password, oldPassword){
+        try{
+            if(password == null || password == undefined){
+                throwException("IllegalArgument", "password must not be null or undefined.");
+            }
+            if(oldPassword == null || oldPassword == undefined){
+                throwException("IllegalArgument", "oldPassword must not be null or undefined.");
+            }
+            
+            const path = "user/password";
+            const body = {
+                newPassword: password,
+                oldPassword: oldPassword
+            };
+            return dao.sendRequest("POST", path, body, false);
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+            return new Response();
+        }
+    }
+    
+    /*
+    Changes the username of the user.
+    Arguments:
+        - newUserName: the new username.
+        - password: the password of the user.
+    Returns:
+        - new Response contains the result of the request.
+    Throws:
+        - IllegalArgument exception if newUserName or password is null or undefined.
+    */
+    function changeUserName(newUserName, password){
+        try{
+            if(newUserName == null || newUserName == undefined){
+                throwException("IllegalArgument", "newUserName must not be null or undefined.");
+            }
+            if(password == null || password == undefined){
+                throwException("IllegalArgument", "password must not be null or undefined.");
+            }
+            
+            const path = "user/name";
+            const body = {
+                newUserName: newUserName,
+                password: password
+            };
+            return dao.sendRequest("POST", path, body, false);
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+            return new Response();
+        }
+    }
+    
+    /*
+    Deletes all data of the account.
+    Arguments:
+        - password: The password of the user.
+    Returns:
+        - new Response contains the result of the request.
+    Throws:
+        - IllegalArgument exception if password is null or undefined.
+    */
+    function deleteAccount(password){
+        try{
+            if(password == null || password == undefined){
+                throwException("IllegalArgument", "password must not be null or undefined.");
+            }
+            
+            const path = "user";
+            const body = {
+                password: password
+            };
+            return dao.sendRequest(dao.DELETE, path, body, false);
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+            return new Response();
+        }
     }
     
     /*

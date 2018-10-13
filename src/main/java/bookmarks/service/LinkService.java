@@ -2,18 +2,16 @@ package bookmarks.service;
 
 import static bookmarks.util.Util.replaceIfNotNull;
 
-import java.util.Collection;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
-import bookmarks.domain.Categorizable;
 import org.springframework.stereotype.Service;
 
 import bookmarks.common.exception.ForbiddenException;
 import bookmarks.common.exception.NotFoundException;
-import bookmarks.controller.request.CreateLinkRequest;
-import bookmarks.controller.request.UpdateLinkRequest;
+import bookmarks.controller.request.data.CreateLinkRequest;
+import bookmarks.controller.request.data.UpdateLinkRequest;
 import bookmarks.dataaccess.LinkDao;
 import bookmarks.domain.link.Link;
 import bookmarks.util.CategoryUtil;

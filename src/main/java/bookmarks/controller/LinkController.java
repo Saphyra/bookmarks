@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import bookmarks.controller.request.CreateLinkRequest;
-import bookmarks.controller.request.UpdateLinkRequest;
+import bookmarks.controller.request.data.CreateLinkRequest;
+import bookmarks.controller.request.data.UpdateLinkRequest;
 import bookmarks.filter.FilterHelper;
 import bookmarks.service.LinkService;
 import lombok.RequiredArgsConstructor;
