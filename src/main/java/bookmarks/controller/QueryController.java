@@ -54,7 +54,7 @@ public class QueryController {
         @RequestBody @Valid FilteredRequest request,
         @CookieValue(FilterHelper.COOKIE_USER_ID) String userId
     ){
-        log.info("{} wants to query filtered data.");
+        log.info("{} wants to query filtered data.", userId);
         return dataQueryService.getDataFiltered(request, userId);
     }
 
