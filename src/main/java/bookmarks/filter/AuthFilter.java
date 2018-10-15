@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import bookmarks.util.Util;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -54,6 +55,7 @@ public class AuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } else if (isAuthenticated(request)) {
             log.debug("Needs service: {}", path);
+            Util.sleep(2000);
             filterChain.doFilter(request, response);
         } else {
             filterHelper.handleUnauthorized(request, response, PageController.INDEX_MAPPING);

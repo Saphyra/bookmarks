@@ -76,8 +76,11 @@ public class AuthenticationService {
             throw new BadRequestException("userId must not be null.");
         }
 
-        AccessToken accessToken = accessTokenCache.get(accessTokenId)
-            .orElseThrow(() -> new UnauthorizedException("AccessToken not found with accessTokenId " + accessTokenId));
+        AccessToken accessToken = accessTokenCache.get(accessTokenId).orElse(null);
+        if(accessToken == null){
+            log.info("AccessToken not found with accessTokenId " + accessTokenId);
+            return;
+        }
         validateUserId(accessToken, userId);
 
         accessTokenCache.invalidate(accessToken.getAccessTokenId());

@@ -15,7 +15,7 @@ public class DateTimeUtil extends ConverterBase<Long, LocalDateTime> {
 
     public LocalDateTime getExpirationDate() {
         LocalDateTime expirationDate = now();
-        return expirationDate.minusMinutes(EXPIRATION_TIME_IN_HOURS);
+        return expirationDate.minusHours(EXPIRATION_TIME_IN_HOURS);
     }
 
     @Override

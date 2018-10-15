@@ -30,12 +30,7 @@
                 root: root
             }
             
-            const result = dao.sendRequest(dao.PUT, path, body);
-            if(result.status == ResponseStatus.OK){
-                return true;
-            }else{
-                throwException("UnknownBackendError", result.toString());
-            }
+            return dao.sendRequestAsync(dao.PUT, path, body);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

@@ -31,12 +31,13 @@
                 return;
             }
             
-            if(linkDao.create(label, url, linkController.selectedCategory)){
+            linkDao.create(label, url, linkController.selectedCategory)
+            .then(function(){
                 notificationService.showSuccess("Link saved.");
                 pageController.showMainTab();
-            }else{
+            }).catch(function(){
                 notificationService.showError("Unexpected error occurred.");
-            }
+            });
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

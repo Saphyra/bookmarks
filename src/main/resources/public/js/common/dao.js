@@ -7,6 +7,82 @@
         
         this.allowedMethods = [this.GET, this.POST, this.PUT, this.DELETE];
         this.sendRequest = sendRequest;
+        this.sendRequestAsync = sendRequestAsync;
+    }
+    
+    /*
+    Sends HttpRequest based on the specified arguments
+    Arguments:
+        - method: The method of the request.
+        - path: The target of the request.
+        - content: The body of the request.
+    Returns:
+        - A promise with the result of the query
+    Throws:
+        - IllegalArgument exception, if method is not a string.
+        - IllegalArgument exception, if method is unsupported.
+        - IllegalArgument exception, if path is not a string.
+    */
+    function sendRequestAsync(method, path, content, handleLogout){
+        const request = new XMLHttpRequest();
+        const promise = new Promise(function(resolve, reject){
+            sendAsyncRequest(request, resolve, reject, method, path, content, handleLogout);
+        });
+        
+        
+        return promise;
+        
+        function sendAsyncRequest(request, resolve, reject, method, path, content, handleLogout){
+            
+            try{
+                if(!method || typeof method !== "string"){
+                    throwException("IllegalArgument", "method must be a string.");
+                }
+                method = method.toUpperCase();
+                if(dao.allowedMethods.indexOf(method) == -1){
+                    throwException("IllegalArgument", "Unsupported method: " + method);
+                }
+                if(!path || typeof path !== "string"){
+                    throwException("IllegalArgument", "path must be a string.");
+                }
+
+                if(handleLogout == null || handleLogout == undefined){
+                    handleLogout = true;
+                }
+                
+                content = content || "";
+                if(typeof content === "object"){
+                    content = JSON.stringify(content);
+                }
+                
+                request.open(method, path, 1);
+                if(method !== "GET"){
+                    request.setRequestHeader("Content-Type", "application/json");
+                }
+                
+                request.onload = function(){
+                    const response = new Response(request);
+                    if(handleLogout && response.status == ResponseStatus.UNAUTHORIZED){
+                        authService.logout();
+                    }else if(response.status === ResponseStatus.OK){
+                        resolve(response)
+                    }else{
+                        reject(response);
+                    }
+                };
+                request.onerror = function(){
+                    reject(new Response(request));
+                };
+                
+                request.setRequestHeader("Request-Type", "rest");
+                request.send(content);
+            }
+            catch(err){
+                const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+                logService.log(message, "error", request.responseURL + " - ");
+                reject(new Response(request));
+            }
+        }
     }
     
     /*
@@ -137,4 +213,5 @@ window.ResponseStatus = new function(){
     this.NOT_FOUND = 404;
     this.CONFLICT = 409;
     this.INTERNAL_SERVER_ERROR = 500;
+    this.CONNECTION_REFUSED = 0;
 }
