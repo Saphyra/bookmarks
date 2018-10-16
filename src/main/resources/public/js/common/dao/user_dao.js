@@ -119,19 +119,18 @@
             const body = {
                 value: userName
             }
-            const result = dao.sendRequest(dao.POST, path, body);
-
-            if(result.status != ResponseStatus.OK){
-                throwException("UnknownServerError", result.toString());
-            }
-
-            if(result.response === "true"){
-                return true;
-            }else if(result.response === "false"){
-                return false;
-            }else{
-                throwException("InvalidResult", result.toString());
-            }
+            const result = dao.sendRequestAsync(dao.POST, path, body);
+            result.then(function(response){
+                if(result.response === "true"){
+                    return true;
+                }else if(result.response === "false"){
+                    return false;
+                }else{
+                    throwException("InvalidResult", result.toString());
+                }
+            });
+            
+            return result;
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
