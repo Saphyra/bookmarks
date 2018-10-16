@@ -12,12 +12,7 @@
     */
     function isAuthenticated(){
         try{
-            const response = dao.sendRequest(dao.GET, "user/authenticated", null, false);
-            if(response.status == ResponseStatus.OK){
-                return true;
-            }else{
-                return false;
-            }
+            return dao.sendRequestAsync(dao.GET, "user/authenticated", null, false);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
@@ -39,17 +34,7 @@
     */
     function login(userName, password, remember){
         try{
-            const result = authDao.login(userName, password, remember);
-            if(!result){
-                throwException("IllegalState", "undefined result from dao.");
-            }
-            if(result.status == ResponseStatus.UNAUTHORIZED){
-                return false;
-            }else if(result.status == ResponseStatus.OK){
-                return true;
-            }else{
-                throwException("UnhandledServerException", result.toString());
-            }
+            return authDao.login(userName, password, remember);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
@@ -65,16 +50,13 @@
     */
     function logout(){
         try{
-            const result = authDao.logout();
-            if(!result){
-                throwException("IllegalState", "undefined result from dao.");
-            }
-            if(result.status == ResponseStatus.OK){
-                sessionStorage.successMessage = "You logged out successfully.";
-                window.location.href = "/";
-            }else{
-                throwException("UnhandledServer", result.toString());
-            }
+            authDao.logout()
+                .then(function(){
+                    sessionStorage.successMessage = "You logged out successfully.";
+                    window.location.href = "/";
+                }).catch(function(response){
+                    throwException("UnhandledServer", result.toString());
+                });
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

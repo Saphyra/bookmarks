@@ -54,12 +54,13 @@
                 throwException("IllegalArgument", "remember must not be null or undefined");
             }
             
-            if(authService.login(userName, password, remember)){
+            authService.login(userName, password, remember)
+            .then(function(result){
                 window.location.href = "/links";
-            }else{
+            }).catch(function(){
                 notificationService.showError("No user registered with the given user name and password");
                 document.getElementById("login_password").value = "";
-            }
+            });
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

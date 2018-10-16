@@ -2,6 +2,8 @@ package bookmarks.filter;
 
 import static bookmarks.filter.FilterHelper.COOKIE_ACCESS_TOKEN;
 import static bookmarks.filter.FilterHelper.COOKIE_USER_ID;
+import static bookmarks.filter.FilterHelper.REQUEST_TYPE_HEADER;
+import static bookmarks.filter.FilterHelper.REST_TYPE_REQUEST;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -12,14 +14,14 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import bookmarks.util.Util;
 import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import bookmarks.service.AuthenticationService;
 import bookmarks.controller.PageController;
+import bookmarks.service.AuthenticationService;
 import bookmarks.util.CookieUtil;
+import bookmarks.util.Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,6 +49,9 @@ public class AuthFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if(REST_TYPE_REQUEST.equals(request.getHeader(REQUEST_TYPE_HEADER))){
+            Util.sleep(2000);
+        }
         log.debug("AuthFilter");
         String path = request.getRequestURI();
         log.debug("Request arrived: {}", path);
@@ -55,7 +60,6 @@ public class AuthFilter extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
         } else if (isAuthenticated(request)) {
             log.debug("Needs service: {}", path);
-            Util.sleep(2000);
             filterChain.doFilter(request, response);
         } else {
             filterHelper.handleUnauthorized(request, response, PageController.INDEX_MAPPING);

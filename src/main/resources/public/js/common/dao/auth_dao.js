@@ -28,7 +28,7 @@
                 throwException("IllegalArgument", "remember must not be null or undefined");
             }
             
-            return dao.sendRequest("POST", "login", {userName: userName, password: password, remember: remember}, false);
+            return dao.sendRequestAsync("POST", "login", {userName: userName, password: password, remember: remember}, false);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
@@ -41,7 +41,7 @@
     */
     function logout(){
         try{
-            return dao.sendRequest("DELETE", "logout");
+            return dao.sendRequestAsync("DELETE", "logout");
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

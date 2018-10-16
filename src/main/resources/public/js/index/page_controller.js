@@ -4,9 +4,11 @@
         scriptLoader.loadScript("js/index/registration_form_controller.js");
         
         $(document).ready(function(){
-            if(authService.isAuthenticated()){
+            authService.isAuthenticated()
+            .then(function(){
                 window.location.href = "links";
-            }
+            })
+            .catch(function(){});
         });
     }
 })();

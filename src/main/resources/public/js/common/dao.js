@@ -34,15 +34,17 @@
         function sendAsyncRequest(resolve, reject, method, path, content, handleLogout){
             const request = new XMLHttpRequest();
             try{
+                validation(method, path);
                 method = method.toUpperCase();
                 
                 if(handleLogout == null || handleLogout == undefined){
                     handleLogout = true;
                 }
                 
-                validation(method, path);
-                
                 content = content || "";
+                if(typeof content === "object"){
+                    content = JSON.stringify(content);
+                }
                 
                 request.onload = function(){
                     const response = new Response(request);
@@ -59,7 +61,7 @@
                 };
                 
                 request.open(method, path, 1);
-                prepareRequest(request, method, content);
+                prepareRequest(request, method);
                 
                 request.send(content);
             }
@@ -85,12 +87,11 @@
         - IllegalArgument exception, if path is not a string.
     */
     function sendRequest(method, path, content, handleLogout){
+        validation(method, path);
         method = method.toUpperCase();
         if(handleLogout == null || handleLogout == undefined){
             handleLogout = true;
         }
-            
-        validation(method, path);
         
         const request = new XMLHttpRequest();
         try{
@@ -100,9 +101,10 @@
             }
             
             request.open(method, path, 0);
-            prepareRequest(request, method, content);
+            prepareRequest(request, method);
             
             request.send(content);
+            
             if(handleLogout && request.status == ResponseStatus.UNAUTHORIZED){
                 authService.logout();
             }
@@ -119,7 +121,8 @@
         if(!method || typeof method !== "string"){
             throwException("IllegalArgument", "method must be a string.");
         }
-        if(this.allowedMethods.indexOf(method) == -1){
+        method = method.toUpperCase();
+        if(dao.allowedMethods.indexOf(method) == -1){
             throwException("IllegalArgument", "Unsupported method: " + method);
         }
         if(!path || typeof path !== "string"){
@@ -127,11 +130,7 @@
         }
     }
     
-    function prepareRequest(request, method, content){
-        if(typeof content === "object"){
-            content = JSON.stringify(content);
-        }
-        
+    function prepareRequest(request, method){
         if(method !== "GET"){
             request.setRequestHeader("Content-Type", "application/json");
         }
