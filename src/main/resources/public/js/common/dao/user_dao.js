@@ -110,27 +110,36 @@
         - IllegalArgument exception if userName is null or undefined.
         - InvalidResult exception if the response cannot be recognized.
     */
-    function isUserNameExists(userName){
+    function isUserNameExists(userName, validationResult, validationError){
         try{
-            if(userName == undefined || userName == null){
-                throwException("IllegalArgument", "userName must not be null or undefined.");
-            }
             const path = "user/name/exist";
             const body = {
                 value: userName
             }
-            const result = dao.sendRequestAsync(dao.POST, path, body);
-            result.then(function(response){
-                if(result.response === "true"){
-                    return true;
-                }else if(result.response === "false"){
+            const request = new Request(dao.POST, path, body);
+                request.isResponseOk = function(response){
+                    if(response.status == ResponseStatus.OK && response.response == "false"){
+                        return true;
+                    }
                     return false;
-                }else{
-                    throwException("InvalidResult", result.toString());
+                };
+                
+                request.processValidResponse = function(){
+                    registrationController.lastUserNameValid = true;
+                    validationResult.process()
+                };
+                request.processInvalidResponse = function(response){
+                    if(response.status == ResponseStatus.OK){
+                        validationResult.setUserNameResult(validationError);
+                        registrationController.lastUserNameValid = false;
+                        validationResult.process();
+                    }else{
+                        throwException("BackendError:", response.toString());
+                    }
                 }
-            });
             
-            return result;
+            
+            const result = dao.sendRequestAsync(request);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

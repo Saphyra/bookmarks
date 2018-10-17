@@ -3,8 +3,6 @@
         scriptLoader.loadScript("js/common/dao/user_dao.js");
         this.lastUserNameQueried = null;
         this.lastUserNameValid = true;
-        this.lastEmailQueried = null;
-        this.lastEmailValid = true;
         
         this.validate = validate;
         this.sendForm = sendForm;
@@ -15,61 +13,45 @@
     }
     
     function validate(){
-        const promise = new Promise(function(resolve, reject){
-            resolve(new ValidationResult());
-        }).then(function(validationResult){
-            const password = document.getElementById("registration_password").value;
-            const passwordErrorElementName = "#invalid_password";
-            
-            if(password.length < 6){
-                validationResult.setPasswordResult(new ValidationError(passwordErrorElementName, "Password is too short. (Minimum 6 characters)."));
-            }
-            
-            if(password.length > 30){
-                validationResult.setPasswordResult(new ValidationError(passwordErrorElementName, "Password is too long. (Maximum 30 characters)."));
-            }
-            
-            return validationResult;
-        }).then(function(validationResult){
-            const password = document.getElementById("registration_password").value;
-            
-            const confirmPassword = document.getElementById("registration_confirm_password").value;
-            const confirmPasswordErrorElementName = "#invalid_confirm_password";
-            
-            if(confirmPassword != password){
-                validationResult.setConfirmPassworsResult(new ValidationError(confirmPasswordErrorElementName, "Confirm password does not match."));
-            }
-            
-            return validationResult;
-        }).then(function(validationResult){
-            const userName = document.getElementById("registration_username").value;
-            const errorElementName = "#invalid_username";
-            
-            if(userName.length < 3){
-                validationResult.setUserNameResult(new ValidationError(errorElementName, "User name is too short (Minimum 3 characters)."));
-            }else if(userName.length > 30){
-                validationResult.setUserNameResult(new ValidationError(errorElementName, "User name is too long. (Maximum 30 characters)."));
-            }
-            return validationResult;
-        }).then(function(validationResult){
-            const userName = document.getElementById("registration_username").value;
-            const errorElementName = "#invalid_username";
-            
-            if(validationResult.isUserNameValid() && registrationController.lastUserNameQueried !== userName){
+        const validationResult = new ValidationResult();
+        
+        const password = document.getElementById("registration_password").value;
+        const passwordErrorElementName = "#invalid_password";
+        
+        const confirmPassword = document.getElementById("registration_confirm_password").value;
+        const confirmPasswordErrorElementName = "#invalid_confirm_password";
+        
+        const userName = document.getElementById("registration_username").value;
+        const errorElementName = "#invalid_username";
+        
+        if(password.length < 6){
+            validationResult.setPasswordResult(new ValidationError(passwordErrorElementName, "Password is too short. (Minimum 6 characters)."));
+        }
+        
+        if(password.length > 30){
+            validationResult.setPasswordResult(new ValidationError(passwordErrorElementName, "Password is too long. (Maximum 30 characters)."));
+        }
+        
+        if(confirmPassword != password){
+            validationResult.setConfirmPassworsResult(new ValidationError(confirmPasswordErrorElementName, "Confirm password does not match."));
+        }
+        
+        if(userName.length < 3){
+            validationResult.setUserNameResult(new ValidationError(errorElementName, "User name is too short (Minimum 3 characters)."));
+        }else if(userName.length > 30){
+            validationResult.setUserNameResult(new ValidationError(errorElementName, "User name is too long. (Maximum 30 characters)."));
+        }
+        
+        if(validationResult.isUserNameValid()){
+            if(registrationController.lastUserNameQueried !== userName){
                 registrationController.lastUserNameQueried = userName;
-                return userDao.isUserNameExists(userName).then(function(isUserNameExists){
-                    if(isUserNameExists){
-                        validationResult.setUserNameResult(new ValidationError(errorElementName, "User name already registered."));
-                    }
-                    return validationResult;
-                });
+                userDao.isUserNameExists(userName, validationResult, new ValidationError(errorElementName, "User name already registered."));
+            }else if(!registrationController.lastUserNameValid){
+                validationResult.setUserNameResult(new ValidationError(errorElementName, "User name already registered."));
             }
-            
-            return validationResult;
-        }).then(function(validationResult){
-            validationResult.process();
-            return validationResult;
-        });
+        }
+        
+        validationResult.process();
     }
     
     /*
@@ -97,6 +79,8 @@
             }else{
                 notificationService.showError("Unexpected error occurred.");
             }
+            
+            userNameInput.value = "";
             passwordInput.value = "";
             confirmPasswordInput.value = "";
         }catch(err){
