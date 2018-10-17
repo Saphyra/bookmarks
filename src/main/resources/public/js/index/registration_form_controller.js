@@ -45,7 +45,8 @@
         if(validationResult.isUserNameValid()){
             if(registrationController.lastUserNameQueried !== userName){
                 registrationController.lastUserNameQueried = userName;
-                userDao.isUserNameExists(userName, validationResult, new ValidationError(errorElementName, "User name already registered."));
+                userDao.isUserNameExists(userName, validationResult.clone(), new ValidationError(errorElementName, "User name already registered."));
+                validationResult.setUserNameResult(new ValidationError(errorElementName, "Checking in progress..."));
             }else if(!registrationController.lastUserNameValid){
                 validationResult.setUserNameResult(new ValidationError(errorElementName, "User name already registered."));
             }
@@ -141,6 +142,14 @@ function ValidationResult(){
     }
     this.isUserNameValid = function(){
         return userNameResult.isValid;
+    }
+    
+    this.clone = function(){
+        const copy = new ValidationResult();
+        copy.setPasswordResult(passwordResult);
+        copy.setConfirmPassworsResult(confirmPasswordResult);
+        copy.setUserNameResult(userNameResult);
+        return copy;
     }
 }
 
