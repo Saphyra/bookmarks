@@ -24,53 +24,30 @@
         - IllegalArgument exception, if method is unsupported.
         - IllegalArgument exception, if path is not a string.
     */
-    function sendRequestAsync(method, path, content, handleLogout){
-        const promise = new Promise(function(resolve, reject){
-            sendAsyncRequest(resolve, reject, method, path, content, handleLogout);
-        });
-        
-        return promise;
-        
-        function sendAsyncRequest(resolve, reject, method, path, content, handleLogout){
-            const request = new XMLHttpRequest();
-            try{
-                validation(method, path);
-                method = method.toUpperCase();
-                
-                if(handleLogout == null || handleLogout == undefined){
-                    handleLogout = true;
-                }
-                
-                content = content || "";
-                if(typeof content === "object"){
-                    content = JSON.stringify(content);
-                }
-                
-                request.onload = function(){
-                    const response = new Response(request);
-                    if(handleLogout && response.status == ResponseStatus.UNAUTHORIZED){
-                        authService.logout();
-                    }else if(response.status === ResponseStatus.OK){
-                        resolve(response)
-                    }else{
-                        reject(response);
-                    }
-                };
-                request.onerror = function(){
-                    reject(new Response(request));
-                };
-                
-                request.open(method, path, 1);
-                prepareRequest(request, method);
-                
-                request.send(content);
-            }
-            catch(err){
-                const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-                logService.log(message, "error", request.responseURL + " - ");
-                reject(new Response(request));
-            }
+    function sendRequestAsync(request){
+        if(request == null || request == undefined){
+            throwException("IllegalArgument", "request must not be null or undefined.");
         }
+        request.validate();
+        
+        const xhr = new XMLHttpRequest();
+            xhr.open(request.method, request.path, 1);
+            prepareRequest(xhr, request.method);
+        
+            xhr.onload = function(){
+                const response = new Response(xhr);
+                if(request.handleLogout && response.status == ResponseStatus.UNAUTHORIZED){
+                    authService.logout();
+                }else {
+                    request.processResponse(response);
+                }
+            };
+            xhr.onerror = function(){
+                request.processErrorResponse(new Response(xhr));
+            };
+            
+            
+            xhr.send(request.body);
     }
     
     /*
@@ -138,6 +115,82 @@
         request.setRequestHeader("Request-Type", "rest");
     }
 })();
+
+/*
+    Request object for processing async BackEnd calls.
+    Fields:
+        - method:
+        - path:
+        - body: The request body. Will be converted to JSON if object.
+        - handleLogout: if true, auto logut when response status is UNAUTHORIZED
+        - state: helper field for result processing
+    Methods:
+        - processResponse: will be called by dao when xhr request returns. Parameter: response object of the xhr
+        - isResponseOk: determinated if the request is Ok. If it is, processValidResponse, if not, processInvalidResponse will be called.
+        - convertResponse: converts the response of the xhr response.
+        - processValidResponse: will be called when xhr response is valid.
+        - processInvalidResponse: will be called when xhr response is not valid.
+        - processErrorResponse: will be called when xhr request fails.
+        - validate: validates if the Request is valid for sending.
+*/
+function Request(method, path, body){
+    this.method = method;
+    this.path = path;
+    this.body = processBody(body);
+    this.handleLogout = true;
+    this.state = {};
+    
+    function processBody(body){
+        if(body == null || body == undefined){
+            return "";
+        }
+        if(typeof body == "object"){
+            return JSON.stringify(body);
+        }
+        return body;
+    }
+    
+    this.processResponse = function(response){
+        if(this.isResponseOk(response)){
+            this.processValidResponse(this.convertResponse(response), this.state);
+        }else{
+            this.processInvalidResponse(this.convertResponse(response), this.state);
+        }
+    }
+    
+    this.isResponseOk = function(response){
+        return response.status === ResponseStatus.OK;
+    }
+    
+    this.convertResponse = function(response){
+        return response;
+    }
+    
+    this.processValidResponse = function(response, state){
+        console.log("Using no overridden processValidResponse");
+    }
+    
+    this.processInvalidResponse = function(response, state){
+        logService.log(response.toString(), "warn", "Invalid response from BackEnd: ");
+    }
+    
+    this.processErrorResponse = function(response){
+        logService.log(response.toString(), "error", "Invalid response from BackEnd: ");
+    }
+    
+    this.validate = function(){
+        if(!this.method || typeof this.method !== "string"){
+            throwException("IllegalArgument", "method must be a string.");
+        }
+        this.method = this.method.toUpperCase();
+        if(dao.allowedMethods.indexOf(this.method) == -1){
+            throwException("IllegalArgument", "Unsupported method: " + this.method);
+        }
+        if(!this.path || typeof this.path !== "string"){
+            throwException("IllegalArgument", "path must be a string.");
+        }
+    }
+}
 
 /*
 Response object contains the response status, statusKey, and text of the qiven request.

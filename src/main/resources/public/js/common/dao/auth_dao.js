@@ -4,31 +4,13 @@
         this.logout = logout;
     }
     
-    /*
-    Requests the accessToken from the server.
-    Parameters:
-        - userName: The user name of the user.
-        - password: The password of the user.
-        - remember: True, if the user must be kept logged in.
-    Returns:
-        - true if login successful.
-        - false otherwise.
-    Throws:
-        - IllegalArgument exception if userName, password or remember is null of undefined.
-    */
-    function login(userName, password, remember){
+    function login(credentials, successCallBack, errorCallBack){
         try{
-            if(userName == null || userName == undefined){
-                throwException("IllegalArgument", "userName must not be null or undefined");
-            }
-            if(password == null || password == undefined){
-                throwException("IllegalArgument", "password must not be null or undefined");
-            }
-            if(remember == null || remember == undefined){
-                throwException("IllegalArgument", "remember must not be null or undefined");
-            }
-            
-            return dao.sendRequestAsync("POST", "login", {userName: userName, password: password, remember: remember}, false);
+            const request = new Request(dao.POST, "login", credentials);
+                request.handleLogout = false;
+                request.processValidResponse = successCallBack;
+                request.processInvalidResponse = errorCallBack;
+            return dao.sendRequestAsync(request);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
@@ -39,9 +21,12 @@
     /*
         Sends the logout request.
     */
-    function logout(){
+    function logout(successCallBack){
         try{
-            return dao.sendRequestAsync("DELETE", "logout");
+            const request = new Request(dao.DELETE, "logout");
+                request.handleLogout = false;
+                request.processValidResponse = successCallBack;
+            dao.sendRequestAsync(request);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

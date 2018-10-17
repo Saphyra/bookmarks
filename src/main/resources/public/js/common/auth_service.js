@@ -10,9 +10,13 @@
     /*
     Sends a request to check the user is logged in
     */
-    function isAuthenticated(){
+    function isAuthenticated(callBack){
         try{
-            return dao.sendRequestAsync(dao.GET, "user/authenticated", null, false);
+            const request = new Request(dao.GET, "user/authenticated");
+            request.handleLogout = false;
+            request.processValidResponse = callBack;
+            request.processInvalidResponse = function(){};
+            return dao.sendRequestAsync(request);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
@@ -32,9 +36,9 @@
             - IllegalState exception upon bad result from dao.
             - UnhandledServerException exception upon unknown failure.
     */
-    function login(userName, password, remember){
+    function login(credentials, successCallBack, errorCallBack){
         try{
-            return authDao.login(userName, password, remember);
+           authDao.login(credentials, successCallBack, errorCallBack);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
@@ -50,13 +54,10 @@
     */
     function logout(){
         try{
-            authDao.logout()
-                .then(function(){
-                    sessionStorage.successMessage = "You logged out successfully.";
-                    window.location.href = "/";
-                }).catch(function(response){
-                    throwException("UnhandledServer", result.toString());
-                });
+            authDao.logout(function(){
+                sessionStorage.successMessage = "You logged out successfully.";
+                window.location.href = "/";
+            });
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
