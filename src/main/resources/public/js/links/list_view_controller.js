@@ -18,42 +18,44 @@
     }
 
     function openCategory(categoryId, preloadedData){
-        try{
-            let data = preloadedData;
-            let emptyMessage = "No result.";
-            const container = document.getElementById("list_view_elements");
-                container.innerHTML = "";
-                
-            if(categoryId != null && categoryId != undefined){
-                listViewController.actualCategory = categoryId;
-                emptyMessage = "Category is empty.";
-                
-                data = categoryUtil.getDataOrdered(categoryId);
-                document.getElementById("actual_category_name").innerHTML = 
-                    categoryId.length == 0 ? 
-                        "Root" : cache.get(
-                            categoryId, function(){return categoryDao.get(categoryId)}
-                        ).element.label;
-                
-                addUpButton(container, categoryId);
-            }else if(preloadedData == null || preloadedData == undefined){
-                throwException("IllegalArgument", "categoryId or preloadedData must be set.");
-            }
-            
-            if(data.length == 0){
-                addEmptyMessage(container, emptyMessage);
-            }
-            
-            for(let dindex in data){
-                addToContainer(container, data[dindex]);
-            }
-        }catch(err){
-            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-            logService.log(message, "error");
-        }
+        const container = document.getElementById("list_view_elements");
+            container.innerHTML = "";
         
-        function addUpButton(container, categoryId){
-            try{
+        const state = {
+            emptyMessage: "No result.",
+            container: container,
+            categoryId: categoryId
+        };
+        
+        if(categoryId != null && categoryId != undefined){
+            listViewController.actualCategory = categoryId;
+            emptyMessage = "Category is empty.";
+            
+            categoryUtil.getDataOrdered(
+                categoryId,
+                function(data, state){
+                    processUnloadedData(data, state);
+                    processLoadedData(data, state);
+                },
+                state
+            );
+            
+        }else if(preloadedData == null || preloadedData == undefined){
+            throwException("IllegalArgument", "categoryId or preloadedData must be set.");
+        }else{
+            processLoadedData(preloadedData, state);
+        }
+    
+        function processUnloadedData(data, state){
+            document.getElementById("actual_category_name").innerHTML = 
+                categoryId.length == 0 ? 
+                    "Root" : cache.get(
+                        categoryId, function(){return categoryDao.get(categoryId)}
+                    ).element.label;
+            
+            addUpButton(state.container, state.categoryId);
+            
+            function addUpButton(container, categoryId){
                 const button = document.createElement("BUTTON");
                     button.classList.add("bold");
                     button.classList.add("textaligncenter");
@@ -73,26 +75,26 @@
                     }
                     
                 container.appendChild(button);
-            }catch(err){
-                const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-                logService.log(message, "error");
             }
         }
         
-        function addEmptyMessage(container, message){
-            try{
+        function processLoadedData(data, state){
+            if(data.length == 0){
+                addEmptyMessage(state.container, state.emptyMessage);
+            }
+            
+            for(let dindex in data){
+                addToContainer(state.container, data[dindex]);
+            }
+            
+            function addEmptyMessage(container, message){
                 const div = document.createElement("DIV");
                     div.classList.add("fontsize2rem");
                     div.innerHTML = message;
                 container.appendChild(div);
-            }catch(err){
-                const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-                logService.log(message, "error");
             }
-        }
-        
-        function addToContainer(container, data){
-            try{
+            
+            function addToContainer(container, data){
                 let dataContainer;
                 const labelSpan = document.createElement("SPAN");
                     
@@ -136,13 +138,8 @@
                     dataContainer.appendChild(labelSpan);
                     
                 container.appendChild(dataContainer);
-            }catch(err){
-                const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-                logService.log(message, "error");
-            }
-            
-            function addFunctionButtonsForCategory(container, category){
-                try{
+                
+                function addFunctionButtonsForCategory(container, category){
                     const buttonContainer = document.createElement("DIV");
                         buttonContainer.classList.add("button_container");
                         
@@ -163,14 +160,9 @@
                     buttonContainer.appendChild(deleteButton);
                     
                     container.appendChild(buttonContainer);
-                }catch(err){
-                    const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-                    logService.log(message, "error");
                 }
-            }
-            
-            function addFunctionButtonsForLink(container, link){
-                try{
+                
+                function addFunctionButtonsForLink(container, link){
                     const buttonContainer = document.createElement("DIV");
                         buttonContainer.classList.add("button_container");
                         
@@ -217,9 +209,6 @@
                     buttonContainer.appendChild(archiveButton);
                     
                     container.appendChild(buttonContainer);
-                }catch(err){
-                    const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-                    logService.log(message, "error");
                 }
             }
         }

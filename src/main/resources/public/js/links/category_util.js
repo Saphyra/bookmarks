@@ -52,11 +52,17 @@
         }
     }
     
-    function getDataOrdered(categoryId){
+    function getDataOrdered(categoryId, successCallback, state){
         try{
-            const data = dataDao.getContentOfCategory(categoryId);
-            addToCache(data);
-            return order(data);
+            const data = dataDao.getContentOfCategory(
+                categoryId,
+                order,
+                function(data, state){
+                    addToCache(data);
+                    successCallback(data, state);
+                },
+                state
+            );
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

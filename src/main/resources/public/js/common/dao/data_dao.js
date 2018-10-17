@@ -54,19 +54,18 @@
         - List of elements
         - Empty list upon fail
     */
-    function getContentOfCategory(categoryId){
+    function getContentOfCategory(categoryId, sortMethod, successCallback, state){
         try{
-            if(categoryId == null || categoryId == undefined){
-                throwException("IllegalArgument", "categoryId must not be null or undefined.");
-            }
-            
             const path = "data/" + categoryId;
-            const response = dao.sendRequest(dao.GET, path);
-            if(response.status == ResponseStatus.OK){
-                return JSON.parse(response.response);
-            }else{
-                throwException("UnknownBackendError", response.toString());
-            }
+            const request = new Request(dao.GET, path);
+                request.state = state;
+                request.convertResponse = function(response){
+                    return sortMethod(JSON.parse(response.response));
+                }
+                
+                request.processValidResponse = successCallback;
+            
+            dao.sendRequestAsync(request);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
