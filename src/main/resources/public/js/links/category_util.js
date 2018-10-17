@@ -11,11 +11,17 @@
         this.getFilteredDataOrdered = getFilteredDataOrdered;
     }
     
-    function getCategoriesOfRootOrdered(rootId){
+    function getCategoriesOfRootOrdered(rootId, successCallback){
         try{
-            const data = dataDao.getCategoriesOfRoot(rootId);
-            addToCache(data);
-            return order(data);
+            dataDao.getCategoriesOfRoot(
+                rootId,
+                {rootId: rootId},
+                order,
+                function(data, state){
+                    addToCache(data);
+                    successCallback(data, state);
+                }
+            );
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
@@ -23,10 +29,9 @@
         }
     }
     
-    function getCategoryTreeOrdered(){
+    function getCategoryTreeOrdered(successCallback){
         try{
-            const data = dataDao.getCategoryTree();
-            return orderCategoryTree(data);
+            dataDao.getCategoryTree(successCallback, orderCategoryTree);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

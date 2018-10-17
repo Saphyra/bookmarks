@@ -50,7 +50,7 @@ public class AuthFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         if(REST_TYPE_REQUEST.equals(request.getHeader(REQUEST_TYPE_HEADER))){
-            Util.sleep(2000);
+            Util.sleep(Math.round(Math.random() * 5000));
         }
         log.debug("AuthFilter");
         String path = request.getRequestURI();

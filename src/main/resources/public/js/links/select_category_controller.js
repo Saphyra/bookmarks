@@ -12,13 +12,18 @@
     }
     
     function displayCategories(rootId){
-        try{
+        try{    
+            const categories = categoryUtil.getCategoriesOfRootOrdered(rootId, display);            
+        }catch(err){
+            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+            logService.log(message, "error");
+        }
+        
+        function display(categories, state){
             const container = document.getElementById("selectable_categories");
                 container.innerHTML = "";
                 
-            const categories = categoryUtil.getCategoriesOfRootOrdered(rootId)
-            
-            addUpButton(container, rootId);
+            addUpButton(container, state.rootId);
             
             if(categories.length == 0){
                 addEmptyMessage(container);
@@ -28,101 +33,98 @@
                 addToContainer(container, categories[cindex]);
             }
             
-            setSelectButton(rootId);
-        }catch(err){
-            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-            logService.log(message, "error");
-        }
-        
-        function addUpButton(container, categoryId){
-            try{
-                const button = document.createElement("BUTTON");
-                    button.classList.add("bold");
-                    button.classList.add("textaligncenter");
-                    button.classList.add("block");
-                    button.classList.add("width90percent");
-                    button.classList.add("marginauto");
-                    button.classList.add("fontsize1_25rem");
-                    
-                    button.innerHTML = "Up";
-                    
-                    if(categoryId === ""){
-                        button.disabled = true;
-                    }
-                    
-                    button.onclick = function(){
-                        selectCategoryController.displayCategories(cache.get(categoryId).element.root);
-                    }
-                    
-                container.appendChild(button);
-            }catch(err){
-                const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-                logService.log(message, "error");
-            }
-        }
-        
-        function addEmptyMessage(container){
-            try{
-                const div = document.createElement("DIV");
-                    div.classList.add("fontsize2rem");
-                    div.innerHTML = "Category is empty.";
-                container.appendChild(div);
-            }catch(err){
-                const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-                logService.log(message, "error");
-            }
-        }
-        
-        function addToContainer(container, data){
-            try{
-                if(categoryController.actualMode == pageController.MODE_EDIT && categoryController.actualCategory == data.element.categoryId){
-                    return;
-                }
-                
-                const dataContainer = document.createElement("DIV");
-                    dataContainer.classList.add("list_view_category");
-                    dataContainer.title = data.element.description;
-                    dataContainer.classList.add("button");
-                    dataContainer.classList.add("list_view_item");
-                    
-                    dataContainer.onclick = function(){
-                        selectCategoryController.displayCategories(data.element.categoryId);
-                    }
-                    
-                    const labelSpan = document.createElement("SPAN");
-                        labelSpan.innerHTML = data.element.label;
-                dataContainer.appendChild(labelSpan);
-                    
-                container.appendChild(dataContainer);
-            }catch(err){
-                const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-                logService.log(message, "error");
-            }
-        }
-        
-        function setSelectButton(rootId){
-            try{
-                const button = document.getElementById("select_category_button");
-                    button.innerHTML = "Select: " + (rootId.length === 0 ? "Root" : cache.get(rootId).element.label);
-                    
-                    button.onclick = function(){
-                        switch(selectCategoryController.mode){
-                            case selectCategoryController.MODE_CATEGORY:
-                                categoryController.selectCategory(rootId);
-                            break;
-                            case selectCategoryController.MODE_LINK:
-                                linkController.selectCategory(rootId);
-                            break;
-                            default:
-                                throwException("IllegalArgument", mode + " mode is not valid.");
-                            break;
+            setSelectButton(state.rootId);
+            
+            function addUpButton(container, categoryId){
+                try{
+                    const button = document.createElement("BUTTON");
+                        button.classList.add("bold");
+                        button.classList.add("textaligncenter");
+                        button.classList.add("block");
+                        button.classList.add("width90percent");
+                        button.classList.add("marginauto");
+                        button.classList.add("fontsize1_25rem");
+                        
+                        button.innerHTML = "Up";
+                        
+                        if(categoryId === ""){
+                            button.disabled = true;
                         }
                         
-                        $("#select_category_tab").hide();
+                        button.onclick = function(){
+                            selectCategoryController.displayCategories(cache.get(categoryId).element.root);
+                        }
+                        
+                    container.appendChild(button);
+                }catch(err){
+                    const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+                    logService.log(message, "error");
+                }
+            }
+            
+            function addEmptyMessage(container){
+                try{
+                    const div = document.createElement("DIV");
+                        div.classList.add("fontsize2rem");
+                        div.innerHTML = "Category is empty.";
+                    container.appendChild(div);
+                }catch(err){
+                    const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+                    logService.log(message, "error");
+                }
+            }
+            
+            function addToContainer(container, data){
+                try{
+                    if(categoryController.actualMode == pageController.MODE_EDIT && categoryController.actualCategory == data.element.categoryId){
+                        return;
                     }
-            }catch(err){
-                const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-                logService.log(message, "error");
+                    
+                    const dataContainer = document.createElement("DIV");
+                        dataContainer.classList.add("list_view_category");
+                        dataContainer.title = data.element.description;
+                        dataContainer.classList.add("button");
+                        dataContainer.classList.add("list_view_item");
+                        
+                        dataContainer.onclick = function(){
+                            selectCategoryController.displayCategories(data.element.categoryId);
+                        }
+                        
+                        const labelSpan = document.createElement("SPAN");
+                            labelSpan.innerHTML = data.element.label;
+                    dataContainer.appendChild(labelSpan);
+                        
+                    container.appendChild(dataContainer);
+                }catch(err){
+                    const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+                    logService.log(message, "error");
+                }
+            }
+            
+            function setSelectButton(rootId){
+                try{
+                    const button = document.getElementById("select_category_button");
+                        button.innerHTML = "Select: " + (rootId.length === 0 ? "Root" : cache.get(rootId).element.label);
+                        
+                        button.onclick = function(){
+                            switch(selectCategoryController.mode){
+                                case selectCategoryController.MODE_CATEGORY:
+                                    categoryController.selectCategory(rootId);
+                                break;
+                                case selectCategoryController.MODE_LINK:
+                                    linkController.selectCategory(rootId);
+                                break;
+                                default:
+                                    throwException("IllegalArgument", mode + " mode is not valid.");
+                                break;
+                            }
+                            
+                            $("#select_category_tab").hide();
+                        }
+                }catch(err){
+                    const message = arguments.callee.name + " - " + err.name + ": " + err.message;
+                    logService.log(message, "error");
+                }
             }
         }
     }

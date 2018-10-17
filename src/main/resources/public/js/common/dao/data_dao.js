@@ -9,19 +9,18 @@
     /*
     
     */
-    function getCategoriesOfRoot(rootId){
+    function getCategoriesOfRoot(rootId, state, sortMethod, successCallback){
         try{
-            if(rootId == null || rootId == undefined){
-                throwException("IllegalArgument", "rootId must not be null or undefined.");
-            }
-            
             const path = "data/categories/" + rootId;
-            const response = dao.sendRequest(dao.GET, path);
-            if(response.status == ResponseStatus.OK){
-                return JSON.parse(response.response);
-            }else{
-                throwException("UnknownBackendError", response.toString());
-            }
+            const request = new Request(dao.GET, path);
+                request.state = state;
+                request.convertResponse = function(response){
+                    return sortMethod(JSON.parse(response.response));
+                }
+                
+                request.processValidResponse = successCallback;
+            
+            dao.sendRequestAsync(request);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
@@ -32,15 +31,18 @@
     /*
     
     */
-    function getCategoryTree(){
+    function getCategoryTree(successCallback, sortMethod){
         try{
             const path = "categories";
-            const response = dao.sendRequest(dao.GET, path);
-            if(response.status == ResponseStatus.OK){
-                return JSON.parse(response.response);
-            }else{
-                throwException("UnknownBackendError", response.toString());
-            }
+            
+            const request = new Request(dao.GET, path);
+                request.convertResponse = function(response){
+                    return sortMethod(JSON.parse(response.response));
+                }
+                
+                request.processValidResponse = successCallback;
+            
+            dao.sendRequestAsync(request);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
