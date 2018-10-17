@@ -26,13 +26,9 @@
         
         if(password.length < 6){
             validationResult.setPasswordResult(new ValidationError(passwordErrorElementName, "Password is too short. (Minimum 6 characters)."));
-        }
-        
-        if(password.length > 30){
+        }else if(password.length > 30){
             validationResult.setPasswordResult(new ValidationError(passwordErrorElementName, "Password is too long. (Maximum 30 characters)."));
-        }
-        
-        if(confirmPassword != password){
+        }else if(confirmPassword != password){
             validationResult.setConfirmPassworsResult(new ValidationError(confirmPasswordErrorElementName, "Confirm password does not match."));
         }
         
@@ -40,16 +36,12 @@
             validationResult.setUserNameResult(new ValidationError(errorElementName, "User name is too short (Minimum 3 characters)."));
         }else if(userName.length > 30){
             validationResult.setUserNameResult(new ValidationError(errorElementName, "User name is too long. (Maximum 30 characters)."));
-        }
-        
-        if(validationResult.isUserNameValid()){
-            if(registrationController.lastUserNameQueried !== userName){
-                registrationController.lastUserNameQueried = userName;
-                userDao.isUserNameExists(userName, validationResult.clone(), new ValidationError(errorElementName, "User name already registered."));
-                validationResult.setUserNameResult(new ValidationError(errorElementName, "Checking in progress..."));
-            }else if(!registrationController.lastUserNameValid){
-                validationResult.setUserNameResult(new ValidationError(errorElementName, "User name already registered."));
-            }
+        }else if(registrationController.lastUserNameQueried !== userName){
+            registrationController.lastUserNameQueried = userName;
+            userDao.isUserNameExists(userName, validationResult.clone(), new ValidationError(errorElementName, "User name already registered."));
+            validationResult.setUserNameResult(new ValidationError(errorElementName, "Checking in progress..."));
+        }else if(!registrationController.lastUserNameValid){
+            validationResult.setUserNameResult(new ValidationError(errorElementName, "User name already registered."));
         }
         
         validationResult.process();
