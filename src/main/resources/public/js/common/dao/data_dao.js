@@ -76,7 +76,7 @@
     /*
     
     */
-    function getFilteredData(label, secondary, type){
+    function getFilteredData(label, secondary, type, sortMethod, successCallback){
         try{
             const path = "data";
             const body = {
@@ -84,12 +84,15 @@
                 secondary: secondary,
                 type: type
             };
-            const response = dao.sendRequest(dao.POST, path, body);
-            if(response.status == ResponseStatus.OK){
-                return JSON.parse(response.response);
-            }else{
-                throwException("UnknownBackendError", response.toString());
-            }
+            
+            const request = new Request(dao.POST, path, body);
+                request.convertResponse = function(response){
+                    return sortMethod(JSON.parse(response.response));
+                }
+                
+                request.processValidResponse = successCallback;
+            
+            dao.sendRequestAsync(request);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

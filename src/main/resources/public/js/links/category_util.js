@@ -70,11 +70,18 @@
         }
     }
     
-    function getFilteredDataOrdered(label, secondary, type){
+    function getFilteredDataOrdered(label, secondary, type, successCallback){
         try{
-            const data = dataDao.getFilteredData(label, secondary, type);
-            addToCache(data);
-            return order(data);
+            dataDao.getFilteredData(
+                label,
+                secondary,
+                type,
+                order,
+                function(data, state){
+                    addToCache(data);
+                    successCallback(data, state);
+                }
+            );
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

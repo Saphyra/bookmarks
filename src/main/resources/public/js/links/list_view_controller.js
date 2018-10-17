@@ -220,8 +220,14 @@
             const secondaryFilter = document.getElementById("secondary_filter").value;
             const typeFilter = $("input[name=type_filter]:checked").val();
             
-            const data = categoryUtil.getFilteredDataOrdered(labelFilter, secondaryFilter, typeFilter);
-            listViewController.openCategory(null, data);
+            categoryUtil.getFilteredDataOrdered(
+                labelFilter,
+                secondaryFilter,
+                typeFilter,
+                function(data, state){
+                    listViewController.openCategory(null, data);
+                }
+            );
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
