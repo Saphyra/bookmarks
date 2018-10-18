@@ -23,15 +23,22 @@
             
             const validationResult = validateInputs();
             if(validationResult.isValid){
-                const result = userDao.changeUserName(newUserName, password);
-                
-                if(result.status == ResponseStatus.OK){
-                    notificationService.showSuccess("Username saved.");
-                }else if(result.status == ResponseStatus.UNAUTHORIZED){
-                    notificationService.showError("Password is wrong.");
-                }else{
-                    throwException("UnknownServerError", result.toString());
-                }
+                const result = userDao.changeUserName(
+                    newUserName,
+                    password,
+                    function(){
+                        notificationService.showSuccess("Username saved.");
+                    },
+                    function(response){
+                        if(response.status == dao.UNAUTHORIZED){
+                            notificationService.showError("Password is wrong.");
+                        }else if(response.status == dao.BAD_REQUEST){
+                            notificationService.showError("Username is already in use.");
+                        }else{
+                            throwException("UnknownServerError", result.toString());
+                        }
+                    }
+                );
                 
                 passwordInput.value = "";
             }else{

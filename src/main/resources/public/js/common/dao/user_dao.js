@@ -28,30 +28,22 @@
     }
     
     /*
-    Changes the username of the user.
-    Arguments:
-        - newUserName: the new username.
-        - password: the password of the user.
-    Returns:
-        - new Response contains the result of the request.
-    Throws:
-        - IllegalArgument exception if newUserName or password is null or undefined.
+    
     */
-    function changeUserName(newUserName, password){
+    function changeUserName(newUserName, password, successCallback, errorCallback){
         try{
-            if(newUserName == null || newUserName == undefined){
-                throwException("IllegalArgument", "newUserName must not be null or undefined.");
-            }
-            if(password == null || password == undefined){
-                throwException("IllegalArgument", "password must not be null or undefined.");
-            }
             
             const path = "user/name";
             const body = {
                 newUserName: newUserName,
                 password: password
             };
-            return dao.sendRequest("POST", path, body, false);
+            const request = new Request(dao.POST, path, body);
+                request.handleLogout = false;
+                request.processValidResponse = successCallback;
+                request.processInvalidResponse = errorCallback;
+            
+            dao.sendRequestAsync(request);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
@@ -98,13 +90,14 @@
         - IllegalArgument exception if userName is null or undefined.
         - InvalidResult exception if the response cannot be recognized.
     */
-    function isUserNameExists(userName, validationResult, validationError){
+    function isUserNameExists(userName, state, successCallback, errorCallback){
         try{
             const path = "user/name/exist";
             const body = {
                 value: userName
             }
             const request = new Request(dao.POST, path, body);
+                request.state = state;
                 request.isResponseOk = function(response){
                     if(response.status == ResponseStatus.OK && response.response == "false"){
                         return true;
@@ -112,19 +105,8 @@
                     return false;
                 };
                 
-                request.processValidResponse = function(){
-                    registrationController.lastUserNameValid = true;
-                    validationResult.process()
-                };
-                request.processInvalidResponse = function(response){
-                    if(response.status == ResponseStatus.OK){
-                        validationResult.setUserNameResult(validationError);
-                        registrationController.lastUserNameValid = false;
-                        validationResult.process();
-                    }else{
-                        throwException("BackendError:", response.toString());
-                    }
-                }
+                request.processValidResponse = successCallback;
+                request.processInvalidResponse = errorCallback;
             
             
             const result = dao.sendRequestAsync(request);

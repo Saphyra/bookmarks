@@ -1,7 +1,7 @@
 (function RegistrationController(){
     window.registrationController = new function(){
         scriptLoader.loadScript("js/common/dao/user_dao.js");
-        this.lastUserNameQueried = null;
+        this.lastUserNameQueried = "";
         this.lastUserNameValid = true;
         
         this.validate = validate;
@@ -22,7 +22,7 @@
         const confirmPasswordErrorElementName = "#invalid_confirm_password";
         
         const userName = document.getElementById("registration_username").value;
-        const errorElementName = "#invalid_username";
+        const userNameErrorElementName = "#invalid_username";
         
         if(password.length < 6){
             validationResult.setPasswordResult(new ValidationError(passwordErrorElementName, "Password is too short. (Minimum 6 characters)."));
@@ -33,15 +33,37 @@
         }
         
         if(userName.length < 3){
-            validationResult.setUserNameResult(new ValidationError(errorElementName, "User name is too short (Minimum 3 characters)."));
+            validationResult.setUserNameResult(new ValidationError(userNameErrorElementName, "User name is too short (Minimum 3 characters)."));
         }else if(userName.length > 30){
-            validationResult.setUserNameResult(new ValidationError(errorElementName, "User name is too long. (Maximum 30 characters)."));
-        }else if(registrationController.lastUserNameQueried !== userName){
+            validationResult.setUserNameResult(new ValidationError(userNameErrorElementName, "User name is too long. (Maximum 30 characters)."));
+        }else if(registrationController.lastUserNameQueried != userName){
             registrationController.lastUserNameQueried = userName;
-            userDao.isUserNameExists(userName, validationResult.clone(), new ValidationError(errorElementName, "User name already registered."));
-            validationResult.setUserNameResult(new ValidationError(errorElementName, "Checking in progress..."));
+            const clone = validationResult.clone();
+            validationResult.setUserNameResult(new ValidationError(userNameErrorElementName, "Checking in progress..."));
+
+            userDao.isUserNameExists(
+                userName,
+                {
+                    validationResult: clone,
+                    validationError: new ValidationError(userNameErrorElementName, "User name already registered.")
+                },
+                function(result, state){
+                    registrationController.lastUserNameValid = true;
+                    state.validationResult.process()
+                },
+                function(response, state){
+                    if(response.status == ResponseStatus.OK){
+                        state.validationResult.setUserNameResult(state.validationError);
+                        registrationController.lastUserNameValid = false;
+                        state.validationResult.process();
+                    }else{
+                        throwException("BackendError:", response.toString());
+                    }
+                }
+            );
+            
         }else if(!registrationController.lastUserNameValid){
-            validationResult.setUserNameResult(new ValidationError(errorElementName, "User name already registered."));
+            validationResult.setUserNameResult(new ValidationError(userNameErrorElementName, "User name already registered."));
         }
         
         validationResult.process();
@@ -122,25 +144,34 @@ function ValidationResult(){
     }
     
     this.setPasswordResult = function(newResult){
+        validate(newResult);
         passwordResult = newResult;
     }
     
     this.setConfirmPassworsResult = function(newResult){
+        validate(newResult);
         confirmPasswordResult = newResult;
     }
     
     this.setUserNameResult = function(newResult){
+        validate(newResult);
         userNameResult = newResult;
     }
     this.isUserNameValid = function(){
         return userNameResult.isValid;
     }
     
+    function validate(newResult){
+        if(newResult == null || newResult == undefined){
+            throwException("IllegalArgument", "newResult must not be null or undefined.");
+        }
+    }
+    
     this.clone = function(){
         const copy = new ValidationResult();
-        copy.setPasswordResult(passwordResult);
-        copy.setConfirmPassworsResult(confirmPasswordResult);
-        copy.setUserNameResult(userNameResult);
+        copy.setPasswordResult(passwordResult.clone());
+        copy.setConfirmPassworsResult(confirmPasswordResult.clone());
+        copy.setUserNameResult(userNameResult.clone());
         return copy;
     }
 }
@@ -150,6 +181,10 @@ function ValidationSuccess(id){
     this.isValid = true;
     this.process = function(){
         $(id).fadeOut();
+    }
+    
+    this.clone = function(){
+        return new ValidationSuccess(this.id);
     }
 }
 
@@ -161,5 +196,9 @@ function ValidationError(id, message){
     
     this.process = function(){
         $(id).attr("title", message).fadeIn();
+    }
+    
+    this.clone = function(){
+        return new ValidationError(this.id, this.message);
     }
 }
