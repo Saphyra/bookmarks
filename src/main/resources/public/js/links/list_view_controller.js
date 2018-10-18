@@ -34,6 +34,7 @@
             categoryUtil.getDataOrdered(
                 categoryId,
                 function(data, state){
+                    state.container.innerHTML = "";
                     processUnloadedData(data, state);
                     processLoadedData(data, state);
                 },
