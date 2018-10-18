@@ -30,12 +30,21 @@
                 return;
             }
             
-            if(categoryDao.create(label, description, categoryController.selectedCategory)){
-                notificationService.showSuccess("Category saved.");
-                pageController.showMainTab();
-            }else{
-                notificationService.showError("Unexpected error occurred.");
+            const category = {
+                label: label,
+                description: description,
+                root: categoryController.selectedCategory
             }
+            categoryDao.create(
+                category,
+                function(){
+                    notificationService.showSuccess("Category saved.");
+                    pageController.showMainTab();
+                },
+                function(){
+                    notificationService.showError("Unexpected error occurred.");
+                }
+            );
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
@@ -45,12 +54,16 @@
     function deleteCategories(categoryIds){
         try{
             if(confirm("Are you sure to delete the selected categories?")){
-                if(categoryDao.deleteCategories(categoryIds)){
-                    notificationService.showSuccess("Categories are successfully deleted.");
-                    pageController.showMainTab();
-                }else{
-                    notificationService.showError("Unexpected error occurred.");
-                }
+                categoryDao.deleteCategories(
+                    categoryIds,
+                    function(){
+                        notificationService.showSuccess("Categories are successfully deleted.");
+                        pageController.showMainTab();
+                    },
+                    function(){
+                        notificationService.showError("Unexpected error occurred.");
+                    }
+                );
             }
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
@@ -101,12 +114,17 @@
     function updateCategories(categories){
         try{
             validateRequests(categories);
-            if(categoryDao.updateCategories(categories)){
-                notificationService.showSuccess("Categories saved.");
-                pageController.showMainTab();
-            }else{
-                notificationService.showError("Unexpected error occurred.");
-            }
+            
+            categoryDao.updateCategories(
+                categories,
+                function(){
+                    notificationService.showSuccess("Categories saved.");
+                    pageController.showMainTab();
+                },
+                function(){
+                    notificationService.showError("Unexpected error occurred.");
+                }
+            )
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
