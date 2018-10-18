@@ -121,6 +121,8 @@
             data.sort(function(a, b){
                 if(a.type === categoryUtil.TYPE_CATEGORY && b.type !== a.type){
                     return -1;
+                }else if(a.type === categoryUtil.TYPE_LINK && b.type !== a.type){
+                    return 1;
                 }
                 return a.element.label.localeCompare(b.element.label);
             });

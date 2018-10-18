@@ -25,6 +25,7 @@
                             categoryButton.classList.add("button");
                             categoryButton.classList.add("tree_view_category");
                             categoryButton.onclick = function(){
+                                $("#filter_container").fadeOut();
                                 listViewController.openCategory(categoryData.category.categoryId);
                             }
                             
