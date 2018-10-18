@@ -22,15 +22,20 @@
             
             const validationResult = validateInputs();
             if(validationResult.isValid){
-                const result = userDao.changePassword(password1, oldPassword);
-                
-                if(result.status == ResponseStatus.OK){
-                    notificationService.showSuccess("New password saved.");
-                }else if(result.status == ResponseStatus.UNAUTHORIZED){
-                    notificationService.showError("Password is wrong.");
-                }else{
-                    throwException("UnknownServerError", result.toString());
-                }
+                userDao.changePassword(
+                    password1,
+                    oldPassword,
+                    function(){
+                        notificationService.showSuccess("New password saved.");
+                    },
+                    function(response){
+                        if(response.status == dao.UNAUTHORIZED){
+                            notificationService.showError("Password is wrong.")
+                        }else{
+                            throwException("UnknownServerError", result.toString());
+                        }
+                    }
+                );
                 
                 password1Input.value = "";
                 password2Input.value = "";

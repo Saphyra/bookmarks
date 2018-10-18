@@ -17,15 +17,21 @@
             
             const validationResult = validateInputs();
             if(validationResult.isValid && confirm("Are you sure?\nDeleted data cannot be restored.")){
-                const result = userDao.deleteAccount(password);
-                if(result.status == ResponseStatus.OK){
-                    sessionStorage.successMessage = "Account deleted.";
-                    window.location.href = "/";
-                }else if(result.status == ResponseStatus.UNAUTHORIZED){
-                    notificationService.showError("Password is wrong.");
-                }else{
-                    throwException("UnknownServerError", result.toString());
-                }
+                
+                userDao.deleteAccount(
+                    password,
+                    function(){
+                        sessionStorage.successMessage = "Account deleted.";
+                        window.location.href = "/";
+                    },
+                    function(response){
+                        if(response.status == ResponseStatus.UNAUTHORIZED){
+                            notificationService.showError("Password is wrong.");
+                        }else{
+                            throwException("UnknownServerError", result.toString());
+                        }
+                    }
+                );
             }else{
                 for(let mindex in validationResult.responses){
                     notificationService.showError(validationResult.responses[mindex]);
