@@ -38,24 +38,18 @@
             validationResult.setUserNameResult(new ValidationError(userNameErrorElementName, "User name is too long. (Maximum 30 characters)."));
         }else if(registrationController.lastUserNameQueried != userName){
             registrationController.lastUserNameQueried = userName;
-            const clone = validationResult.clone();
             validationResult.setUserNameResult(new ValidationError(userNameErrorElementName, "Checking in progress..."));
 
             userDao.isUserNameExists(
                 userName,
-                {
-                    validationResult: clone,
-                    validationError: new ValidationError(userNameErrorElementName, "User name already registered.")
-                },
                 function(result, state){
                     registrationController.lastUserNameValid = true;
-                    state.validationResult.process()
+                    registrationController.validate();
                 },
                 function(response, state){
                     if(response.status == ResponseStatus.OK){
-                        state.validationResult.setUserNameResult(state.validationError);
                         registrationController.lastUserNameValid = false;
-                        state.validationResult.process();
+                        registrationController.validate();
                     }else{
                         throwException("BackendError:", response.toString());
                     }

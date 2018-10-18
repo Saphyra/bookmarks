@@ -3,7 +3,7 @@
         scriptLoader.loadScript("js/common/dao/user_dao.js");
         
         this.lastUsernameValid = false;
-        this.lastUsernameQueried = null;
+        this.lastUsernameQueried = "";
         
         this.changeUserName = changeUserName;
         this.validateInputs = validateInputs;
@@ -53,74 +53,46 @@
     }
     
     function validateInputs(){
-        try{
-            const newUserName = $("#newusername").val();
-            const password = $("#newusernamepassword").val();
-            
-            const submitButton = document.getElementById("newusernamebutton");
-            
-            const invalidNewUsername = document.getElementById("invalid_newusername");
-            const invalidPassword = document.getElementById("invalid_newusernamepassword");
-            
-            const response = {
-                isValid: true,
-                responses: []
-            };
-            
-            if(newUserName.length < 3){
-                response.isValid = false;
-                this.lastUsernameValid = false;
-                const errorMessage = "Username is too short. (Minimum 3 characters)";
-                response.responses.push(errorMessage);
-                invalidNewUsername.title = errorMessage;
-                $(invalidNewUsername).fadeIn();
-            }else if(newUserName.length > 30){
-                response.isValid = false;
-                this.lastUsernameValid = false;
-                const errorMessage = "Username is too long. (Maximum 30 characters)";
-                response.responses.push(errorMessage);
-                invalidNewUsername.title = errorMessage;
-                $(invalidNewUsername).fadeIn();
-            }else if(newUserName != this.lastUsernameQueried){
-                const isUserNameExists = userDao.isUserNameExists(newUserName);
-                this.lastUsernameQueried = newUserName;
-                this.lastUsernameValid = !isUserNameExists;   
-            }
-            
-            if(response.isValid && !this.lastUsernameValid){
-                response.isValid = false;
-                this.lastUsernameValid = false;
-                const errorMessage = "Username already exists.";
-                response.responses.push(errorMessage);
-                invalidNewUsername.title = errorMessage;
-                $(invalidNewUsername).fadeIn();
-            }
-            
-            if(this.lastUsernameValid){
-                $(invalidNewUsername).fadeOut();
-            }
-            
-            if(password.length == 0){
-                response.isValid = false;
-                const errorMessage = "Please enter your password.";
-                response.responses.push(errorMessage);
-                invalidPassword.title = errorMessage;
-                $(invalidPassword).fadeIn();
-            }else{
-                $(invalidPassword).fadeOut();
-            }
-            
-            submitButton.disabled = !response.isValid;
-            
-            return response;
-        }catch(err){
-            const message = arguments.callee.name + " - " + err.name + ": " + err.message;
-            logService.log(message, "error");
-            return {
-                isValid: false,
-                responses: ["Unexpected error"]
-            };
+        const newUserName = $("#newusername").val();
+        const password = $("#newusernamepassword").val();
+        
+        const userNameErrorElementName = document.getElementById("invalid_newusername");
+        const passwordErrorElementName = document.getElementById("invalid_newusernamepassword");
+        
+        const validationResult = new ValidationResult();
+        
+        if(password.length == 0){
+            validationResult.setPasswordResult(new ValidationError(passwordErrorElementName, "Please enter your password."));
         }
+        
+        if(newUserName.length < 3){
+            validationResult.setUserNameResult(new ValidationError(userNameErrorElementName, "User name is too short (Minimum 3 characters)."));
+        }else if(newUserName.length > 30){
+            validationResult.setUserNameResult(new ValidationError(userNameErrorElementName, "User name is too long. (Maximum 30 characters)."));
+        }else if(changeUserNameController.lastUserNameQueried != newUserName){
+            changeUserNameController.lastUserNameQueried = newUserName;
+            validationResult.setUserNameResult(new ValidationError(userNameErrorElementName, "Checking in progress..."));
+
+            userDao.isUserNameExists(
+                newUserName,
+                function(result, state){
+                    changeUserNameController.lastUserNameValid = true;
+                    changeUserNameController.validateInputs();
+                },
+                function(response, state){
+                    if(response.status == ResponseStatus.OK){
+                        changeUserNameController.lastUserNameValid = false;
+                        changeUserNameController.validateInputs();
+                    }else{
+                        throwException("BackendError:", response.toString());
+                    }
+                }
+            );
+        }else if(!changeUserNameController.lastUserNameValid){
+            validationResult.setUserNameResult(new ValidationError(userNameErrorElementName, "User name already registered."));
+        }
+        
+        validationResult.process();
     }
     
     function addListeners(){
@@ -137,3 +109,76 @@
         }
     }
 })();
+
+function ValidationResult(){
+    let passwordResult = new ValidationSuccess("#invalid_newusernamepassword");
+    let userNameResult = new ValidationSuccess("#invalid_newusername");
+    
+    this.process = function(){
+        if(isValid()){
+            document.getElementById("newusernamebutton").disabled = false;
+        }else{
+            document.getElementById("newusernamebutton").disabled = true;
+        }
+        
+        passwordResult.process();
+        userNameResult.process();
+    }
+    
+    function isValid(){
+        return passwordResult.isValid && userNameResult.isValid;
+    }
+    
+    this.setPasswordResult = function(newResult){
+        validate(newResult);
+        passwordResult = newResult;
+    }
+    
+    this.setUserNameResult = function(newResult){
+        validate(newResult);
+        userNameResult = newResult;
+    }
+    this.isUserNameValid = function(){
+        return userNameResult.isValid;
+    }
+    
+    function validate(newResult){
+        if(newResult == null || newResult == undefined){
+            throwException("IllegalArgument", "newResult must not be null or undefined.");
+        }
+    }
+    
+    this.clone = function(){
+        const copy = new ValidationResult();
+        copy.setPasswordResult(passwordResult.clone());
+        copy.setUserNameResult(userNameResult.clone());
+        return copy;
+    }
+}
+
+function ValidationSuccess(id){
+    this.id = id;
+    this.isValid = true;
+    this.process = function(){
+        $(id).fadeOut();
+    }
+    
+    this.clone = function(){
+        return new ValidationSuccess(this.id);
+    }
+}
+
+function ValidationError(id, message){
+    this.id = id;
+    this.message = message;
+    
+    this.isValid = false;
+    
+    this.process = function(){
+        $(id).attr("title", message).fadeIn();
+    }
+    
+    this.clone = function(){
+        return new ValidationError(this.id, this.message);
+    }
+}

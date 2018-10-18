@@ -90,14 +90,13 @@
         - IllegalArgument exception if userName is null or undefined.
         - InvalidResult exception if the response cannot be recognized.
     */
-    function isUserNameExists(userName, state, successCallback, errorCallback){
+    function isUserNameExists(userName, successCallback, errorCallback){
         try{
             const path = "user/name/exist";
             const body = {
                 value: userName
             }
             const request = new Request(dao.POST, path, body);
-                request.state = state;
                 request.isResponseOk = function(response){
                     if(response.status == ResponseStatus.OK && response.response == "false"){
                         return true;
