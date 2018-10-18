@@ -55,12 +55,16 @@
     function deleteLinks(linkIds){
         try{
             if(confirm("Are you sure to delete the selected links?")){
-                if(linkDao.deleteLinks(linkIds)){
-                    notificationService.showSuccess("Links are successfully deleted.");
-                    pageController.showMainTab();
-                }else{
-                    notificationService.showError("Unexpected error occurred.");
-                }
+                linkDao.deleteLinks(
+                    linkIds,
+                    function(){
+                        notificationService.showSuccess("Links are successfully deleted.");
+                        pageController.showMainTab();
+                    },
+                    function(){
+                        notificationService.showError("Unexpected error occurred.");
+                    }
+                );
             }
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
@@ -104,7 +108,11 @@
                 url: url,
                 root: linkController.selectedCategory
             }];
-            linkController.updateLinks(link);
+            linkController.updateLinks(
+                link,
+                function(){},
+                function(){}
+            );
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
@@ -114,12 +122,16 @@
     function updateLinks(links){
         try{
             validateRequests(links);
-            if(linkDao.updateLinks(links)){
-                notificationService.showSuccess("Links are successfully updated.");
-                pageController.showMainTab();
-            }else{
-                notificationService.showError("Unexpected error occurred.");
-            }
+            linkDao.updateLinks(
+                links,
+                function(){
+                    notificationService.showSuccess("Links are successfully updated.");
+                    pageController.showMainTab();
+                },
+                function(){
+                    notificationService.showError("Unexpected error occurred.");
+                }
+            );
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
