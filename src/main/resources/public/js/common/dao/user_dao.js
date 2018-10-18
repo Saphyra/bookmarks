@@ -127,17 +127,13 @@
         - IllegalArgument exception if user is null or undefined.
         - UnknownServerError if request fails.
     */
-    function registerUser(user){
+    function registerUser(user, successCallback, errorCallback){
         try{
-            if(user == null && undefined){
-                throwException("IllegalArgument", "user must not be null or undefined");
-            }
-            const result =  dao.sendRequest(dao.POST, "user/register", user);
-            if(result.status == ResponseStatus.OK){
-                return true;
-            }else{
-                throwException("UnknownServerError", result.toString());
-            }
+            const request = new Request(dao.POST, "user/register", user);
+                request.state = user.userName;
+                request.processValidResponse = successCallback;
+                request.processInvalidResponse = errorCallback;
+            dao.sendRequestAsync(request);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");

@@ -21,7 +21,6 @@
             const newUserName = newUserNameInput.value;
             const password = passwordInput.value;
             
-            const validationResult = validateInputs();
             if(validationResult.isValid){
                 const result = userDao.changeUserName(
                     newUserName,

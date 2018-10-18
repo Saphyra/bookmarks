@@ -81,13 +81,16 @@
                 password: password
             };
             
-            const result = userDao.registerUser(user);
-            if(result){
-                notificationService.showSuccess("Account registered successfully.")
-                document.getElementById("login_username").value = userName;
-            }else{
-                notificationService.showError("Unexpected error occurred.");
-            }
+            userDao.registerUser(
+                user,
+                function(response, state){
+                    notificationService.showSuccess("Account registered successfully.")
+                    document.getElementById("login_username").value = state;
+                },
+                function(){
+                    notificationService.showError("Unexpected error occurred.");
+                }
+            );
             
             userNameInput.value = "";
             passwordInput.value = "";

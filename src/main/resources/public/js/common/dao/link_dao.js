@@ -11,26 +11,15 @@
         - true, if the link is succesfully created.
         - false otherwise.
     */
-    function create(label, url, root){
+    function create(link, successCallback, errorCallback){
         try{
-            if(label == null || label == undefined || label.length == 0){
-                throwException("IllegalArgument", "label must not be null, undefined or empty.");
-            }
-            if(url == null || url == undefined){
-                throwException("IllegalArgument", "url must not be null or undefined.");
-            }
-            if(root == null || root == undefined){
-                throwException("IllegalArgument", "root must not be null or undefined.");
-            }
             
             const path = "link";
-            const body = {
-                label: label,
-                url: url,
-                root: root
-            }
+            const request = new Request(dao.PUT, path, link);
+                request.processValidResponse = successCallback;
+                request.processInvalidResponse = errorCallback;
             
-            return dao.sendRequestAsync(dao.PUT, path, body);
+            dao.sendRequestAsync(request);
         }catch(err){
             const message = arguments.callee.name + " - " + err.name + ": " + err.message;
             logService.log(message, "error");
