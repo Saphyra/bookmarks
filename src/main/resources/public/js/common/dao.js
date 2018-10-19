@@ -154,7 +154,7 @@ function Request(method, path, body){
         if(this.isResponseOk(response)){
             this.processValidResponse(this.convertResponse(response), this.state);
         }else{
-            this.processInvalidResponse(this.convertResponse(response), this.state);
+            this.processInvalidResponse(response, this.state);
         }
     }
     
