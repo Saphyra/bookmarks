@@ -9,10 +9,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
-@RequiredArgsConstructor
 @Slf4j
 public class StringEncryptor extends AbstractEncryptor<String> {
-    private final EncryptorCache encryptorCache;
+    private final EncryptorCache encryptorCache = new EncryptorCache();
+    private final EncryptorCache decryptorCache = new EncryptorCache();
 
     @Override
     protected String encrypt(String entity, String key) {
@@ -22,7 +22,7 @@ public class StringEncryptor extends AbstractEncryptor<String> {
 
     @Override
     protected String decrypt(String entity, String key) {
-        DefaultEncryptor decryption = encryptorCache.get(key);
+        DefaultEncryptor decryption = decryptorCache.get(key);
         return decryption.decrypt(entity);
     }
 }
