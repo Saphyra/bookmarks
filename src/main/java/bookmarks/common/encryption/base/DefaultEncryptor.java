@@ -11,6 +11,7 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 
+import lombok.Getter;
 import org.apache.commons.net.util.Base64;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +24,13 @@ public class DefaultEncryptor {
     private final Key key;
     private final Cipher cipher;
 
-    public DefaultEncryptor(String password) {
+    public DefaultEncryptor(String password, EncryptionMode encryptionMode) {
         byte[] key = createKey(password);
         this.key = new SecretKeySpec(key, ALGORITHM);
         try {
             cipher = Cipher.getInstance(ALGORITHM);
-        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            cipher.init(encryptionMode.getCipherValue(), this.key);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException e) {
             throw new RuntimeException(e);
         }
     }
@@ -47,11 +49,10 @@ public class DefaultEncryptor {
 
     public String encrypt(String text) {
         try {
-            cipher.init(Cipher.ENCRYPT_MODE, key);
             byte[] encrypted = cipher.doFinal(text.getBytes(StandardCharsets.UTF_8));
             byte[] base64 = Base64.encodeBase64(encrypted);
             return new String(base64, StandardCharsets.UTF_8);
-        } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+        } catch (BadPaddingException | IllegalBlockSizeException e) {
             log.debug("Error encryping value: {}", text);
             throw new RuntimeException(e);
         }
@@ -59,15 +60,25 @@ public class DefaultEncryptor {
 
     public String decrypt(String text) {
         try {
-            cipher.init(Cipher.DECRYPT_MODE, key);
             byte[] base64 = Base64.decodeBase64(text.getBytes(StandardCharsets.UTF_8));
             log.debug("Base64 decoded: {}", new String(base64, StandardCharsets.UTF_8));
             byte[] decrypted = cipher.doFinal(base64);
             log.debug("Decrypted: {}", new String(decrypted, StandardCharsets.UTF_8));
             return new String(decrypted, StandardCharsets.UTF_8);
-        } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
+        } catch (BadPaddingException | IllegalBlockSizeException e) {
             log.debug("Error decrypting value: {}", text);
             throw new RuntimeException(e);
+        }
+    }
+
+    public enum EncryptionMode{
+        ENCRYPT(Cipher.ENCRYPT_MODE), DECRYPT(Cipher.DECRYPT_MODE);
+
+        @Getter
+        private final int cipherValue;
+
+        EncryptionMode(int cipher_value) {
+            cipherValue = cipher_value;
         }
     }
 }

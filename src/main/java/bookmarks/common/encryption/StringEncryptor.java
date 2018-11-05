@@ -11,8 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class StringEncryptor extends AbstractEncryptor<String> {
-    private final EncryptorCache encryptorCache = new EncryptorCache();
-    private final EncryptorCache decryptorCache = new EncryptorCache();
+    private final EncryptorCache encryptorCache = new EncryptorCache(DefaultEncryptor.EncryptionMode.ENCRYPT);
+    private final EncryptorCache decryptorCache = new EncryptorCache(DefaultEncryptor.EncryptionMode.DECRYPT);
 
     @Override
     protected String encrypt(String entity, String key) {
