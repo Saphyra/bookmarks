@@ -2,9 +2,8 @@ package bookmarks.service;
 
 import org.springframework.stereotype.Service;
 
-import bookmarks.common.encryption.base.PasswordService;
+import bookmarks.common.encryption.PasswordService;
 import bookmarks.common.exception.BadRequestException;
-import bookmarks.common.exception.NotFoundException;
 import bookmarks.common.exception.UnauthorizedException;
 import bookmarks.dataaccess.cache.AccessTokenCache;
 import bookmarks.domain.accesstoken.AccessToken;

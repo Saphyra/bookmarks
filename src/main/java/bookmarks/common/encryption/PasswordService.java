@@ -1,4 +1,4 @@
-package bookmarks.common.encryption.base;
+package bookmarks.common.encryption;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;

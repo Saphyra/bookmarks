@@ -1,13 +1,13 @@
 package bookmarks.common.encryption.base;
 
 import bookmarks.common.AbstractCache;
-import lombok.RequiredArgsConstructor;
+import bookmarks.common.encryption.base.encryptionbase.EncryptionFactory;
+import bookmarks.common.encryption.base.encryptionbase.Encryptor;
 
-@RequiredArgsConstructor
-public class EncryptorCache extends AbstractCache<String, DefaultEncryptor> {
-    private final DefaultEncryptor.EncryptionMode encryptionMode;
+public class EncryptorCache extends AbstractCache<String, Encryptor> {
+
     @Override
-    public DefaultEncryptor get(String key) {
-        return get(key, () -> new DefaultEncryptor(key, encryptionMode));
+    public Encryptor get(String key) {
+        return get(key, () -> EncryptionFactory.getEncryptor(key));
     }
 }

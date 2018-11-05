@@ -2,7 +2,7 @@ package bookmarks.service;
 
 import java.util.Optional;
 
-import bookmarks.common.encryption.base.PasswordService;
+import bookmarks.common.encryption.PasswordService;
 import bookmarks.common.exception.BadRequestException;
 import bookmarks.common.exception.UnauthorizedException;
 import bookmarks.controller.request.user.ChangePasswordRequest;

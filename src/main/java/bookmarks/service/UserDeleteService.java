@@ -1,6 +1,6 @@
 package bookmarks.service;
 
-import bookmarks.common.encryption.base.PasswordService;
+import bookmarks.common.encryption.PasswordService;
 import bookmarks.common.exception.UnauthorizedException;
 import bookmarks.controller.request.user.AccountDeleteRequest;
 import bookmarks.dataaccess.AccessTokenDao;

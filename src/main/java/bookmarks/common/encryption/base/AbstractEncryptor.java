@@ -1,6 +1,6 @@
 package bookmarks.common.encryption.base;
 
-public abstract class AbstractEncryptor<T> implements Encryptor<T>{
+public abstract class AbstractEncryptor<T> implements EncryptionService<T>{
     @Override
     public T encryptEntity(T entity, String key) {
         validateKey(key);

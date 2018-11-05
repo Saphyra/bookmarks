@@ -1,12 +1,11 @@
 package bookmarks.common.encryption;
 
-import org.springframework.stereotype.Component;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class IntegerEncryptor{
+public class IntegerEncryptor {
     private final StringEncryptor stringEncryptor;
 
     public String encryptEntity(Integer entity, String key) {
