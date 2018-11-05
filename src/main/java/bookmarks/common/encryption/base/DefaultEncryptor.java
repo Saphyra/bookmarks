@@ -57,14 +57,15 @@ public class DefaultEncryptor {
             log.debug("Error encryping value: {}", text);
             throw new RuntimeException(e);
         }
-
     }
 
     public String decrypt(String text) {
         try {
             cipher.init(Cipher.DECRYPT_MODE, key);
             byte[] base64 = BASE_64.decode(text.getBytes(StandardCharsets.UTF_8));
+            log.debug("Base64 decoded: {}", new String(base64, StandardCharsets.UTF_8));
             byte[] decrypted = cipher.doFinal(base64);
+            log.debug("Decrypted: {}", new String(decrypted, StandardCharsets.UTF_8));
             return new String(decrypted, StandardCharsets.UTF_8);
         } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
             log.debug("Error decrypting value: {}", text);
