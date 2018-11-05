@@ -31,7 +31,6 @@ public class DefaultEncryptor {
         try {
             cipher = Cipher.getInstance(ALGORITHM);
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
-            log.error("Error creating encryptor.", e);
             throw new RuntimeException(e);
         }
     }
@@ -55,7 +54,7 @@ public class DefaultEncryptor {
             byte[] base64 = BASE_64.encode(encrypted);
             return new String(base64, StandardCharsets.UTF_8);
         } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-            log.error("Error encryping value.", e);
+            log.debug("Error encryping value: {}", text);
             throw new RuntimeException(e);
         }
 
@@ -68,7 +67,7 @@ public class DefaultEncryptor {
             byte[] decrypted = cipher.doFinal(base64);
             return new String(decrypted, StandardCharsets.UTF_8);
         } catch (InvalidKeyException | BadPaddingException | IllegalBlockSizeException e) {
-            log.error("Error decrypting value.", e);
+            log.debug("Error decrypting value: {}", text);
             throw new RuntimeException(e);
         }
     }
