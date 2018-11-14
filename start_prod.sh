@@ -1,0 +1,1 @@
+./update_build_run.sh -Dspring.profiles.active=prod
