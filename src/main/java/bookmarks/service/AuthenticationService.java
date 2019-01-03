@@ -4,10 +4,10 @@ import bookmarks.dataaccess.cache.AccessTokenCache;
 import bookmarks.domain.accesstoken.AccessToken;
 import bookmarks.domain.user.User;
 import bookmarks.util.DateTimeUtil;
-import bookmarks.util.IdGenerator;
 import com.github.saphyra.encryption.impl.PasswordService;
 import com.github.saphyra.exceptionhandling.exception.BadRequestException;
 import com.github.saphyra.exceptionhandling.exception.UnauthorizedException;
+import com.github.saphyra.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -56,7 +56,7 @@ public class AuthenticationService {
         }
 
         AccessToken accessToken = AccessToken.builder()
-            .accessTokenId(idGenerator.getRandomId())
+            .accessTokenId(idGenerator.generateRandomId())
             .userId(user.getUserId())
             .lastAccess(dateTimeUtil.now())
             .persistent(remember)
@@ -98,7 +98,7 @@ public class AuthenticationService {
         }
 
         User user = User.builder()
-            .userId(idGenerator.getRandomId())
+            .userId(idGenerator.generateRandomId())
             .userName(userName)
             .password(passwordService.hashPassword(password))
             .build();

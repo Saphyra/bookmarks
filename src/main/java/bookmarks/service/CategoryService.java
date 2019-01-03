@@ -9,10 +9,10 @@ import bookmarks.dataaccess.LinkDao;
 import bookmarks.domain.category.Category;
 import bookmarks.domain.link.Link;
 import bookmarks.util.CategoryUtil;
-import bookmarks.util.IdGenerator;
 import com.github.saphyra.exceptionhandling.exception.BadRequestException;
 import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
 import com.github.saphyra.exceptionhandling.exception.NotFoundException;
+import com.github.saphyra.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +37,7 @@ public class CategoryService {
         userService.findByUserIdAuthorized(userId);
 
         Category category = Category.builder()
-            .categoryId(idGenerator.getRandomId())
+            .categoryId(idGenerator.generateRandomId())
             .root(request.getRoot())
             .userId(userId)
             .label(request.getLabel())

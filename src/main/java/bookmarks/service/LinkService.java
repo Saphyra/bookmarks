@@ -5,9 +5,9 @@ import bookmarks.controller.request.data.UpdateLinkRequest;
 import bookmarks.dataaccess.LinkDao;
 import bookmarks.domain.link.Link;
 import bookmarks.util.CategoryUtil;
-import bookmarks.util.IdGenerator;
 import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
 import com.github.saphyra.exceptionhandling.exception.NotFoundException;
+import com.github.saphyra.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +30,7 @@ public class LinkService {
         categoryUtil.validateRoot(request.getRoot(), userId);
 
         Link link = Link.builder()
-            .linkId(idGenerator.getRandomId())
+            .linkId(idGenerator.generateRandomId())
             .userId(userId)
             .root(request.getRoot())
             .label(request.getLabel())
