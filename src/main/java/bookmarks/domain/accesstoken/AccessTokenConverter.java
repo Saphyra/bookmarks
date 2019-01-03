@@ -1,10 +1,9 @@
 package bookmarks.domain.accesstoken;
 
-import org.springframework.stereotype.Component;
-
-import bookmarks.common.converter.ConverterBase;
 import bookmarks.util.DateTimeUtil;
+import com.github.saphyra.converter.ConverterBase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -12,7 +11,7 @@ public class AccessTokenConverter extends ConverterBase<AccessTokenEntity, Acces
     private final DateTimeUtil dateTimeUtil;
 
     @Override
-    public AccessToken convertEntityInternal(AccessTokenEntity entity) {
+    public AccessToken processEntityConversion(AccessTokenEntity entity) {
         return AccessToken.builder()
             .accessTokenId(entity.getAccessTokenId())
             .userId(entity.getUserId())
@@ -22,7 +21,7 @@ public class AccessTokenConverter extends ConverterBase<AccessTokenEntity, Acces
     }
 
     @Override
-    public AccessTokenEntity convertDomainInternal(AccessToken domain) {
+    public AccessTokenEntity processDomainConversion(AccessToken domain) {
         return AccessTokenEntity.builder()
             .accessTokenId(domain.getAccessTokenId())
             .userId(domain.getUserId())

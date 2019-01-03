@@ -1,10 +1,9 @@
 package bookmarks.domain.category;
 
-import org.springframework.stereotype.Component;
-
-import bookmarks.common.converter.ConverterBase;
 import bookmarks.common.encryption.StringEncryptor;
+import com.github.saphyra.converter.ConverterBase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -12,7 +11,7 @@ public class CategoryConverter extends ConverterBase<CategoryEntity, Category> {
     private final StringEncryptor stringEncryptor;
 
     @Override
-    protected CategoryEntity convertDomainInternal(Category domain) {
+    protected CategoryEntity processDomainConversion(Category domain) {
         return CategoryEntity.builder()
             .categoryId(domain.getCategoryId())
             .root(domain.getRoot())
@@ -23,7 +22,7 @@ public class CategoryConverter extends ConverterBase<CategoryEntity, Category> {
     }
 
     @Override
-    protected Category convertEntityInternal(CategoryEntity entity) {
+    protected Category processEntityConversion(CategoryEntity entity) {
         return Category.builder()
             .categoryId(entity.getCategoryId())
             .root(entity.getRoot())

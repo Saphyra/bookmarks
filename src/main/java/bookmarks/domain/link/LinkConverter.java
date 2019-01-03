@@ -1,10 +1,9 @@
 package bookmarks.domain.link;
 
-import org.springframework.stereotype.Component;
-
-import bookmarks.common.converter.ConverterBase;
 import bookmarks.common.encryption.StringEncryptor;
+import com.github.saphyra.converter.ConverterBase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -12,7 +11,7 @@ public class LinkConverter extends ConverterBase<LinkEntity, Link> {
     private final StringEncryptor stringEncryptor;
 
     @Override
-    protected LinkEntity convertDomainInternal(Link domain) {
+    protected LinkEntity processDomainConversion(Link domain) {
         return LinkEntity.builder()
             .linkId(domain.getLinkId())
             .root(domain.getRoot())
@@ -24,7 +23,7 @@ public class LinkConverter extends ConverterBase<LinkEntity, Link> {
     }
 
     @Override
-    protected Link convertEntityInternal(LinkEntity entity) {
+    protected Link processEntityConversion(LinkEntity entity) {
         return Link.builder()
             .linkId(entity.getLinkId())
             .root(entity.getRoot())

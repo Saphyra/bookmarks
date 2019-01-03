@@ -1,11 +1,10 @@
 package bookmarks.common;
 
-import java.util.Optional;
-
+import com.github.saphyra.converter.Converter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import bookmarks.common.converter.Converter;
-import lombok.RequiredArgsConstructor;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 public abstract class AbstractDao<E, D, ID, R extends JpaRepository<E, ID>> {

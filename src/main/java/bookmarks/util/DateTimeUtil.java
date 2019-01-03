@@ -1,12 +1,11 @@
 package bookmarks.util;
 
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-
+import com.github.saphyra.converter.ConverterBase;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
-import bookmarks.common.converter.ConverterBase;
-import lombok.extern.slf4j.Slf4j;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 
 @Component
 @Slf4j
@@ -19,7 +18,7 @@ public class DateTimeUtil extends ConverterBase<Long, LocalDateTime> {
     }
 
     @Override
-    public LocalDateTime convertEntityInternal(Long entity) {
+    public LocalDateTime processEntityConversion(Long entity) {
         if (entity == null) {
             return null;
         }
@@ -27,7 +26,7 @@ public class DateTimeUtil extends ConverterBase<Long, LocalDateTime> {
     }
 
     @Override
-    public Long convertDomainInternal(LocalDateTime domain) {
+    public Long processDomainConversion(LocalDateTime domain) {
         if (domain == null) {
             return null;
         }

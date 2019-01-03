@@ -1,16 +1,15 @@
 package bookmarks.domain.user;
 
-import org.springframework.stereotype.Component;
-
-import bookmarks.common.converter.ConverterBase;
+import com.github.saphyra.converter.ConverterBase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class UserConverter extends ConverterBase<UserEntity, User> {
 
     @Override
-    protected UserEntity convertDomainInternal(User domain) {
+    protected UserEntity processDomainConversion(User domain) {
         return UserEntity.builder()
             .userId(domain.getUserId())
             .userName(domain.getUserName())
@@ -19,7 +18,7 @@ public class UserConverter extends ConverterBase<UserEntity, User> {
     }
 
     @Override
-    protected User convertEntityInternal(UserEntity entity) {
+    protected User processEntityConversion(UserEntity entity) {
         return User.builder()
             .userId(entity.getUserId())
             .userName(entity.getUserName())
