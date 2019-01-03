@@ -1,13 +1,13 @@
 package bookmarks.service;
 
-import bookmarks.common.exception.BadRequestException;
-import bookmarks.common.exception.NotFoundException;
-import bookmarks.common.exception.UnauthorizedException;
 import bookmarks.controller.request.user.ChangePasswordRequest;
 import bookmarks.controller.request.user.ChangeUserNameRequest;
 import bookmarks.dataaccess.UserDao;
 import bookmarks.domain.user.User;
 import com.github.saphyra.encryption.impl.PasswordService;
+import com.github.saphyra.exceptionhandling.exception.BadRequestException;
+import com.github.saphyra.exceptionhandling.exception.NotFoundException;
+import com.github.saphyra.exceptionhandling.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

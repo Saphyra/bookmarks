@@ -1,12 +1,11 @@
 package bookmarks.util;
 
-import org.springframework.stereotype.Component;
-
-import bookmarks.common.exception.ForbiddenException;
-import bookmarks.common.exception.NotFoundException;
 import bookmarks.dataaccess.CategoryDao;
 import bookmarks.domain.category.Category;
+import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
+import com.github.saphyra.exceptionhandling.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

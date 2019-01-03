@@ -1,8 +1,5 @@
 package bookmarks.service;
 
-import bookmarks.common.exception.BadRequestException;
-import bookmarks.common.exception.ForbiddenException;
-import bookmarks.common.exception.NotFoundException;
 import bookmarks.controller.request.data.CreateCategoryRequest;
 import bookmarks.controller.request.data.UpdateCategoryRequest;
 import bookmarks.controller.response.DataResponse;
@@ -13,6 +10,9 @@ import bookmarks.domain.category.Category;
 import bookmarks.domain.link.Link;
 import bookmarks.util.CategoryUtil;
 import bookmarks.util.IdGenerator;
+import com.github.saphyra.exceptionhandling.exception.BadRequestException;
+import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
+import com.github.saphyra.exceptionhandling.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

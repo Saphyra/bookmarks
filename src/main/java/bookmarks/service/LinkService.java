@@ -1,22 +1,20 @@
 package bookmarks.service;
 
-import static bookmarks.util.Util.replaceIfNotNull;
-
-import java.util.List;
-
-import javax.transaction.Transactional;
-
-import org.springframework.stereotype.Service;
-
-import bookmarks.common.exception.ForbiddenException;
-import bookmarks.common.exception.NotFoundException;
 import bookmarks.controller.request.data.CreateLinkRequest;
 import bookmarks.controller.request.data.UpdateLinkRequest;
 import bookmarks.dataaccess.LinkDao;
 import bookmarks.domain.link.Link;
 import bookmarks.util.CategoryUtil;
 import bookmarks.util.IdGenerator;
+import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
+import com.github.saphyra.exceptionhandling.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+
+import static bookmarks.util.Util.replaceIfNotNull;
 
 @Service
 @RequiredArgsConstructor

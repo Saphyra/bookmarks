@@ -1,20 +1,19 @@
 package bookmarks.service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import bookmarks.controller.request.data.FilteredRequest;
-import bookmarks.controller.response.DataTreeResponse;
-import org.springframework.stereotype.Service;
-
-import bookmarks.common.exception.ForbiddenException;
 import bookmarks.controller.response.DataResponse;
+import bookmarks.controller.response.DataTreeResponse;
 import bookmarks.domain.Categorizable;
 import bookmarks.domain.category.Category;
 import bookmarks.domain.link.Link;
+import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j

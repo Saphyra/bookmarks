@@ -1,6 +1,5 @@
 package bookmarks.service;
 
-import bookmarks.common.exception.UnauthorizedException;
 import bookmarks.controller.request.user.AccountDeleteRequest;
 import bookmarks.dataaccess.AccessTokenDao;
 import bookmarks.dataaccess.CategoryDao;
@@ -8,6 +7,7 @@ import bookmarks.dataaccess.LinkDao;
 import bookmarks.dataaccess.UserDao;
 import bookmarks.domain.user.User;
 import com.github.saphyra.encryption.impl.PasswordService;
+import com.github.saphyra.exceptionhandling.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
