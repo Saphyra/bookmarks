@@ -7,12 +7,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class AccessTokenConverter extends ConverterBase<AccessTokenEntity, AccessToken> {
+public class BmAccessTokenConverter extends ConverterBase<AccessTokenEntity, BmAccessToken> {
     private final DateTimeUtil dateTimeUtil;
 
     @Override
-    public AccessToken processEntityConversion(AccessTokenEntity entity) {
-        return AccessToken.builder()
+    public BmAccessToken processEntityConversion(AccessTokenEntity entity) {
+        return BmAccessToken.builder()
             .accessTokenId(entity.getAccessTokenId())
             .userId(entity.getUserId())
             .lastAccess(dateTimeUtil.convertEntity(entity.getLastAccess()))
@@ -21,7 +21,7 @@ public class AccessTokenConverter extends ConverterBase<AccessTokenEntity, Acces
     }
 
     @Override
-    public AccessTokenEntity processDomainConversion(AccessToken domain) {
+    public AccessTokenEntity processDomainConversion(BmAccessToken domain) {
         return AccessTokenEntity.builder()
             .accessTokenId(domain.getAccessTokenId())
             .userId(domain.getUserId())

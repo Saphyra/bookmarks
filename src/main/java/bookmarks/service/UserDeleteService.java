@@ -5,7 +5,7 @@ import bookmarks.dataaccess.AccessTokenDao;
 import bookmarks.dataaccess.CategoryDao;
 import bookmarks.dataaccess.LinkDao;
 import bookmarks.dataaccess.UserDao;
-import bookmarks.domain.user.User;
+import bookmarks.domain.user.BmUser;
 import com.github.saphyra.encryption.impl.PasswordService;
 import com.github.saphyra.exceptionhandling.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
@@ -26,13 +26,13 @@ public class UserDeleteService {
 
     @Transactional
     public void deleteAccount(AccountDeleteRequest request, String userId) {
-        User user = userService.findByUserIdAuthorized(userId);
-        if(!passwordService.authenticate(request.getPassword(), user.getPassword())){
+        BmUser bmUser = userService.findByUserIdAuthorized(userId);
+        if(!passwordService.authenticate(request.getPassword(), bmUser.getPassword())){
             throw new UnauthorizedException("bad password");
         }
         accessTokenDao.deleteByUserId(userId);
         categoryDao.deleteByUserId(userId);
         linkDao.deleteByUserId(userId);
-        userDao.delete(user);
+        userDao.delete(bmUser);
     }
 }

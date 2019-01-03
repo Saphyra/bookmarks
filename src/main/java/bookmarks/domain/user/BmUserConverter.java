@@ -6,10 +6,10 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class UserConverter extends ConverterBase<UserEntity, User> {
+public class BmUserConverter extends ConverterBase<UserEntity, BmUser> {
 
     @Override
-    protected UserEntity processDomainConversion(User domain) {
+    protected UserEntity processDomainConversion(BmUser domain) {
         return UserEntity.builder()
             .userId(domain.getUserId())
             .userName(domain.getUserName())
@@ -18,8 +18,8 @@ public class UserConverter extends ConverterBase<UserEntity, User> {
     }
 
     @Override
-    protected User processEntityConversion(UserEntity entity) {
-        return User.builder()
+    protected BmUser processEntityConversion(UserEntity entity) {
+        return BmUser.builder()
             .userId(entity.getUserId())
             .userName(entity.getUserName())
             .password(entity.getPassword())

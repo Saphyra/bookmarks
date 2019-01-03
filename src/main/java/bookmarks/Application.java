@@ -1,5 +1,6 @@
 package bookmarks;
 
+import com.github.saphyra.authservice.EnableAuthService;
 import com.github.saphyra.encryption.EnableEncryption;
 import com.github.saphyra.exceptionhandling.EnableExceptionHandler;
 import org.springframework.boot.SpringApplication;
@@ -10,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @SpringBootApplication
 @Slf4j
+@EnableAuthService
 @EnableEncryption
 @EnableExceptionHandler
 public class Application {

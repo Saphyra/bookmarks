@@ -1,18 +1,21 @@
 package bookmarks.controller;
 
-import javax.validation.Valid;
-
+import bookmarks.auth.PropertySourceImpl;
+import bookmarks.controller.request.OneStringParamRequest;
 import bookmarks.controller.request.user.AccountDeleteRequest;
 import bookmarks.controller.request.user.ChangePasswordRequest;
 import bookmarks.controller.request.user.ChangeUserNameRequest;
-import bookmarks.filter.FilterHelper;
 import bookmarks.service.UserDeleteService;
-import org.springframework.web.bind.annotation.*;
-
-import bookmarks.controller.request.OneStringParamRequest;
 import bookmarks.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.validation.Valid;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,7 +32,7 @@ public class UserController {
     @PostMapping(CHANGE_PASSWORD_MAPPING)
     public void changePassword(
         @RequestBody @Valid ChangePasswordRequest request,
-        @CookieValue(FilterHelper.COOKIE_USER_ID) String userId
+        @CookieValue(PropertySourceImpl.COOKIE_USER_ID) String userId
         ){
         log.info("{} wants to chanhe his password", userId);
         userService.changePassword(request, userId);
@@ -38,7 +41,7 @@ public class UserController {
     @PostMapping(CHANGE_USER_NAME_MAPPING)
     public void changeUserName(
         @RequestBody @Valid ChangeUserNameRequest request,
-        @CookieValue(FilterHelper.COOKIE_USER_ID) String userId
+        @CookieValue(PropertySourceImpl.COOKIE_USER_ID) String userId
     ){
         log.info("{} wants to change his userName", userId);
         userService.changeUserName(request, userId);
@@ -47,7 +50,7 @@ public class UserController {
     @DeleteMapping(DELETE_ACCOUNT_MAPPING)
     public void deleteAccount(
         @RequestBody @Valid AccountDeleteRequest request,
-        @CookieValue(FilterHelper.COOKIE_USER_ID) String userId
+        @CookieValue(PropertySourceImpl.COOKIE_USER_ID) String userId
     ){
         log.info("{} wants to delete his account", userId);
         userDeleteService.deleteAccount(request, userId);

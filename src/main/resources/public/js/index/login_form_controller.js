@@ -57,7 +57,7 @@
             const credentials = {
                 userName: userName,
                 password: password,
-                remember: remember
+                rememberMe: remember
             }
             
             authService.login(

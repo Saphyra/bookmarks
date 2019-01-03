@@ -1,19 +1,22 @@
 package bookmarks.controller;
 
-import java.util.List;
-import java.util.Optional;
-
+import bookmarks.auth.PropertySourceImpl;
 import bookmarks.controller.request.data.FilteredRequest;
-import bookmarks.controller.response.DataTreeResponse;
-import org.springframework.web.bind.annotation.*;
-
 import bookmarks.controller.response.DataResponse;
-import bookmarks.filter.FilterHelper;
+import bookmarks.controller.response.DataTreeResponse;
 import bookmarks.service.DataQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @Slf4j
@@ -31,7 +34,7 @@ public class QueryController {
 
     @GetMapping({GET_CATEGORIES_MAPPING, GET_ROOT_CATEGORIES_MAPPING})
     public List<DataResponse> getCategories(
-        @CookieValue(FilterHelper.COOKIE_USER_ID) String userId,
+        @CookieValue(PropertySourceImpl.COOKIE_USER_ID) String userId,
         @PathVariable("root") Optional<String> parentId
     ) {
         String parent = parentId.orElse("");
@@ -41,7 +44,7 @@ public class QueryController {
 
     @GetMapping({GET_ROOT_MAPPING, GET_DATA_MAPPING})
     public List<DataResponse> getData(
-        @CookieValue(FilterHelper.COOKIE_USER_ID) String userId,
+        @CookieValue(PropertySourceImpl.COOKIE_USER_ID) String userId,
         @PathVariable("root") Optional<String> parentId
     ) {
         String parent = parentId.orElse("");
@@ -52,7 +55,7 @@ public class QueryController {
     @PostMapping(GET_DATA_FILTERED)
     public List<DataResponse> getDataFiltered(
         @RequestBody @Valid FilteredRequest request,
-        @CookieValue(FilterHelper.COOKIE_USER_ID) String userId
+        @CookieValue(PropertySourceImpl.COOKIE_USER_ID) String userId
     ){
         log.info("{} wants to query filtered data.", userId);
         return dataQueryService.getDataFiltered(request, userId);
@@ -60,7 +63,7 @@ public class QueryController {
 
     @GetMapping(GET_DATA_OF_ROOT_MAPPING)
     public List<DataResponse> getDataOfRoot(
-        @CookieValue(FilterHelper.COOKIE_USER_ID) String userId,
+        @CookieValue(PropertySourceImpl.COOKIE_USER_ID) String userId,
         @PathVariable("categoryId") String categoryId
     ){
         log.info("{} wants to know the data of root of {}", userId, categoryId);
@@ -68,7 +71,7 @@ public class QueryController {
     }
 
     @GetMapping(GET_CATEGORY_TREE_MAPPING)
-    public List<DataTreeResponse> getCategoryTree(@CookieValue(FilterHelper.COOKIE_USER_ID) String userId){
+    public List<DataTreeResponse> getCategoryTree(@CookieValue(PropertySourceImpl.COOKIE_USER_ID) String userId){
         log.info("{} wants to know his category tree.", userId);
         return dataQueryService.getCategoryTree(userId);
     }

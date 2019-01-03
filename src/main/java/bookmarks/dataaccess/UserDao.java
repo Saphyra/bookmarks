@@ -1,8 +1,8 @@
 package bookmarks.dataaccess;
 
 import bookmarks.dataaccess.repository.UserRepository;
-import bookmarks.domain.user.User;
-import bookmarks.domain.user.UserConverter;
+import bookmarks.domain.user.BmUser;
+import bookmarks.domain.user.BmUserConverter;
 import bookmarks.domain.user.UserEntity;
 import com.github.saphyra.dao.AbstractDao;
 import org.springframework.stereotype.Component;
@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class UserDao extends AbstractDao<UserEntity, User, String, UserRepository> {
-    public UserDao(UserConverter converter, UserRepository repository) {
+public class UserDao extends AbstractDao<UserEntity, BmUser, String, UserRepository> {
+    public UserDao(BmUserConverter converter, UserRepository repository) {
         super(converter, repository);
     }
 
-    public Optional<User> findByUserName(String userName){
+    public Optional<BmUser> findByUserName(String userName){
         return converter.convertEntity(repository.findByUserName(userName));
     }
 }

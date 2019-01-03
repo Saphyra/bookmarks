@@ -3,7 +3,7 @@ package bookmarks.service;
 import bookmarks.controller.request.user.ChangePasswordRequest;
 import bookmarks.controller.request.user.ChangeUserNameRequest;
 import bookmarks.dataaccess.UserDao;
-import bookmarks.domain.user.User;
+import bookmarks.domain.user.BmUser;
 import com.github.saphyra.encryption.impl.PasswordService;
 import com.github.saphyra.exceptionhandling.exception.BadRequestException;
 import com.github.saphyra.exceptionhandling.exception.NotFoundException;
@@ -22,35 +22,35 @@ public class UserService {
     private final PasswordService passwordService;
 
     public void changePassword(ChangePasswordRequest request, String userId) {
-        User user = findByUserIdAuthorized(userId);
-        if(!passwordService.authenticate(request.getOldPassword(), user.getPassword())){
+        BmUser bmUser = findByUserIdAuthorized(userId);
+        if(!passwordService.authenticate(request.getOldPassword(), bmUser.getPassword())){
             throw new UnauthorizedException("Bad old password");
         }
-        user.setPassword(passwordService.hashPassword(request.getNewPassword()));
-        userDao.save(user);
+        bmUser.setPassword(passwordService.hashPassword(request.getNewPassword()));
+        userDao.save(bmUser);
     }
 
     public void changeUserName(ChangeUserNameRequest request, String userId) {
         if(isUserNameExists(request.getNewUserName())){
             throw new BadRequestException(request.getNewUserName() + " userName is already exist.");
         }
-        User user = findByUserIdAuthorized(userId);
-        if(!passwordService.authenticate(request.getPassword(), user.getPassword())){
+        BmUser bmUser = findByUserIdAuthorized(userId);
+        if(!passwordService.authenticate(request.getPassword(), bmUser.getPassword())){
             throw new UnauthorizedException("Bad old password");
         }
-        user.setUserName(request.getNewUserName());
-        userDao.save(user);
+        bmUser.setUserName(request.getNewUserName());
+        userDao.save(bmUser);
     }
 
-    public Optional<User> findByUserId(String userId) {
+    public Optional<BmUser> findByUserId(String userId) {
         return userDao.findById(userId);
     }
 
-    public User findByUserIdAuthorized(String userId) {
-        return findByUserId(userId).orElseThrow(() -> new NotFoundException("User not found with userId " + userId));
+    public BmUser findByUserIdAuthorized(String userId) {
+        return findByUserId(userId).orElseThrow(() -> new NotFoundException("BmUser not found with userId " + userId));
     }
 
-    public Optional<User> findByUserName(String userName) {
+    public Optional<BmUser> findByUserName(String userName) {
         return userDao.findByUserName(userName);
     }
 
@@ -58,7 +58,7 @@ public class UserService {
         return userDao.findByUserName(userName).isPresent();
     }
 
-    public void save(User user) {
-        userDao.save(user);
+    public void save(BmUser bmUser) {
+        userDao.save(bmUser);
     }
 }

@@ -5,35 +5,36 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 
 @Component
 @Slf4j
-public class DateTimeUtil extends ConverterBase<Long, LocalDateTime> {
+public class DateTimeUtil extends ConverterBase<Long, OffsetDateTime> {
     public static final Integer EXPIRATION_TIME_IN_HOURS = 8;
 
-    public LocalDateTime getExpirationDate() {
-        LocalDateTime expirationDate = now();
+    public OffsetDateTime getExpirationDate() {
+        OffsetDateTime expirationDate = now();
         return expirationDate.minusHours(EXPIRATION_TIME_IN_HOURS);
     }
 
     @Override
-    public LocalDateTime processEntityConversion(Long entity) {
+    public OffsetDateTime processEntityConversion(Long entity) {
         if (entity == null) {
             return null;
         }
-        return LocalDateTime.ofEpochSecond(entity, 0, ZoneOffset.UTC);
+        return OffsetDateTime.of(LocalDateTime.ofEpochSecond(entity, 0, ZoneOffset.UTC), ZoneOffset.UTC);
     }
 
     @Override
-    public Long processDomainConversion(LocalDateTime domain) {
+    public Long processDomainConversion(OffsetDateTime domain) {
         if (domain == null) {
             return null;
         }
-        return domain.toEpochSecond(ZoneOffset.UTC);
+        return domain.toEpochSecond();
     }
 
-    public LocalDateTime now() {
-        return LocalDateTime.now(ZoneOffset.UTC).withNano(0);
+    public OffsetDateTime now() {
+        return OffsetDateTime.now(ZoneOffset.UTC).withNano(0);
     }
 }
