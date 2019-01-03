@@ -1,12 +1,11 @@
 package bookmarks.dataaccess;
 
-import org.springframework.stereotype.Component;
-
-import bookmarks.common.AbstractDao;
 import bookmarks.dataaccess.repository.AccessTokenRepository;
 import bookmarks.domain.accesstoken.AccessToken;
 import bookmarks.domain.accesstoken.AccessTokenConverter;
 import bookmarks.domain.accesstoken.AccessTokenEntity;
+import com.github.saphyra.dao.AbstractDao;
+import org.springframework.stereotype.Component;
 
 @Component
 public class AccessTokenDao extends AbstractDao<AccessTokenEntity, AccessToken, String, AccessTokenRepository> {

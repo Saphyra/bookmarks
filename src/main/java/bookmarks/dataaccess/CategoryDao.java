@@ -1,14 +1,13 @@
 package bookmarks.dataaccess;
 
-import java.util.List;
-
-import org.springframework.stereotype.Component;
-
-import bookmarks.common.AbstractDao;
 import bookmarks.dataaccess.repository.CategoryRepository;
 import bookmarks.domain.category.Category;
 import bookmarks.domain.category.CategoryConverter;
 import bookmarks.domain.category.CategoryEntity;
+import com.github.saphyra.dao.AbstractDao;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class CategoryDao extends AbstractDao<CategoryEntity, Category, String, CategoryRepository> {
