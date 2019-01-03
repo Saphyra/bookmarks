@@ -1,7 +1,7 @@
 package bookmarks.domain.category;
 
-import bookmarks.common.encryption.StringEncryptor;
 import com.github.saphyra.converter.ConverterBase;
+import com.github.saphyra.encryption.impl.StringEncryptor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

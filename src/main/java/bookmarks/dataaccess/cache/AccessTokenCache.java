@@ -1,17 +1,16 @@
 package bookmarks.dataaccess.cache;
 
+import bookmarks.dataaccess.AccessTokenDao;
+import bookmarks.domain.accesstoken.AccessToken;
+import com.github.saphyra.cache.AbstractCache;
+import com.google.common.cache.CacheBuilder;
+import org.springframework.stereotype.Component;
+
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.stereotype.Component;
-
-import bookmarks.common.AbstractCache;
-import bookmarks.dataaccess.AccessTokenDao;
-import bookmarks.domain.accesstoken.AccessToken;
-import com.google.common.cache.CacheBuilder;
-
 @Component
-public class AccessTokenCache extends AbstractCache<String, Optional<AccessToken>> {
+public class AccessTokenCache extends AbstractCache<String, AccessToken> {
     private final AccessTokenDao accessTokenDao;
 
     public AccessTokenCache(AccessTokenDao accessTokenDao) {

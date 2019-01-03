@@ -1,8 +1,5 @@
 package bookmarks.service;
 
-import org.springframework.stereotype.Service;
-
-import bookmarks.common.encryption.PasswordService;
 import bookmarks.common.exception.BadRequestException;
 import bookmarks.common.exception.UnauthorizedException;
 import bookmarks.dataaccess.cache.AccessTokenCache;
@@ -10,8 +7,10 @@ import bookmarks.domain.accesstoken.AccessToken;
 import bookmarks.domain.user.User;
 import bookmarks.util.DateTimeUtil;
 import bookmarks.util.IdGenerator;
+import com.github.saphyra.encryption.impl.PasswordService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
