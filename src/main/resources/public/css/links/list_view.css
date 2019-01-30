@@ -70,6 +70,10 @@
     padding: 0.5rem;
 }
 
+#list_view_elements .list_view_item span{
+    cursor: pointer;
+}
+
 .list_view_item{
     text-align: left;
     margin: 0.5rem;
