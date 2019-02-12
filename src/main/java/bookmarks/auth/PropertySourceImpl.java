@@ -1,16 +1,19 @@
 package bookmarks.auth;
 
-import com.github.saphyra.authservice.PropertySource;
-import com.github.saphyra.authservice.domain.Role;
-import org.springframework.stereotype.Component;
+import static bookmarks.controller.PageController.INDEX_MAPPING;
 
 import java.util.Arrays;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
-import static bookmarks.controller.PageController.INDEX_MAPPING;
+import org.springframework.http.HttpMethod;
+import org.springframework.stereotype.Component;
+
+import com.github.saphyra.authservice.PropertySource;
+import com.github.saphyra.authservice.domain.AllowedUri;
+import com.github.saphyra.authservice.domain.RoleSetting;
 
 @Component
 public class PropertySourceImpl implements PropertySource {
@@ -20,16 +23,6 @@ public class PropertySourceImpl implements PropertySource {
     private static final String REQUEST_TYPE_HEADER = "Request-Type";
     private static final String REST_TYPE_REQUEST = "rest";
 
-    private static final List<String> ALLOWED_URIS = Arrays.asList(
-        "/",
-        "/**/favicon.ico",
-        "/login",
-        "/user/register",
-        "/user/name/exist",
-        "/user/email/exist",
-        "/css/**",
-        "/js/**"
-    );
     private static final long TOKEN_EXPIRATION_MINUTES = 8 * 60;
 
     @Override
@@ -63,13 +56,21 @@ public class PropertySourceImpl implements PropertySource {
     }
 
     @Override
-    public List<String> getAllowedUris() {
-        return ALLOWED_URIS;
+    public List<AllowedUri> getAllowedUris() {
+        return Arrays.asList(
+            new AllowedUri("/", HttpMethod.GET),
+            new AllowedUri("/**/favicon.ico", HttpMethod.GET),
+            new AllowedUri("/user/register", HttpMethod.POST),
+            new AllowedUri("/user/name/exist", HttpMethod.POST),
+            new AllowedUri("/user/email/exist", HttpMethod.POST),
+            new AllowedUri("/css/**", HttpMethod.GET),
+            new AllowedUri("/js/**", HttpMethod.GET)
+        );
     }
 
     @Override
-    public Map<String, Set<Role>> getRoleSettings() {
-        return new HashMap<>();
+    public Set<RoleSetting> getRoleSettings() {
+        return new HashSet<>();
     }
 
     @Override
@@ -85,5 +86,15 @@ public class PropertySourceImpl implements PropertySource {
     @Override
     public int getFilterOrder() {
         return 0;
+    }
+
+    @Override
+    public String getSuccessfulLoginRedirection() {
+        return "links";
+    }
+
+    @Override
+    public Optional<String> getLogoutRedirection() {
+        return Optional.empty();
     }
 }
