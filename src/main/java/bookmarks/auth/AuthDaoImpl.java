@@ -1,15 +1,16 @@
 package bookmarks.auth;
 
+import java.time.OffsetDateTime;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import bookmarks.dataaccess.AccessTokenDao;
-import bookmarks.dataaccess.UserDao;
+import bookmarks.service.UserService;
 import com.github.saphyra.authservice.AuthDao;
 import com.github.saphyra.authservice.domain.AccessToken;
 import com.github.saphyra.authservice.domain.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import java.time.OffsetDateTime;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -17,16 +18,16 @@ public class AuthDaoImpl implements AuthDao {
     private final AccessTokenConverter accessTokenConverter;
     private final AccessTokenDao accessTokenDao;
     private final UserConverter userConverter;
-    private final UserDao userDao;
+    private final UserService userService;
 
     @Override
     public Optional<User> findUserById(String userId) {
-        return userConverter.convertEntity(userDao.findById(userId));
+        return userConverter.convertEntity(userService.findById(userId));
     }
 
     @Override
     public Optional<User> findUserByUserName(String userName) {
-        return userConverter.convertEntity(userDao.findByUserName(userName));
+        return userConverter.convertEntity(userService.findByUserName(userName));
     }
 
     @Override

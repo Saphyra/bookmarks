@@ -23,7 +23,7 @@
     */
     function logout(successCallBack){
         try{
-            const request = new Request(dao.DELETE, "logout");
+            const request = new Request(dao.POST, "logout");
                 request.handleLogout = false;
                 request.processValidResponse = successCallBack;
             dao.sendRequestAsync(request);

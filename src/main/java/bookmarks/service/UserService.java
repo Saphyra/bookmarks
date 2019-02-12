@@ -1,5 +1,9 @@
 package bookmarks.service;
 
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import bookmarks.controller.request.user.ChangePasswordRequest;
 import bookmarks.controller.request.user.ChangeUserNameRequest;
 import bookmarks.dataaccess.UserDao;
@@ -8,11 +12,9 @@ import com.github.saphyra.encryption.impl.PasswordService;
 import com.github.saphyra.exceptionhandling.exception.BadRequestException;
 import com.github.saphyra.exceptionhandling.exception.NotFoundException;
 import com.github.saphyra.exceptionhandling.exception.UnauthorizedException;
+import com.github.saphyra.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class UserService {
     private final UserDao userDao;
     private final PasswordService passwordService;
+    private final IdGenerator idGenerator;
 
     public void changePassword(ChangePasswordRequest request, String userId) {
         BmUser bmUser = findByUserIdAuthorized(userId);
@@ -58,7 +61,22 @@ public class UserService {
         return userDao.findByUserName(userName).isPresent();
     }
 
-    public void save(BmUser bmUser) {
+    public void register(String userName, String password) {
+        log.info("Processing registration request for userName {}", userName);
+        if (isUserNameExists(userName)) {
+            throw new BadRequestException("BmUser name " + userName + " already exists.");
+        }
+
+        BmUser bmUser = BmUser.builder()
+            .userId(idGenerator.generateRandomId())
+            .userName(userName)
+            .password(passwordService.hashPassword(password))
+            .build();
         userDao.save(bmUser);
+        log.info("BmUser saved successfully with id {}", bmUser.getUserId());
+    }
+
+    public Optional<BmUser> findById(String userId) {
+        return userDao.findById(userId);
     }
 }
