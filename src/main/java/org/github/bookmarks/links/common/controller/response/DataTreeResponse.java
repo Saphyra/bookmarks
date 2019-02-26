@@ -2,7 +2,7 @@ package org.github.bookmarks.links.common.controller.response;
 
 import java.util.List;
 
-import bookmarks.domain.category.Category;
+import org.github.bookmarks.links.category.domain.Category;
 import lombok.Data;
 
 @Data

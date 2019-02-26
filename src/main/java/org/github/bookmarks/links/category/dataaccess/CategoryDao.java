@@ -1,13 +1,13 @@
-package bookmarks.dataaccess;
-
-import bookmarks.dataaccess.repository.CategoryRepository;
-import bookmarks.domain.category.Category;
-import bookmarks.domain.category.CategoryConverter;
-import bookmarks.domain.category.CategoryEntity;
-import com.github.saphyra.dao.AbstractDao;
-import org.springframework.stereotype.Component;
+package org.github.bookmarks.links.category.dataaccess;
 
 import java.util.List;
+
+import org.github.bookmarks.links.category.domain.Category;
+import org.github.bookmarks.links.category.domain.CategoryConverter;
+import org.github.bookmarks.links.category.domain.CategoryEntity;
+import org.springframework.stereotype.Component;
+
+import com.github.saphyra.dao.AbstractDao;
 
 @Component
 public class CategoryDao extends AbstractDao<CategoryEntity, Category, String, CategoryRepository> {

@@ -1,4 +1,4 @@
-package bookmarks.domain.link;
+package org.github.bookmarks.links.category.domain;
 
 import com.github.saphyra.converter.ConverterBase;
 import com.github.saphyra.encryption.impl.StringEncryptor;
@@ -7,30 +7,28 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class LinkConverter extends ConverterBase<LinkEntity, Link> {
+public class CategoryConverter extends ConverterBase<CategoryEntity, Category> {
     private final StringEncryptor stringEncryptor;
 
     @Override
-    protected LinkEntity processDomainConversion(Link domain) {
-        return LinkEntity.builder()
-            .linkId(domain.getLinkId())
+    protected CategoryEntity processDomainConversion(Category domain) {
+        return CategoryEntity.builder()
+            .categoryId(domain.getCategoryId())
             .root(domain.getRoot())
             .userId(domain.getUserId())
             .label(stringEncryptor.encryptEntity(domain.getLabel(), domain.getUserId()))
-            .url(stringEncryptor.encryptEntity(domain.getUrl(), domain.getUserId()))
-            .archived(domain.getArchived())
+            .description(stringEncryptor.encryptEntity(domain.getDescription(), domain.getUserId()))
             .build();
     }
 
     @Override
-    protected Link processEntityConversion(LinkEntity entity) {
-        return Link.builder()
-            .linkId(entity.getLinkId())
+    protected Category processEntityConversion(CategoryEntity entity) {
+        return Category.builder()
+            .categoryId(entity.getCategoryId())
             .root(entity.getRoot())
             .userId(entity.getUserId())
             .label(stringEncryptor.decryptEntity(entity.getLabel(), entity.getUserId()))
-            .url(stringEncryptor.decryptEntity(entity.getUrl(), entity.getUserId()))
-            .archived(entity.getArchived())
+            .description(stringEncryptor.decryptEntity(entity.getDescription(), entity.getUserId()))
             .build();
     }
 }

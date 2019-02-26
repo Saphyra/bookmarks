@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 
 import org.github.bookmarks.links.link.controller.request.CreateLinkRequest;
 import org.github.bookmarks.links.link.controller.request.UpdateLinkRequest;
-import bookmarks.dataaccess.LinkDao;
-import bookmarks.domain.link.Link;
+import org.github.bookmarks.links.link.dataaccess.LinkDao;
+import org.github.bookmarks.links.link.domain.Link;
 import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
 import com.github.saphyra.exceptionhandling.exception.NotFoundException;
 import com.github.saphyra.util.IdGenerator;

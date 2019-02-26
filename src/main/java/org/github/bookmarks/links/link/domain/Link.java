@@ -1,4 +1,4 @@
-package bookmarks.domain.link;
+package org.github.bookmarks.links.link.domain;
 
 import org.github.bookmarks.links.Categorizable;
 import lombok.AllArgsConstructor;

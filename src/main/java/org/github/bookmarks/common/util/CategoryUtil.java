@@ -1,7 +1,7 @@
 package org.github.bookmarks.common.util;
 
-import bookmarks.dataaccess.CategoryDao;
-import bookmarks.domain.category.Category;
+import org.github.bookmarks.links.category.dataaccess.CategoryDao;
+import org.github.bookmarks.links.category.domain.Category;
 import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
 import com.github.saphyra.exceptionhandling.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;

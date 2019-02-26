@@ -7,8 +7,8 @@ import org.github.bookmarks.user.dataaccess.UserDao;
 import org.springframework.stereotype.Service;
 
 import org.github.bookmarks.auth.dataaccess.AccessTokenDao;
-import bookmarks.dataaccess.CategoryDao;
-import bookmarks.dataaccess.LinkDao;
+import org.github.bookmarks.links.category.dataaccess.CategoryDao;
+import org.github.bookmarks.links.link.dataaccess.LinkDao;
 import org.github.bookmarks.user.domain.BmUser;
 import com.github.saphyra.encryption.impl.PasswordService;
 import com.github.saphyra.exceptionhandling.exception.UnauthorizedException;

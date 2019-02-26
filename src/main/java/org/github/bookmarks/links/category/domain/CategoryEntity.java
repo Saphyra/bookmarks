@@ -1,8 +1,7 @@
-package bookmarks.domain.link;
+package org.github.bookmarks.links.category.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -18,11 +17,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "link")
-public class LinkEntity {
+@Table(name = "category")
+public class CategoryEntity {
     @Id
-    @Column(name = "link_id", length = 50)
-    private String linkId;
+    @Column(name = "category_id", length = 50)
+    private String categoryId;
 
     @Column(name = "root", length = 50)
     private String root;
@@ -34,10 +33,7 @@ public class LinkEntity {
     @Type(type = "text")
     private String label;
 
-    @Column(name = "url")
+    @Column(name = "description")
     @Type(type = "text")
-    private String url;
-
-    @Column(name = "archived")
-    private Boolean archived;
+    private String description;
 }

@@ -1,13 +1,13 @@
-package bookmarks.dataaccess;
-
-import bookmarks.dataaccess.repository.LinkRepository;
-import bookmarks.domain.link.Link;
-import bookmarks.domain.link.LinkConverter;
-import bookmarks.domain.link.LinkEntity;
-import com.github.saphyra.dao.AbstractDao;
-import org.springframework.stereotype.Component;
+package org.github.bookmarks.links.link.dataaccess;
 
 import java.util.List;
+
+import org.github.bookmarks.links.link.domain.Link;
+import org.github.bookmarks.links.link.domain.LinkConverter;
+import org.github.bookmarks.links.link.domain.LinkEntity;
+import org.springframework.stereotype.Component;
+
+import com.github.saphyra.dao.AbstractDao;
 
 @Component
 public class LinkDao extends AbstractDao<LinkEntity, Link, String, LinkRepository> {

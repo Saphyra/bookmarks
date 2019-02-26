@@ -3,24 +3,21 @@ package bookmarks.service;
 import static java.util.Objects.isNull;
 import static org.github.bookmarks.common.util.Util.replaceIfNotNull;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import org.github.bookmarks.common.util.CategoryUtil;
+import org.github.bookmarks.links.category.controller.request.CreateCategoryRequest;
+import org.github.bookmarks.links.category.controller.request.UpdateCategoryRequest;
+import org.github.bookmarks.links.category.dataaccess.CategoryDao;
+import org.github.bookmarks.links.category.domain.Category;
+import org.github.bookmarks.links.common.controller.response.DataResponse;
+import org.github.bookmarks.links.link.dataaccess.LinkDao;
+import org.github.bookmarks.links.link.domain.Link;
 import org.github.bookmarks.user.UserFacade;
 import org.springframework.stereotype.Service;
 
-import org.github.bookmarks.links.category.controller.request.CreateCategoryRequest;
-import org.github.bookmarks.links.category.controller.request.UpdateCategoryRequest;
-import org.github.bookmarks.links.common.controller.response.DataResponse;
-import org.github.bookmarks.links.common.controller.response.DataTreeResponse;
-import bookmarks.dataaccess.CategoryDao;
-import bookmarks.dataaccess.LinkDao;
-import bookmarks.domain.category.Category;
-import bookmarks.domain.link.Link;
 import com.github.saphyra.exceptionhandling.exception.BadRequestException;
 import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
 import com.github.saphyra.exceptionhandling.exception.NotFoundException;
@@ -81,39 +78,12 @@ public class CategoryService {
         return category;
     }
 
-    public List<Category> getCategoriesByRootAndUserId(String root, String userId) {
-        return categoryDao.getByRootAndUserId(root, userId);
-    }
-
     public DataResponse getCategory(String userId, String categoryId) {
         Category category = findByIdAuthorized(userId, categoryId);
         return DataResponse.builder()
             .type(DataResponse.Type.CATEGORY)
             .element(category)
             .build();
-    }
-
-    public List<DataTreeResponse> getCategoryTree(String userId) {
-        DataTreeResponse root = new DataTreeResponse();
-        root.setCategory(
-            Category.builder()
-                .categoryId("")
-                .label("Root")
-                .build()
-        );
-        root.setChildren(getCategoryTree("", userId));
-        return Arrays.asList(root);
-    }
-
-    private List<DataTreeResponse> getCategoryTree(String root, String userId) {
-        return categoryDao.getByRootAndUserId(root, userId).stream()
-            .map(category -> {
-                DataTreeResponse response = new DataTreeResponse();
-                response.setCategory(category);
-                response.setChildren(getCategoryTree(category.getCategoryId(), userId));
-                return response;
-            })
-            .collect(Collectors.toList());
     }
 
     @Transactional
@@ -160,7 +130,8 @@ public class CategoryService {
             });
     }
 
-    public List<Category> getByUserId(String userId) {
+    public List<Category> getByUserId(
+        String userId) {
         return categoryDao.getByUserId(userId);
     }
 }
