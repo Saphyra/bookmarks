@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "domain")
+@Table(name = "user")
 public class UserEntity {
     @Id
     @Column(name = "user_id", length = 50)
