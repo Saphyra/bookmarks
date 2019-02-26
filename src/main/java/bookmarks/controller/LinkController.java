@@ -1,6 +1,6 @@
 package bookmarks.controller;
 
-import bookmarks.auth.PropertySourceImpl;
+import org.github.bookmarks.auth.PropertySourceImpl;
 import bookmarks.controller.request.data.CreateLinkRequest;
 import bookmarks.controller.request.data.UpdateLinkRequest;
 import bookmarks.service.LinkService;

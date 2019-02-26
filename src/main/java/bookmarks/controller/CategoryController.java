@@ -1,6 +1,6 @@
 package bookmarks.controller;
 
-import bookmarks.auth.PropertySourceImpl;
+import org.github.bookmarks.auth.PropertySourceImpl;
 import bookmarks.controller.request.data.CreateCategoryRequest;
 import bookmarks.controller.request.data.UpdateCategoryRequest;
 import bookmarks.controller.response.DataResponse;

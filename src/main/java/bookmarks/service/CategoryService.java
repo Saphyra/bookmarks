@@ -1,5 +1,18 @@
 package bookmarks.service;
 
+import static java.util.Objects.isNull;
+import static org.github.bookmarks.common.util.Util.replaceIfNotNull;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
+
+import org.github.bookmarks.common.util.CategoryUtil;
+import org.github.bookmarks.user.UserFacade;
+import org.springframework.stereotype.Service;
+
 import bookmarks.controller.request.data.CreateCategoryRequest;
 import bookmarks.controller.request.data.UpdateCategoryRequest;
 import bookmarks.controller.response.DataResponse;
@@ -8,21 +21,11 @@ import bookmarks.dataaccess.CategoryDao;
 import bookmarks.dataaccess.LinkDao;
 import bookmarks.domain.category.Category;
 import bookmarks.domain.link.Link;
-import bookmarks.util.CategoryUtil;
 import com.github.saphyra.exceptionhandling.exception.BadRequestException;
 import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
 import com.github.saphyra.exceptionhandling.exception.NotFoundException;
 import com.github.saphyra.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static bookmarks.util.Util.replaceIfNotNull;
-import static java.util.Objects.isNull;
 
 @RequiredArgsConstructor
 @Service
@@ -31,10 +34,10 @@ public class CategoryService {
     private final CategoryUtil categoryUtil;
     private final LinkDao linkDao;
     private final IdGenerator idGenerator;
-    private final UserService userService;
+    private final UserFacade userFacade;
 
     public void create(CreateCategoryRequest request, String userId) {
-        userService.findByUserIdAuthorized(userId);
+        userFacade.checkUserWithIdExists(userId);
 
         Category category = Category.builder()
             .categoryId(idGenerator.generateRandomId())

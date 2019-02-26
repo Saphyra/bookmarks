@@ -1,20 +1,23 @@
 package bookmarks.service;
 
+import static org.github.bookmarks.common.util.Util.replaceIfNotNull;
+
+import java.util.List;
+
+import javax.transaction.Transactional;
+
+import org.github.bookmarks.common.util.CategoryUtil;
+import org.github.bookmarks.user.UserFacade;
+import org.springframework.stereotype.Service;
+
 import bookmarks.controller.request.data.CreateLinkRequest;
 import bookmarks.controller.request.data.UpdateLinkRequest;
 import bookmarks.dataaccess.LinkDao;
 import bookmarks.domain.link.Link;
-import bookmarks.util.CategoryUtil;
 import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
 import com.github.saphyra.exceptionhandling.exception.NotFoundException;
 import com.github.saphyra.util.IdGenerator;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import java.util.List;
-
-import static bookmarks.util.Util.replaceIfNotNull;
 
 @Service
 @RequiredArgsConstructor
@@ -22,10 +25,10 @@ public class LinkService {
     private final CategoryUtil categoryUtil;
     private final IdGenerator idGenerator;
     private final LinkDao linkDao;
-    private final UserService userService;
+    private final UserFacade userFacede;
 
     public void create(CreateLinkRequest request, String userId) {
-        userService.findByUserIdAuthorized(userId);
+        userFacede.checkUserWithIdExists(userId);
 
         categoryUtil.validateRoot(request.getRoot(), userId);
 
