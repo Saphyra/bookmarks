@@ -1,9 +1,9 @@
-package bookmarks.controller.request.data;
-
-import lombok.Data;
+package org.github.bookmarks.links.common.controller.request;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+
+import lombok.Data;
 
 @Data
 public class FilteredRequest {

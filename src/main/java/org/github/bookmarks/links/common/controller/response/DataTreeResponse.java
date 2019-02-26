@@ -1,9 +1,9 @@
-package bookmarks.controller.response;
+package org.github.bookmarks.links.common.controller.response;
+
+import java.util.List;
 
 import bookmarks.domain.category.Category;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 public class DataTreeResponse {

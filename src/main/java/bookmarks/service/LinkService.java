@@ -10,8 +10,8 @@ import org.github.bookmarks.common.util.CategoryUtil;
 import org.github.bookmarks.user.UserFacade;
 import org.springframework.stereotype.Service;
 
-import bookmarks.controller.request.data.CreateLinkRequest;
-import bookmarks.controller.request.data.UpdateLinkRequest;
+import org.github.bookmarks.links.link.controller.request.CreateLinkRequest;
+import org.github.bookmarks.links.link.controller.request.UpdateLinkRequest;
 import bookmarks.dataaccess.LinkDao;
 import bookmarks.domain.link.Link;
 import com.github.saphyra.exceptionhandling.exception.ForbiddenException;

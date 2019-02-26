@@ -1,4 +1,4 @@
-package bookmarks.controller.request;
+package org.github.bookmarks.common.controller.request;
 
 import javax.validation.constraints.NotNull;
 

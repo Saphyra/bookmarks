@@ -1,9 +1,9 @@
 package bookmarks.service;
 
-import bookmarks.controller.request.data.FilteredRequest;
-import bookmarks.controller.response.DataResponse;
-import bookmarks.controller.response.DataTreeResponse;
-import bookmarks.domain.Categorizable;
+import org.github.bookmarks.links.common.controller.request.FilteredRequest;
+import org.github.bookmarks.links.common.controller.response.DataResponse;
+import org.github.bookmarks.links.common.controller.response.DataTreeResponse;
+import org.github.bookmarks.links.Categorizable;
 import bookmarks.domain.category.Category;
 import bookmarks.domain.link.Link;
 import com.github.saphyra.exceptionhandling.exception.ForbiddenException;

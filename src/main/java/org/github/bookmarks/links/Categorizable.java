@@ -1,4 +1,4 @@
-package bookmarks.domain;
+package org.github.bookmarks.links;
 
 public interface Categorizable {
     String getLabel();

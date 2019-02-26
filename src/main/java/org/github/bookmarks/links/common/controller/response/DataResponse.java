@@ -1,6 +1,6 @@
-package bookmarks.controller.response;
+package org.github.bookmarks.links.common.controller.response;
 
-import bookmarks.domain.Categorizable;
+import org.github.bookmarks.links.Categorizable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

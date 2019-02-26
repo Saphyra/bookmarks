@@ -1,6 +1,6 @@
 package org.github.bookmarks.auth;
 
-import static bookmarks.controller.PageController.INDEX_MAPPING;
+import static org.github.bookmarks.common.controller.PageController.INDEX_MAPPING;
 
 import java.util.Arrays;
 import java.util.HashSet;

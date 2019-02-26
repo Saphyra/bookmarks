@@ -1,12 +1,13 @@
-package bookmarks.controller;
+package org.github.bookmarks.links.category.controller;
+
+import java.util.List;
+
+import javax.validation.Valid;
 
 import org.github.bookmarks.auth.PropertySourceImpl;
-import bookmarks.controller.request.data.CreateCategoryRequest;
-import bookmarks.controller.request.data.UpdateCategoryRequest;
-import bookmarks.controller.response.DataResponse;
-import bookmarks.service.CategoryService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.github.bookmarks.links.common.controller.response.DataResponse;
+import org.github.bookmarks.links.category.controller.request.CreateCategoryRequest;
+import org.github.bookmarks.links.category.controller.request.UpdateCategoryRequest;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.List;
+import bookmarks.service.CategoryService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor

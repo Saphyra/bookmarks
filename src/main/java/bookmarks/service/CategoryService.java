@@ -13,10 +13,10 @@ import org.github.bookmarks.common.util.CategoryUtil;
 import org.github.bookmarks.user.UserFacade;
 import org.springframework.stereotype.Service;
 
-import bookmarks.controller.request.data.CreateCategoryRequest;
-import bookmarks.controller.request.data.UpdateCategoryRequest;
-import bookmarks.controller.response.DataResponse;
-import bookmarks.controller.response.DataTreeResponse;
+import org.github.bookmarks.links.category.controller.request.CreateCategoryRequest;
+import org.github.bookmarks.links.category.controller.request.UpdateCategoryRequest;
+import org.github.bookmarks.links.common.controller.response.DataResponse;
+import org.github.bookmarks.links.common.controller.response.DataTreeResponse;
 import bookmarks.dataaccess.CategoryDao;
 import bookmarks.dataaccess.LinkDao;
 import bookmarks.domain.category.Category;

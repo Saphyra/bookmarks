@@ -1,6 +1,6 @@
 package bookmarks.domain.link;
 
-import bookmarks.domain.Categorizable;
+import org.github.bookmarks.links.Categorizable;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

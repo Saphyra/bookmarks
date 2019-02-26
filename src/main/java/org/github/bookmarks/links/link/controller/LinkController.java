@@ -1,11 +1,12 @@
-package bookmarks.controller;
+package org.github.bookmarks.links.link.controller;
+
+import java.util.List;
+
+import javax.validation.Valid;
 
 import org.github.bookmarks.auth.PropertySourceImpl;
-import bookmarks.controller.request.data.CreateLinkRequest;
-import bookmarks.controller.request.data.UpdateLinkRequest;
-import bookmarks.service.LinkService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import org.github.bookmarks.links.link.controller.request.CreateLinkRequest;
+import org.github.bookmarks.links.link.controller.request.UpdateLinkRequest;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,8 +14,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.Valid;
-import java.util.List;
+import bookmarks.service.LinkService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor

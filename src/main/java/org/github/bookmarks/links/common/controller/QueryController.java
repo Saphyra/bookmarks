@@ -1,4 +1,4 @@
-package bookmarks.controller;
+package org.github.bookmarks.links.common.controller;
 
 import java.util.List;
 import java.util.Optional;
@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.github.bookmarks.auth.PropertySourceImpl;
+import org.github.bookmarks.links.common.controller.response.DataResponse;
+import org.github.bookmarks.links.common.controller.response.DataTreeResponse;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,9 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import bookmarks.controller.request.data.FilteredRequest;
-import bookmarks.controller.response.DataResponse;
-import bookmarks.controller.response.DataTreeResponse;
+import org.github.bookmarks.links.common.controller.request.FilteredRequest;
+
 import bookmarks.service.DataQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

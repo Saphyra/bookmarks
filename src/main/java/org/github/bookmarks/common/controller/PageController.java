@@ -1,4 +1,4 @@
-package bookmarks.controller;
+package org.github.bookmarks.common.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
