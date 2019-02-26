@@ -9,4 +9,6 @@ public interface LinkFacade {
     List<Link> getByUserId(String userId);
 
     List<DataResponse> getLinksOfParent(String userId, String parent);
+
+    void updateParent(String categoryId, String userId, String rootId);
 }

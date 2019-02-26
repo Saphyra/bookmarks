@@ -1,11 +1,12 @@
-package org.github.bookmarks.common.util;
+package org.github.bookmarks.links.common.util;
 
 import org.github.bookmarks.links.category.dataaccess.CategoryDao;
 import org.github.bookmarks.links.category.domain.Category;
+import org.springframework.stereotype.Component;
+
 import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
 import com.github.saphyra.exceptionhandling.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

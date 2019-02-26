@@ -14,6 +14,8 @@ import org.github.bookmarks.links.common.util.CategorizableToDataResponseConvert
 import org.github.bookmarks.links.common.controller.response.DataResponse;
 import org.springframework.stereotype.Service;
 
+import com.github.saphyra.exceptionhandling.exception.ForbiddenException;
+import com.github.saphyra.exceptionhandling.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,12 +23,24 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class CategoryQueryService {
-    private static final String ROOT_ID = "";
+    public static final String ROOT_ID = "";
     private static final String ROOT_LABEL = "Root";
 
     private final CategoryDao categoryDao;
     private final CategorizableAccessValidator categorizableAccessValidator;
     private final CategorizableToDataResponseConverter converter;
+
+    Category findByIdAuthorized(String userId, String categoryId) {
+        Category category = categoryDao.findById(categoryId).orElseThrow(() -> new NotFoundException("Category not found with id " + categoryId));
+        if (!category.getUserId().equals(userId)) {
+            throw new ForbiddenException(userId + " has no access for category " + categoryId);
+        }
+        return category;
+    }
+
+    DataResponse findCategory(String userId, String categoryId) {
+        return converter.convertEntity(findByIdAuthorized(userId, categoryId));
+    }
 
     public List<Category> getByUserId(String userId) {
         return categoryDao.getByUserId(userId);

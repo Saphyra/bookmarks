@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.transaction.Transactional;
 
-import org.github.bookmarks.common.util.CategoryUtil;
+import org.github.bookmarks.links.common.util.CategoryUtil;
 import org.github.bookmarks.user.UserFacade;
 import org.springframework.stereotype.Service;
 
