@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.github.bookmarks.auth.PropertySourceImpl;
+import org.github.bookmarks.links.link.LinkFacade;
 import org.github.bookmarks.links.link.controller.request.CreateLinkRequest;
 import org.github.bookmarks.links.link.controller.request.UpdateLinkRequest;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import bookmarks.service.LinkService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +26,7 @@ public class LinkController {
     private static final String DELETE_LINK_MAPPING = "link";
     private static final String UPDATE_LINK_MAPPING = "link";
 
-    private final LinkService linkService;
+    private final LinkFacade linkFacade;
 
     @PutMapping(CREATE_LINK_MAPPING)
     public void createLink(
@@ -34,7 +34,7 @@ public class LinkController {
         @CookieValue(PropertySourceImpl.COOKIE_USER_ID) String userId
     ) {
         log.info("{} wants to create a new link.", userId);
-        linkService.create(request, userId);
+        linkFacade.create(request, userId);
     }
 
     @DeleteMapping(DELETE_LINK_MAPPING)
@@ -43,7 +43,7 @@ public class LinkController {
         @CookieValue(PropertySourceImpl.COOKIE_USER_ID) String userId
     ) {
         log.info("{} wants to delete link {}.", userId, linkIds);
-        linkService.delete(linkIds, userId);
+        linkFacade.delete(linkIds, userId);
     }
 
     @PostMapping(UPDATE_LINK_MAPPING)
@@ -52,6 +52,6 @@ public class LinkController {
         @CookieValue(PropertySourceImpl.COOKIE_USER_ID) String userId
     ) {
         log.info("{} wants to update links.", userId);
-        linkService.update(requests, userId);
+        linkFacade.update(requests, userId);
     }
 }

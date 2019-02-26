@@ -23,12 +23,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class UserController {
-    private static final String CHECK_AUTHENTICATION_MAPPING = "domain/authenticated";
-    private static final String REGISTRATION_MAPPING = "domain/register";
-    private static final String CHANGE_PASSWORD_MAPPING = "domain/password";
-    private static final String CHANGE_USER_NAME_MAPPING = "domain/name";
-    private static final String DELETE_ACCOUNT_MAPPING = "domain";
-    private static final String USER_NAME_EXISTS_MAPPING = "domain/name/exist";
+    private static final String CHECK_AUTHENTICATION_MAPPING = "user/authenticated";
+    private static final String REGISTRATION_MAPPING = "user/register";
+    private static final String CHANGE_PASSWORD_MAPPING = "user/password";
+    private static final String CHANGE_USER_NAME_MAPPING = "user/name";
+    private static final String DELETE_ACCOUNT_MAPPING = "user";
+    private static final String USER_NAME_EXISTS_MAPPING = "user/name/exist";
 
     private final UserFacade userFacade;
 
@@ -37,7 +37,7 @@ public class UserController {
         @RequestBody @Valid ChangePasswordRequest request,
         @CookieValue(PropertySourceImpl.COOKIE_USER_ID) String userId
         ){
-        log.info("{} wants to chanhe his password", userId);
+        log.info("{} wants to change his password", userId);
         userFacade.changePassword(request, userId);
     }
 

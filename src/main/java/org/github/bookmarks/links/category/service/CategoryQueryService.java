@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Slf4j
 public class CategoryQueryService {
-    public static final String ROOT_ID = "";
+    static final String ROOT_ID = "";
     private static final String ROOT_LABEL = "Root";
 
     private final CategoryDao categoryDao;

@@ -60,9 +60,9 @@ public class PropertySourceImpl implements PropertySource {
         return Arrays.asList(
             new AllowedUri("/", HttpMethod.GET),
             new AllowedUri("/**/favicon.ico", HttpMethod.GET),
-            new AllowedUri("/domain/register", HttpMethod.POST),
-            new AllowedUri("/domain/name/exist", HttpMethod.POST),
-            new AllowedUri("/domain/email/exist", HttpMethod.POST),
+            new AllowedUri("/user/register", HttpMethod.POST),
+            new AllowedUri("/user/name/exist", HttpMethod.POST),
+            new AllowedUri("/user/email/exist", HttpMethod.POST),
             new AllowedUri("/css/**", HttpMethod.GET),
             new AllowedUri("/js/**", HttpMethod.GET)
         );
